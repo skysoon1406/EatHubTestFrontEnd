@@ -13,4 +13,8 @@ npm run dev
 
 - 張凱迪（Team Lead） [Github](https://github.com/kdchang)
 
+
 - 劉添順 [Github](https://github.com/skysoon1406)
+
+
+- 謝旻澔 [Github](https://github.com/qWer79790922)
