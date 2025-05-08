@@ -12,3 +12,5 @@ npm run dev
 ## Contributor 專案開發團隊
 
 - 張凱迪（Team Lead） [Github](https://github.com/kdchang)
+
+- 劉添順 [Github](https://github.com/skysoon1406)
