@@ -17,4 +17,10 @@ npm run dev
 
 - 鄭澄佑 [Github](https://github.com/trigunbob123)
 
+- 呂亭霈 [Github] (https://github.com/Ting-gif)
 
+
+- 劉添順 [Github](https://github.com/skysoon1406)
+
+
+- 謝旻澔 [Github](https://github.com/qWer79790922)
