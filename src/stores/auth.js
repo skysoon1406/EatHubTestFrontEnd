@@ -5,10 +5,10 @@ import axios from '../axios';
 export const useAuthStore = defineStore('auth', {
   actions: {
     async login(email, password) {
-      await axios.post('/login/', { email, password });
+      await axios.post('/auth/login/', { email, password });
     },
     async signup(firstname, lastname, username, email, password) {
-      await axios.post('/signup/', {
+      await axios.post('/auth/signup/', {
         firstname,
         lastname,
         username,
@@ -17,7 +17,7 @@ export const useAuthStore = defineStore('auth', {
       });
     },
     async logout() {
-      await axios.post('/logout/');
+      await axios.post('/auth/logout/');
     },
   },
 });

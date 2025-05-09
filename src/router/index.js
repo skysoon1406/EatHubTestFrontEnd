@@ -22,7 +22,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     try {
-      await axios.get('/me/'); // check user auth
+      await axios.get('/auth/me'); // check user auth
       next();
     } catch {
       next('/login');
