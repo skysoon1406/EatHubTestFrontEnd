@@ -12,6 +12,11 @@ const routes = [
     component: () => import('../views/MyCoupon.vue'),
     meta: { requiresAuth: true },
   },
+  {
+  path: '/smartsearch',
+  name: 'SmartSearch',
+  component: () => import('../views/SmartSearch.vue'),
+  },
 ];
 
 const router = createRouter({
