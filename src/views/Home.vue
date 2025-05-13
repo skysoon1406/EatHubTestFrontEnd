@@ -3,8 +3,18 @@
     <h1>Home</h1>
     <nav>
       <ul>
-        <li><a class="btn" href="/signup">註冊</a></li>
-        <li><a class="btn" href="/login">登入</a></li>
+        <li>
+          <a class="btn" href="/signup">
+            <font-awesome-icon :icon="['fas', 'user-plus']" />
+            註冊
+          </a>
+        </li>
+        <li>
+          <a class="btn" href="/login">
+            <font-awesome-icon :icon="['fas', 'right-to-bracket']" />
+            登入
+          </a>
+        </li>
       </ul>
     </nav>
   </div>
