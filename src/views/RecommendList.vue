@@ -7,14 +7,14 @@
         <div  class="card-list">
             <a href="">
                 <ul>
-                    <li v-for="(restaurant, index) in restaurants" :key="index" class="card card-side bg-base-100 shadow-sm">
+                    <li v-for="(restaurant, index) in restaurants" :key="index" class="card">
                         <figure>
-                          <img :src="restaurant.image" alt="餐廳圖片" width="150" height="150">
+                          <img :src="restaurant.image" alt="餐廳圖片">
                         </figure>
                         <div class="cardText">    
-                            <p class="card-title">{{ restaurant.name }}</p>
+                            <p class="card-title abbr">{{ restaurant.name }}</p>
                             <p>⭐  {{ restaurant.rating }}</p>
-                            <p>{{ restaurant.address }}</p>
+                            <p class="abbr">{{ restaurant.address }}</p>
                         </div>
                     </li>
                 </ul>
@@ -32,63 +32,63 @@
         restaurants: [
           {
             image: "https://hips.hearstapps.com/hmg-prod/images/1-1525230190.jpg", // 假圖片
-            name: "小王拉麵",
+            name: "王媽媽手作古早味傳統美食小吃專賣店（精緻點心、家常便當、人氣小吃、特色小火鍋）",
             rating: 4.5,
-            address: "台北市中正區忠孝西路"
+            address: "新北市板橋區文化路一段100號之6，頂樓B室"
           },
           {
             image: "https://weieat.tw/wp-content/uploads/2023/06/DSC_0067.jpg", // 假圖片
             name: "老張滷肉飯",
             rating: 4.2,
-            address: "台北市大安區四維路"
+            address: "新北市板橋區文化路一段100號之6，頂樓B室"
           },
           {
             image: "https://tokyo-kitchen.icook.network/uploads/recipe/cover/451887/5f4baab593923ebb.jpg", // 假圖片
             name: "好吃捲餅",
             rating: 4.8,
-            address: "台北市信義區基隆路"
+            address: "新北市板橋區文化路一段100號之6，頂樓B室"
           },
           {
             image: "https://tokyo-kitchen.icook.network/uploads/recipe/cover/451887/5f4baab593923ebb.jpg", // 假圖片
             name: "好吃捲餅",
             rating: 4.8,
-            address: "台北市信義區基隆路"
+            address: "新北市板橋區文化路一段100號之6，頂樓B室"
           },
           {
             image: "https://tokyo-kitchen.icook.network/uploads/recipe/cover/451887/5f4baab593923ebb.jpg", // 假圖片
             name: "好吃捲餅",
             rating: 4.8,
-            address: "台北市信義區基隆路"
+            address: "新北市板橋區文化路一段100號之6，頂樓B室"
           },
           {
             image: "https://tokyo-kitchen.icook.network/uploads/recipe/cover/451887/5f4baab593923ebb.jpg", // 假圖片
             name: "好吃捲餅",
             rating: 4.8,
-            address: "台北市信義區基隆路"
+            address: "新北市板橋區文化路一段100號之6，頂樓B室"
           },
           {
             image: "https://tokyo-kitchen.icook.network/uploads/recipe/cover/451887/5f4baab593923ebb.jpg", // 假圖片
             name: "好吃捲餅",
             rating: 4.8,
-            address: "台北市信義區基隆路"
+            address: "新北市板橋區文化路一段100號之6，頂樓B室"
           },
           {
             image: "https://tokyo-kitchen.icook.network/uploads/recipe/cover/451887/5f4baab593923ebb.jpg", // 假圖片
             name: "好吃捲餅",
             rating: 4.8,
-            address: "台北市信義區基隆路"
+            address: "新北市板橋區文化路一段100號之6，頂樓B室"
           },
           {
             image: "https://tokyo-kitchen.icook.network/uploads/recipe/cover/451887/5f4baab593923ebb.jpg", // 假圖片
             name: "好吃捲餅",
             rating: 4.8,
-            address: "台北市信義區基隆路"
+            address: "新北市板橋區文化路一段100號之6，頂樓B室"
           },
           {
             image: "https://tokyo-kitchen.icook.network/uploads/recipe/cover/451887/5f4baab593923ebb.jpg", // 假圖片
             name: "好吃捲餅",
             rating: 4.8,
-            address: "台北市信義區基隆路"
+            address: "新北市板橋區文化路一段100號之6，頂樓B室"
           }
         ]
       };
@@ -110,7 +110,6 @@
 .deco {
     border-left: 20px solid black;
     margin-top: 100px;
-
 }
 
 h1 {
@@ -150,6 +149,7 @@ img {
 }
 
 .card img {
+  width: 100px;
   border-radius: 8px;
   margin-bottom: 10px;
 }
@@ -175,6 +175,15 @@ p {
     text-align: left;
     line-height: 28px;
 }
+
+.abbr {
+  display: inline-block;  
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 20ch;  
+}
+
 
 
 </style>
