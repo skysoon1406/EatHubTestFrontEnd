@@ -7,12 +7,13 @@
         <div  class="card-list">
             <a href="">
                 <ul>
-                    <li v-for="(restaurant, index) in restaurants" :key="index" class="card">
-                    <img :src="restaurant.image" alt="餐廳圖片" width="150" height="150">
-                        <div class="cardText"> 
-                            
-                            <p class="title">{{ restaurant.name }}</p>
-                            <p>⭐ {{ restaurant.rating }}</p>
+                    <li v-for="(restaurant, index) in restaurants" :key="index" class="card card-side bg-base-100 shadow-sm">
+                        <figure>
+                          <img :src="restaurant.image" alt="餐廳圖片" width="150" height="150">
+                        </figure>
+                        <div class="cardText">    
+                            <p class="card-title">{{ restaurant.name }}</p>
+                            <p>⭐  {{ restaurant.rating }}</p>
                             <p>{{ restaurant.address }}</p>
                         </div>
                     </li>
@@ -20,6 +21,7 @@
             </a>
         </div>
     </div>
+    
   </template>
   
   <script>
@@ -117,13 +119,10 @@ h1 {
     margin-left: 10px;   
 }
 
-
-
 img {
     width: 100px;
     height: auto;
     border-radius: 8px;
-    
   }
 
 .card-list ul {
@@ -132,7 +131,6 @@ img {
   gap: 14px; 
   padding: 0;
   list-style: none;
-  /* margin: 0 30px; */
 }
 
 .card {
@@ -163,7 +161,6 @@ img {
 
 li.card {
     width: 300px;
-    height: 120px;
     margin: auto;
 }
 
@@ -179,8 +176,5 @@ p {
     line-height: 28px;
 }
 
-.title {
-    font-weight: bolder;
-}
 
 </style>
