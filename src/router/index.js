@@ -12,6 +12,7 @@ const routes = [
     component: () => import('../views/MyCoupon.vue'),
     meta: { requiresAuth: true },
   },
+  {path: '/recommendations', component:() => import('../views/RecommendList.vue')},
 ];
 
 const router = createRouter({
