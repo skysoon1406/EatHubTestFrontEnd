@@ -11,6 +11,9 @@
           <label><input type="checkbox" value="泰式" v-model="form.flavors" /> 泰式</label>
           <label><input type="checkbox" value="台式" v-model="form.flavors" /> 台式</label>
           <label><input type="checkbox" value="素食" v-model="form.flavors" /> 素食</label>
+          <label><input type="checkbox" value="麻辣" v-model="form.flavors" /> 麻辣</label>
+          <label><input type="checkbox" value="日式" v-model="form.flavors" /> 日式</label>
+          <label><input type="checkbox" value="清蒸" v-model="form.flavors" /> 清蒸</label>
         </div>
       </div>
 
@@ -30,6 +33,8 @@
           <label><input type="checkbox" value="雞" v-model="form.staples" /> 雞</label>
           <label><input type="checkbox" value="豬" v-model="form.staples" /> 豬</label>
           <label><input type="checkbox" value="牛" v-model="form.staples" /> 牛</label>
+          <label><input type="checkbox" value="羊" v-model="form.staples" /> 羊</label>
+          <label><input type="checkbox" value="魚" v-model="form.staples" /> 魚</label>
         </div>
       </div>
 
@@ -41,6 +46,17 @@
       </button>
     </div>
   </div>
+
+  <div v-if="results.length > 0" class="bg-white rounded shadow p-4">
+  <h3 class="text-lg font-semibold mb-2">推薦餐廳 🍜</h3>
+  <ul class="space-y-2">
+    <li v-for="r in results" :key="r.placeId" class="border-b pb-2">
+      <div class="font-bold">{{ r.name }}</div>
+      <div class="text-sm text-gray-600">{{ r.address }}</div>
+      <div class="text-sm text-yellow-600">⭐ {{ r.rating }}</div>
+    </li>
+  </ul>
+</div>
 </template>
 
 <script setup>
@@ -54,7 +70,7 @@ const form = ref({
   mains: [],
   staples: []
 })
-
+const results = ref([])
 const submitForm = async () => {
   if (
     form.value.flavors.length === 0 &&
@@ -71,6 +87,7 @@ const submitForm = async () => {
       mains: form.value.mains,
       staples: form.value.staples
     })
+    results.value = res.data.results
     console.log('推薦結果：', res.data)
     alert('推薦完成！請查看 console 🔍')
   } catch (err) {
