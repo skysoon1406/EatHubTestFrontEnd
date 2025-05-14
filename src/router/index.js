@@ -13,7 +13,10 @@ const routes = [
     meta: { requiresAuth: true },
   },
 
-  { path: '/RestaurantDetail', component: () => import('../views/RecommendDetail.vue') },
+  {
+    path: '/restaurantdetail/',
+    component: () => import('../views/RecommendDetail.vue'),
+  },
 ];
 
 const router = createRouter({
