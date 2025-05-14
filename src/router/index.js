@@ -12,7 +12,7 @@ const routes = [
     component: () => import('../views/MyCoupon.vue'),
     meta: { requiresAuth: true },
   },
-  {path: '/recommendations', component:() => import('../views/RecommendList.vue')},
+  {path: '/restaurants', component:() => import('../views/RestaurantsList.vue')},
 ];
 
 const router = createRouter({
