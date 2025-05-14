@@ -7,11 +7,11 @@ export const useAuthStore = defineStore('auth', {
     async login(email, password) {
       await axios.post('/auth/login', { email, password });
     },
-    async signup(firstname, lastname, username, email, password) {
+    async signup(firstName, lastName, userName, email, password) {
       await axios.post('/auth/signup', {
-        firstname,
-        lastname,
-        username,
+        firstName,
+        lastName,
+        userName,
         email,
         password,
       });
