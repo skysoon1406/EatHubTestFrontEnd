@@ -1,19 +1,17 @@
 <template>
   <!-- 外層容器設定固定寬度模擬手機螢幕 -->
-  <div class="flex justify-center min-h-screen bg-gray-100">
+  <div class="flex justify-center min-h-screen bg-gray-300">
     <div class="w-[390px] bg-white shadow-lg">
       <!-- 頂部導航欄 -->
       <div class="navbar bg-white shadow-sm px-4 py-3 border-b flex justify-between items-center">
   <!-- 左邊 Logo 區 -->
   <div class="flex items-center">
-    <font-awesome-icon :icon="['fas', 'utensils']" class="text-xl mr-2" />
-    <span class="text-xl font-bold">尋飽</span>
-    <span class="ml-1 text-sm text-gray-500">Eathub</span>
+    <img src="/public/images/logo.png" alt="Logo" class="w-17 h-12 mr-2" />
   </div>
 
   <!-- 右邊 漢堡選單 -->
-  <button class="btn btn-ghost btn-circle">
-    <font-awesome-icon :icon="['fas', 'bars']" />
+  <button class="btn btn-ghost btn-circle ">
+    <font-awesome-icon :icon="['fas', 'bars']" class="text-3xl text-red-500"/>
   </button>
 </div>
       
@@ -32,12 +30,21 @@
 
           <!-- 餐廳名稱和導航按鈕 -->
           <div class="flex justify-between items-center mb-1">
-            <h1 class="text-xl font-bold">{{ restaurant.name || '商家名稱' }}</h1>
-            <button class="btn btn-circle btn-Lg">
+  <!-- 左側：icon + 商家名稱 -->
+            <div class="flex items-center">
+            <font-awesome-icon :icon="['fas', 'home']" class="text-blue-500 mr-2" />
+            <h1 class="text-xl font-bold">{{ restaurant.name || '藤原豆腐店' }}</h1>
+            </div>
+
+    <!-- 右側按鈕 -->
+            <button class="btn btn-circle btn-lg">
+    <!-- 可以放 icon 或其他內容 -->
+  
+
             
               
               
-              <button class=" btn-md bg-red-200  rounded-3xl"> let's go</button>
+              <button class=" btn-md bg-red-200  rounded-3xl px-2"> let's go</button>
               <font-awesome-icon :icon="['fas', 'location-arrow']" class="text-3xl" />
             </button>
           </div>
@@ -66,8 +73,9 @@
 
           <!-- 地圖區塊 -->
           <div class="w-full aspect-[2/1] bg-gray-200 rounded-lg overflow-hidden mb-4">
-            <img 
-              src="https://picsum.photos/400/200?random=map" 
+            <GoogleMapEmbed 
+              :map-url="'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.123456789012!2d-122.4194156846815!3d37.7749292797594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808c8c8c8c8c%3A0x8c8c8c8c8c8c8c8c!2sMy+Coffee+Shop!5e0!3m2!1sen!2sus!4v1631234567890'"
+    
               alt="地圖"
               class="w-full h-full object-cover"
             />
@@ -143,8 +151,8 @@
           <div class="mb-6">
             <div class="flex justify-between items-center mb-3">
               <h3 class="text-base font-bold">評論</h3>
-              <button class="btn btn-sm bg-gray-200 border-0">
-                <font-awesome-icon :icon="['fas', 'plus']" /> 新增
+              <button class="btn btn-sm bg-red-200 border-0 rounded-3xl px-6">
+                <font-awesome-icon :icon="['far', 'clipboard']" /> 新增
               </button>
             </div>
             
@@ -217,9 +225,9 @@
                 </div>
               </div>
               <p class="text-xs text-gray-400 leading-relaxed">
-                電話：+886-123456789<br>
-                營業時間：<br>
-                地址：106054 台灣台中市東海路1號
+                電話：<br>02-123456789<br>
+                營業時間：<br>10:00-20:00<br>
+                地址：<br> 台北市中山區東海路1號
               </p>
             </div>
             
@@ -249,6 +257,23 @@
       </div>
     </div>
   </div>
+  
+   
+    
+    <!-- 基本的 iframe 嵌入 -->
+    
+      <iframe
+        :src="mapUrl"
+        :width="mapWidth"
+        :height="mapHeight"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    
+  
+  
 </template>
 <script setup>
 import { ref } from 'vue'
@@ -261,10 +286,12 @@ function toggleCoupon() {
 </script>
 
 <script>
+import GoogleMapEmbed from '../components/RecommendDetail/GoogleMapEmbed.vue'
 
 import axios from '../axios';
 
 export default {
+  
   name: 'RecommendDetail',
   data() {
     return {
@@ -283,6 +310,12 @@ export default {
         saturday: '12:00-15:00, 18:00-21:30',
         sunday: '12:00-15:00, 18:00-21:30'
       },
+      components: {
+    // 註冊組件，這樣才能在 template 中使用
+    GoogleMapEmbed
+  },
+      
+      
       couponClaimed: false,
       latestNews: [],
       comments: [],
@@ -298,20 +331,9 @@ export default {
         const restaurantId = this.$route.params.id;
         
         // 獲取餐廳基本資訊
-        const restaurantRes = await axios.get(`/restaurants/${restaurantId}`);
+        const restaurantRes = await axios.get(`/restaurants/<id>`);
         this.restaurant = restaurantRes.data;
         
-        // 獲取營業時間
-        const hoursRes = await axios.get(`/restaurants/${restaurantId}/hours`);
-        this.businessHours = hoursRes.data;
-        
-        // 獲取最新動態
-        const newsRes = await axios.get(`/restaurants/${restaurantId}/news`);
-        this.latestNews = newsRes.data;
-        
-        // 獲取評論
-        const commentsRes = await axios.get(`/restaurants/${restaurantId}/comments`);
-        this.comments = commentsRes.data;
       } catch (error) {
         console.error('Error fetching restaurant data:', error);
       }
@@ -373,4 +395,5 @@ export default {
 .h-\[calc\(100vh-64px\)\] {
   height: calc(100vh - 64px);
 }
+
 </style>

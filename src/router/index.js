@@ -14,9 +14,10 @@ const routes = [
   },
 
   {
-    path: '/restaurantdetail/',
+    path: '/restaurants/',
     component: () => import('../views/RecommendDetail.vue'),
   },
+  
 ];
 
 const router = createRouter({
