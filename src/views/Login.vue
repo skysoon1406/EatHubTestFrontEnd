@@ -29,7 +29,7 @@ export default {
   methods: {
     async handleLogin() {
       const authStore = useAuthStore();
-      await authStore.login(this.username, this.password);
+      await authStore.login(this.email, this.password);
       this.$router.push('/');
     },
   },

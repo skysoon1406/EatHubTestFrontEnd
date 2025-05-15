@@ -3,13 +3,13 @@
     <h1>Signup</h1>
     <form @submit.prevent="handleSignup">
       <section>
-        <input v-model="firstname" placeholder="Firstname" />
+        <input v-model="firstName" placeholder="Firstname" />
       </section>
       <section>
-        <input v-model="lastname" placeholder="Lastname" />
+        <input v-model="lastName" placeholder="Lastname" />
       </section>
       <section>
-        <input v-model="username" placeholder="Username" />
+        <input v-model="userName" placeholder="Username" />
       </section>
       <section>
         <input v-model="email" placeholder="Email" />
@@ -28,15 +28,15 @@
 </template>
 
 <script>
-import axios from '../axios';
 import '../assets/styles/app.css';
+import { useAuthStore } from '../stores/auth';
 
 export default {
   data() {
     return {
-      firstname: '',
-      lastname: '',
-      username: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
       email: '',
       password: '',
       error: '',
@@ -46,13 +46,14 @@ export default {
   methods: {
     async handleSignup() {
       try {
-        const response = await axios.post('/api/signup/', {
-          firstname: this.firstname,
-          lastname: this.lastname,
-          username: this.username,
-          email: this.email,
-          password: this.password,
-        });
+        const authStore = useAuthStore();
+        await authStore.signup(
+          this.firstName,
+          this.lastName,
+          this.userName,
+          this.email,
+          this.password
+        );
         this.success = '註冊成功！請前往登入';
         this.error = '';
         this.$router.push('/login');
