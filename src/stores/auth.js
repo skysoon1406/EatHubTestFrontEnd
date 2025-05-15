@@ -3,21 +3,35 @@ import { defineStore } from 'pinia';
 import axios from '../axios';
 
 export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    user: null,
+  }),
   actions: {
     async login(email, password) {
-      await axios.post('/auth/login', { email, password });
+      const response = await axios.post('/auth/login', { email, password });
+      this.user = response.data.user;
     },
     async signup(firstName, lastName, userName, email, password) {
-      await axios.post('/auth/signup', {
-        firstName,
-        lastName,
-        userName,
-        email,
-        password,
-      });
+      try {
+        await axios.post('/auth/signup', {
+          firstName,
+          lastName,
+          userName,
+          email,
+          password,
+        });
+      } catch (error) {
+        console.error('Signup failed:', error);
+        throw error;
+      }
     },
     async logout() {
       await axios.post('/auth/logout');
+      this.user = null;
     },
+  },
+  persist: {
+    key: 'auth', // localStorage key
+    paths: ['user'], // value key
   },
 });

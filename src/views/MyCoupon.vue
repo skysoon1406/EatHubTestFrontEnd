@@ -4,11 +4,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {};
-  },
-  methods: {},
-};
+<script setup>
+import { useAuthStore } from '../stores/auth';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 </script>

@@ -16,22 +16,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useAuthStore } from '../stores/auth';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
-export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-    };
-  },
-  methods: {
-    async handleLogin() {
-      const authStore = useAuthStore();
-      await authStore.login(this.email, this.password);
-      this.$router.push('/');
-    },
-  },
+const email = ref('');
+const password = ref('');
+const router = useRouter();
+
+const handleLogin = async () => {
+  const authStore = useAuthStore();
+  await authStore.login(email.value, password.value);
+  router.push('/');
 };
 </script>
