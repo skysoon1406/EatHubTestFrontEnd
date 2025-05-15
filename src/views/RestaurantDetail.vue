@@ -256,123 +256,117 @@
       </div>
     </div>
   </div>
-  
-   
-    
-    
-    
-  
-  
+
 </template>
 <script setup>
-import { ref } from 'vue'
+
+import { ref, reactive, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import GoogleMapEmbed from '../components/RecommendDetail/GoogleMapEmbed.vue'
+import axios from '../axios'
+
+
+// 使用 useRoute 取得路由資訊
+const route = useRoute()
+
+
+
+// 定義響應式資料
+const restaurant = reactive({
+  name: '',
+  image: '',
+  rating: 4.5,
+  address: '',
+  latitude: null,
+  longitude: null
+})
+
+const businessHours = reactive({
+  monday: '12:00-15:00, 18:00-21:30',
+  tuesday: '12:00-15:00, 18:00-21:30',
+  wednesday: '12:00-15:00, 18:00-21:30',
+  thursday: '12:00-15:00, 18:00-21:30',
+  friday: '12:00-15:00, 18:00-21:30',
+  saturday: '12:00-15:00, 18:00-21:30',
+  sunday: '12:00-15:00, 18:00-21:30'
+})
 
 const couponClaimed = ref(false)
+const latestNews = ref([])
+const comments = ref([])
+const showAddComment = ref(false)
+const mapUrl = ref('')
 
-function toggleCoupon() {
-  couponClaimed.value = !couponClaimed.value
-}
-</script>
-
-<script>
-import GoogleMapEmbed from '../components/RecommendDetail/GoogleMapEmbed.vue'
-
-import axios from '../axios';
-
-export default {
-  
-  name: 'RecommendDetail',
-  data() {
-    return {
-      restaurant: {
-        name: '',
-        image: '',
-        rating: 4.5,
-        address: '',
-        latitude: null,
-        longitude: null
-      },
-      businessHours: {
-        monday: '12:00-15:00, 18:00-21:30',
-        tuesday: '12:00-15:00, 18:00-21:30',
-        wednesday: '12:00-15:00, 18:00-21:30',
-        thursday: '12:00-15:00, 18:00-21:30',
-        friday: '12:00-15:00, 18:00-21:30',
-        saturday: '12:00-15:00, 18:00-21:30',
-        sunday: '12:00-15:00, 18:00-21:30'
-      },
-      components: {
-    // 註冊組件，這樣才能在 template 中使用
-    GoogleMapEmbed
-  },
-      
-      
-      couponClaimed: false,
-      latestNews: [],
-      comments: [],
-      showAddComment: false
-    };
-  },
-  created() {
-    this.fetchRestaurantData();
-  },
-  methods: {
-    async fetchRestaurantData() {
-      try {
-        const restaurantId = this.$route.params.id;
-
-        // 從後端取得資料（請確保後端有傳經緯度）
-        const res = await axios.get(`/restaurants/<id>`);
-        this.restaurant = res.data;
-
-        // 判斷是否有經緯度
+// 定義方法
+const fetchRestaurantData = async () => {
+  try {
+    const restaurantId = route.params.id
+    
+    // 從後端取得資料
+    const res = await axios.get(`/restaurants/${restaurantId}`)
+    
+    // 更新餐廳資料
+    Object.assign(restaurant, res.data)
+    
+    // 判斷是否有經緯度
     if (res.data.latitude && res.data.longitude) {
-      this.mapUrl = `https://www.google.com/maps?q=${res.data.latitude},${res.data.longitude}&z=18&output=embed`;
+      mapUrl.value = `https://www.google.com/maps?q=${res.data.latitude},${res.data.longitude}&z=18&output=embed`
     } else {
       // 預設使用台北車站座標
-      this.mapUrl = 'https://www.google.com/maps?q=25.0459993,121.5170414&z=18&output=embed';
+      mapUrl.value = 'https://www.google.com/maps?q=25.0459993,121.5170414&z=18&output=embed'
     }
-        
-        // 獲取餐廳基本資訊
-        const restaurantRes = await axios.get(`/restaurants/<id>`);
-        this.restaurant = restaurantRes.data;
-        
-      } catch (error) {
-        console.error('Error fetching restaurant data:', error);
-      }
-    },
     
-    toggleCoupon() {
-      if (!this.couponClaimed) {
-        this.claimCoupon();
-      }
-    },
-    
-    async claimCoupon() {
-      try {
-        const restaurantId = this.$route.params.id;
-        await axios.post(`/restaurants/${restaurantId}/coupons/claim`);
-        this.couponClaimed = true;
-      } catch (error) {
-        console.error('Error claiming coupon:', error);
-      }
-    },
-    
-    navigateToAddress() {
-      if (this.restaurant.address) {
-        window.open(`https://maps.google.com?q=${encodeURIComponent(this.restaurant.address)}`, '_blank');
-      }
+    // 如果需要更新其他資料（營業時間、動態、評論等）
+    if (res.data.businessHours) {
+      Object.assign(businessHours, res.data.businessHours)
     }
+    if (res.data.latestNews) {
+      latestNews.value = res.data.latestNews
+    }
+    if (res.data.comments) {
+      comments.value = res.data.comments
+    }
+    
+  } catch (error) {
+    console.error('Error fetching restaurant data:', error)
   }
-};
+}
+
+const toggleCoupon = () => {
+  if (!couponClaimed.value) {
+    claimCoupon()
+  }
+}
+
+const claimCoupon = async () => {
+  try {
+    const restaurantId = route.params.id
+    await axios.post(`/restaurants/${restaurantId}/coupons/claim`)
+    couponClaimed.value = true
+  } catch (error) {
+    console.error('Error claiming coupon:', error)
+  }
+}
+
+const navigateToAddress = () => {
+  if (restaurant.address) {
+    window.open(`https://maps.google.com?q=${encodeURIComponent(restaurant.address)}`, '_blank')
+  }
+}
+
+// 組件載入時執行
+onMounted(() => {
+  fetchRestaurantData()
+})
 </script>
+
 
 <style scoped>
 /* 固定手機版面寬度 */
 .w-\[390px\] {
   width: 390px;
 }
-
+  
 /* 確保按鈕在點擊時顏色變化正確 */
 .btn:focus {
   outline: none;
