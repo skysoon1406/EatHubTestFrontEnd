@@ -218,10 +218,9 @@
           <div class="grid grid-cols-3 gap-4 mb-6">
             <div>
               <div class="flex items-center mb-3">
-                <font-awesome-icon :icon="['fas', 'utensils']" class="text-2xl mr-2" />
+                
                 <div>
-                  <div class="font-bold">尋飽</div>
-                  <div class="text-xs text-gray-400">Eathub</div>
+                  <img src="/public/images/logo_w.png" alt="Logo" class="w-17 h-12 mr-2" />
                 </div>
               </div>
               <p class="text-xs text-gray-400 leading-relaxed">
@@ -260,17 +259,7 @@
   
    
     
-    <!-- 基本的 iframe 嵌入 -->
     
-      <iframe
-        :src="mapUrl"
-        :width="mapWidth"
-        :height="mapHeight"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
     
   
   
@@ -299,7 +288,9 @@ export default {
         name: '',
         image: '',
         rating: 4.5,
-        address: ''
+        address: '',
+        latitude: null,
+        longitude: null
       },
       businessHours: {
         monday: '12:00-15:00, 18:00-21:30',
@@ -329,6 +320,18 @@ export default {
     async fetchRestaurantData() {
       try {
         const restaurantId = this.$route.params.id;
+
+        // 從後端取得資料（請確保後端有傳經緯度）
+        const res = await axios.get(`/restaurants/<id>`);
+        this.restaurant = res.data;
+
+        // 判斷是否有經緯度
+    if (res.data.latitude && res.data.longitude) {
+      this.mapUrl = `https://www.google.com/maps?q=${res.data.latitude},${res.data.longitude}&z=18&output=embed`;
+    } else {
+      // 預設使用台北車站座標
+      this.mapUrl = 'https://www.google.com/maps?q=25.0459993,121.5170414&z=18&output=embed';
+    }
         
         // 獲取餐廳基本資訊
         const restaurantRes = await axios.get(`/restaurants/<id>`);

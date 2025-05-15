@@ -5,7 +5,7 @@
     <!-- 這個 iframe 就是顯示地圖的地方 -->
     <div class="map-frame-wrapper">
       <iframe
-        :src="mapUrl"
+        src="https://www.google.com/maps?q=25.0459993,121.5170414&z=18&output=embed"
         :width="mapWidth"
         :height="mapHeight"
         style="border:0;"
