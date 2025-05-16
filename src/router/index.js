@@ -12,6 +12,12 @@ const routes = [
     component: () => import('../views/MyCoupon.vue'),
     meta: { requiresAuth: true },
   },
+
+  {
+    path: '/restaurants/:id',
+    component: () => import('../views/RestaurantDetail.vue'),
+  },
+  
   {path: '/restaurants', component:() => import('../views/RestaurantsList.vue')},
 ];
 
