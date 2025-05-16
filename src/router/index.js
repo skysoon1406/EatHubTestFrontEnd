@@ -12,6 +12,7 @@ const routes = [
     component: () => import('../views/MyCoupon.vue'),
     meta: { requiresAuth: true },
   },
+  {path: '/restaurants', component:() => import('../views/RestaurantsList.vue')},
 ];
 
 const router = createRouter({
