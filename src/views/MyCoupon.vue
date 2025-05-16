@@ -26,7 +26,6 @@ const coupons = ref([])
 
 const onDeleted = (uuid) => {
   coupons.value = coupons.value.filter(c => c.uuid !== uuid)
-  // 這裡之後也可以打 axios.delete(`/userCoupons/${uuid}`) 做後端刪除
 }
 
 onMounted(async () => {
