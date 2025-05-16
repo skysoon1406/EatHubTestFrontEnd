@@ -2,7 +2,12 @@
   <div>
     <h1>Home</h1>
     <nav>
-      <ul>
+      <ul v-if="user">
+        <li>目前登入者：{{ user.userName }}</li>
+        <li><button class="btn" @click="handleLogout">登出</button></li>
+      </ul>
+
+      <ul v-else>
         <li>
           <a class="btn" href="/signup">
             <font-awesome-icon :icon="['fas', 'user-plus']" />
@@ -20,11 +25,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {};
-  },
-  methods: {},
+<script setup>
+import { useAuthStore } from '../stores/auth';
+import { storeToRefs } from 'pinia';
+
+const auth = useAuthStore();
+const { user } = storeToRefs(auth);
+
+const handleLogout = async () => {
+  await auth.logout();
 };
 </script>

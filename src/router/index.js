@@ -13,6 +13,13 @@ const routes = [
     meta: { requiresAuth: true },
   },
   { path: '/testmodal', component: () => import('../views/Test_modal.vue') },
+
+  {
+    path: '/restaurants/:id',
+    component: () => import('../views/RestaurantDetail.vue'),
+  },
+  
+  {path: '/restaurants', component:() => import('../views/RestaurantsList.vue')},
 ];
 
 const router = createRouter({
