@@ -3,13 +3,13 @@
     <h1>Signup</h1>
     <form @submit.prevent="handleSignup">
       <section>
-        <input v-model="firstname" placeholder="Firstname" />
+        <input v-model="firstName" placeholder="Firstname" />
       </section>
       <section>
-        <input v-model="lastname" placeholder="Lastname" />
+        <input v-model="lastName" placeholder="Lastname" />
       </section>
       <section>
-        <input v-model="username" placeholder="Username" />
+        <input v-model="userName" placeholder="Username" />
       </section>
       <section>
         <input v-model="email" placeholder="Email" />
@@ -27,44 +27,41 @@
   </div>
 </template>
 
-<script>
-import axios from '../axios';
-import '../assets/styles/app.css';
+<script setup>
+import { useAuthStore } from '../stores/auth';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
-export default {
-  data() {
-    return {
-      firstname: '',
-      lastname: '',
-      username: '',
-      email: '',
-      password: '',
-      error: '',
-      success: '',
-    };
-  },
-  methods: {
-    async handleSignup() {
-      try {
-        const response = await axios.post('/api/signup/', {
-          firstname: this.firstname,
-          lastname: this.lastname,
-          username: this.username,
-          email: this.email,
-          password: this.password,
-        });
-        this.success = '註冊成功！請前往登入';
-        this.error = '';
-        this.$router.push('/login');
-      } catch (err) {
-        if (err.response && err.response.data) {
-          this.error = JSON.stringify(err.response.data);
-        } else {
-          this.error = '註冊失敗';
-        }
-        this.success = '';
-      }
-    },
-  },
+const router = useRouter();
+const authStore = useAuthStore();
+const firstName = ref('');
+const lastName = ref('');
+const userName = ref('');
+const email = ref('');
+const password = ref('');
+const error = ref('');
+const success = ref('');
+
+const handleSignup = async () => {
+  try {
+    await authStore.signup(
+      firstName.value,
+      lastName.value,
+      userName.value,
+      email.value,
+      password.value
+    );
+    success.value = '註冊成功！請前往登入';
+    router.push('/login');
+  } catch (err) {
+    if (err.response && err.response.data) {
+      error.value = JSON.stringify(err.response.data);
+      error.value = '';
+      router.push('/login');
+    } else {
+      error.value = '註冊失敗';
+    }
+    success.value = '';
+  }
 };
 </script>

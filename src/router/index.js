@@ -18,6 +18,7 @@ const routes = [
     component: () => import('../views/RestaurantDetail.vue'),
   },
   
+  {path: '/restaurants', component:() => import('../views/RestaurantsList.vue')},
 ];
 
 const router = createRouter({

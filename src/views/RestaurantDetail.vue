@@ -35,7 +35,7 @@
               <h1 class="text-xl font-bold">{{ restaurant.name || '藤原豆腐店' }}</h1>
             </div>
             <button @click="navigateToAddress" class="btn btn-circle btn-lg flex items-center space-x-1">
-              <span class="text-sm bg-red-200 px-2 rounded-3xl">let's go</span>
+              
               <font-awesome-icon :icon="['fas', 'location-arrow']" class="text-3xl" />
             </button>
           </div>            
