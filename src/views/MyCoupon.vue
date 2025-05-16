@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 </script>
