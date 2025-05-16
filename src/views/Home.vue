@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 
 const auth = useAuthStore();
