@@ -6,7 +6,7 @@
       <div class="navbar bg-white shadow-sm px-4 py-3 border-b flex justify-between items-center">
         <!-- 左邊 Logo 區 -->
         <div class="flex items-center">
-          <img src="/public/images/logo.png" alt="Logo" class="w-17 h-12 mr-2" />
+          <img src="/public/images/logo.png" alt="Logo" class="w-25 h-12 mr-2" />
         </div>
 
         <!-- 右邊 漢堡選單 -->
@@ -34,6 +34,16 @@
               <font-awesome-icon :icon="['fas', 'home']" class="text-blue-500 mr-2" />
               <h1 class="text-xl font-bold">{{ restaurant.name || '藤原豆腐店' }}</h1>
             </div>
+            <!-- 最愛按鈕 -->
+        <div class="flex items-center space-x-2"></div>
+        <button @click="toggleFavorite" class="btn btn-circle btn-lg">
+        <font-awesome-icon 
+        :icon="[isFavorite ? 'fas' : 'far', 'heart']" 
+        class="text-2xl" 
+        :class="isFavorite ? 'text-red-500' : 'text-gray-500'" 
+         />
+         </button>
+            <!-- 導航按鈕 -->
             <button @click="navigateToAddress" class="btn btn-circle btn-lg flex items-center space-x-1">
               
               <font-awesome-icon :icon="['fas', 'location-arrow']" class="text-3xl" />
@@ -201,7 +211,7 @@
             <div>
               <div class="flex items-center mb-3">
                 <div>
-                  <img src="/public/images/logo_w.png" alt="Logo" class="w-17 h-12 mr-2" />
+                  <img src="/public/images/logo_w.png" alt="Logo" class="w-25 h-12 mr-2" />
                 </div>
               </div>
               <p class="text-xs text-gray-400 leading-relaxed">
@@ -245,6 +255,28 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import GoogleMapEmbed from '../components/RecommendDetail/GoogleMapEmbed.vue'
 import axios from '../axios'
+
+const isFavorite = ref(false)
+// 切換最愛狀態的方法
+const toggleFavorite = async () => {
+  try {
+    const restaurantId = route.params.id
+    
+    // 依據目前狀態決定要呼叫的API動作
+    const action = isFavorite.value ? 'remove' : 'add'
+    
+    // 呼叫後端 API (這裡需按照你的後端 API 路徑調整)
+    await axios.post(`/restaurants/${restaurantId}/favorites/${action}`)
+    
+    // 更新本地狀態
+    isFavorite.value = !isFavorite.value
+    
+  } catch (error) {
+    console.error('Error updating favorite status:', error)
+    alert('更新最愛狀態失敗，請稍後再試')
+  }
+}
+
 
 // 使用 useRoute 取得路由資訊
 const route = useRoute()
@@ -414,6 +446,11 @@ const fetchRestaurantData = async () => {
       if (data.result.reviews && data.result.reviews.length > 0) {
         reviews.value = data.result.reviews
         displayedReviewsCount.value = 5
+      }
+
+      // 設定最愛狀態（如果後端有提供）
+      if (data.result.isFavorite !== undefined) {
+        isFavorite.value = data.result.isFavorite
       }
     }
   } catch (error) {
