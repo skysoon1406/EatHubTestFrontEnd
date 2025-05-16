@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navbar></Navbar>
     <h1>Signup</h1>
     <form @submit.prevent="handleSignup">
       <section>
@@ -24,6 +25,7 @@
     </form>
     <p v-if="error">{{ error }}</p>
     <p v-if="success">{{ success }}</p>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -31,6 +33,8 @@
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
