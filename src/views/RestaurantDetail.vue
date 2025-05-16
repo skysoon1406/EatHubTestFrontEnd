@@ -8,6 +8,7 @@
         <div class="flex items-center">
           <img src="/public/images/logo.png" alt="Logo" class="w-25 h-12 mr-2" />
         </div>
+      
 
         <!-- 右邊 漢堡選單 -->
         <button class="btn btn-ghost btn-circle">
@@ -151,7 +152,7 @@
                   (共 {{ reviews.length }} 則)
                 </span>
               </h3>
-              <button class="btn btn-sm bg-red-200 border-0 rounded-3xl px-6">
+              <button @click="showModal = true" class="btn btn-sm bg-red-200 border-0 rounded-3xl px-6">
                 <font-awesome-icon :icon="['far', 'clipboard']" /> 新增
               </button>
             </div>
@@ -160,13 +161,63 @@
               <div v-if="reviews.length === 0" class="text-center py-8 text-gray-500">
                 暫無評論
               </div>
+
+              <!-- userName 跟 userAvatar 待更新成變數 -->
+            <ReviewModal
+              :show="showModal"
+              userName="UserName"
+              userAvatar="https://cdn-icons-png.flaticon.com/512/266/266033.png"
+              @close="showModal = false"
+              @submit="handleReview"
+            />
+        
+    <!-- 顯示在畫面上的樣式 -->
+    <div v-for="(review, index) in reviews" :key="index" class="bg-gray-50 rounded-lg p-4">
+                <div class="flex items-start">
+                  <div class="avatar">
+                    <div class="w-10 rounded-full">
+                      <img :src="'https://picsum.photos/40/40'"  />
+                    </div>
+                  </div>
+                  <div class="ml-3 flex-1">
+
+                    <div class="flex items-center mb-1">
+                    <h4 class="font-semibold text-sm">{{ review.userName }}</h4>
+                    <div class="ml-2 flex items-center">
+                    <font-awesome-icon :icon="['fas', 'star']" class="text-yellow-400 text-xs" />
+                    <span class="ml-1 text-xs text-gray-600">{{ review.rating }}</span>
+                    </div>
+                    </div>
+
+                    <p class="text-sm text-gray-700">{{ review.content }}</p>
+                    <img v-if="review.imageUrl" :src="review.imageUrl" alt="上傳圖片" />
+                    <!-- <p class="text-xs text-gray-400 mt-1">{{ formatDate(review.createdAt) }}</p> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+     <!-- <div class="bg-gray-200 rounded-lg p-4"  >
+          <ul>
+            <li v-for="(comment, index) in comments" :key="index">
+              <p class="font-bold">{{ comment.userName }}</p>
+              <p> <font-awesome-icon :icon="['fas', 'star']" class="text-yellow-400 text-xs" />
+                {{ comment.rating }} </p>
+              <p>{{ comment.comment }}</p> 
+              <img v-if="comment.imageUrl" :src="comment.imageUrl" alt="上傳圖片" />
+            </li>
+          </ul>
+      </div> -->
+    
+
               
-              <!-- 使用 displayedReviews  -->
+              
+              <!-- 使用 displayedReviews 
               <div v-for="review in displayedReviews" :key="review.createdAt" class="bg-gray-50 rounded-lg p-4">
                 <div class="flex items-start">
                   <div class="avatar">
                     <div class="w-10 rounded-full">
-                      <img :src="review.user.imageUrl || 'https://picsum.photos/40/40'" :alt="review.user.userName" />
+                      <img :src="'https://picsum.photos/40/40'"  />
                     </div>
                   </div>
                   <div class="ml-3 flex-1">
@@ -185,17 +236,18 @@
                 </div>
               </div>
             </div>
+    
 
-            <!-- 查看更多按鈕 -->
+            <! 查看更多按鈕 -->
             <button   
               v-if="hasMoreReviews" 
               @click="loadMoreReviews"
               class="btn btn-outline btn-sm w-full mt-4"
             >
               查看更多 <font-awesome-icon :icon="['fas', 'chevron-right']" class="ml-1" />
-              <span class="text-xs text-gray-500 ml-1">
+              <!-- <span class="text-xs text-gray-500 ml-1">
                 (還有 {{ reviews.length - displayedReviewsCount }} 則)
-              </span>
+              </span> -->
             </button>
             
             <!-- 已經顯示所有評論時的提示 -->
@@ -247,6 +299,7 @@
       </div>
     </div>
   </div>
+
   
 </template>
 
@@ -255,6 +308,9 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import GoogleMapEmbed from '../components/RecommendDetail/GoogleMapEmbed.vue'
 import axios from '../axios'
+import ReviewModal from '../components/AddReview.vue'
+import { comment } from 'postcss'
+
 
 const isFavorite = ref(false)
 // 切換最愛狀態的方法
@@ -325,63 +381,75 @@ const openHours = reactive({
   sunday: null
 })
 
-const reviews = ref([
-  {
-    user: {
-      userName: '美食喜相逢',
-      imageUrl: 'https://picsum.photos/40/40?random=1',
-      uuid: 'user-uuid-1'
-    },
-    rating: 2,
-    content: '這裡的拉麵真的超級好吃！...',
-    createdAt: '2025-01-15T14:30:00Z',
-    imageUrl: null
-  },
-  {
-    user: {
-      userName: '愛放炮的阿姨',
-      imageUrl: 'https://picsum.photos/40/40?random=1',
-      uuid: 'user-uuid-1'
-    },
-    rating: 5,
-    content: '湯頭濃郁，麵條Q彈，叉燒肉入口即化...',
-    createdAt: '2025-01-15T14:30:00Z',
-    imageUrl: null
-  },
-  {
-    user: {
-      userName: '陳小溪',
-      imageUrl: 'https://picsum.photos/40/40?random=1',
-      uuid: 'user-uuid-1'
-    },
-    rating: 5,
-    content: '唯一美中不足的是用餐時間人比較多，需要排隊等候。...',
-    createdAt: '2025-01-15T14:30:00Z',
-    imageUrl: null
-  },
-  {
-    user: {
-      userName: '美食愛好者',
-      imageUrl: 'https://picsum.photos/40/40?random=1',
-      uuid: 'user-uuid-1'
-    },
-    rating: 5,
-    content: '這裡的拉麵真的超級好吃！...',
-    createdAt: '2025-01-15T14:30:00Z',
-    imageUrl: null
-  },
-  {
-    user: {
-      userName: '美食愛好者',
-      imageUrl: 'https://picsum.photos/40/40?random=1',
-      uuid: 'user-uuid-1'
-    },
-    rating: 5,
-    content: '這裡的拉麵真的超級好吃！...',
-    createdAt: '2025-01-15T14:30:00Z',
-    imageUrl: null
-  }
-])
+const showModal = ref(false);
+const reviews = ref([]);
+
+const handleReview = (data) => {
+    reviews.value.push({
+      userName: '測試用戶',
+      content: data.reivew,
+      rating: data.rating,
+      imageUrl: data.imageUrl,
+    });
+  };
+
+// const reviews = ref([
+//   {
+//     user: {
+//       userName: '美食喜相逢',
+//       imageUrl: 'https://picsum.photos/40/40?random=1',
+//       uuid: 'user-uuid-1'
+//     },
+//     rating: 2,
+//     content: '這裡的拉麵真的超級好吃！...',
+//     createdAt: '2025-01-15T14:30:00Z',
+//     imageUrl: null
+//   },
+//   {
+//     user: {
+//       userName: '愛放炮的阿姨',
+//       imageUrl: 'https://picsum.photos/40/40?random=1',
+//       uuid: 'user-uuid-1'
+//     },
+//     rating: 5,
+//     content: '湯頭濃郁，麵條Q彈，叉燒肉入口即化...',
+//     createdAt: '2025-01-15T14:30:00Z',
+//     imageUrl: null
+//   },
+//   {
+//     user: {
+//       userName: '陳小溪',
+//       imageUrl: 'https://picsum.photos/40/40?random=1',
+//       uuid: 'user-uuid-1'
+//     },
+//     rating: 5,
+//     content: '唯一美中不足的是用餐時間人比較多，需要排隊等候。...',
+//     createdAt: '2025-01-15T14:30:00Z',
+//     imageUrl: null
+//   },
+//   {
+//     user: {
+//       userName: '美食愛好者',
+//       imageUrl: 'https://picsum.photos/40/40?random=1',
+//       uuid: 'user-uuid-1'
+//     },
+//     rating: 5,
+//     content: '這裡的拉麵真的超級好吃！...',
+//     createdAt: '2025-01-15T14:30:00Z',
+//     imageUrl: null
+//   },
+//   {
+//     user: {
+//       userName: '美食愛好者',
+//       imageUrl: 'https://picsum.photos/40/40?random=1',
+//       uuid: 'user-uuid-1'
+//     },
+//     rating: 5,
+//     content: '這裡的拉麵真的超級好吃！...',
+//     createdAt: '2025-01-15T14:30:00Z',
+//     imageUrl: null
+//   }
+// ])
 
 const displayedReviewsCount = ref(3)
 const reviewsIncrement = 15

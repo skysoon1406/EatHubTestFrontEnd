@@ -21,9 +21,9 @@
   
         <!-- 評論區 -->
         <textarea 
-          v-model="comment" 
+          v-model="contnet" 
           placeholder="請輸入評論..." 
-          class="comment-textarea placeholder-gray-300 px-2 py-1 text-s text-black"
+          class="review-textarea placeholder-gray-300 px-2 py-1 text-s text-black"
         ></textarea>
   
     
@@ -37,7 +37,7 @@
                 <input type="file" @change="handleFileUpload" hidden/>
                 
             </label>
-            <button @click="submitComment" class="border bg-black text-white w-full text-center py-1 rounded-full">送出評論</button>
+            <button @click="submitReview" class="border bg-black text-white w-full text-center py-1 rounded-full">送出評論</button>
           
         </div>
       </div>
@@ -47,18 +47,16 @@
   <script setup>
   import { ref, defineProps, defineEmits } from 'vue';
   
-  // 接收父元件傳入的參數
   const props = defineProps({
     show: Boolean,
     userName: String,
     userAvatar: String,
   });
   
-  // 定義事件
   const emit = defineEmits(['close', 'submit']);
   
-  // 狀態管理
-  const comment = ref('');
+
+  const content = ref('');
   const rating = ref(0);
   const imageUrl = ref(null);
   
@@ -81,14 +79,14 @@
   };
   
   // 送出評論
-  const submitComment = () => {
-    if (comment.value.trim()) {
+  const submitReview = () => {
+    if (content.value.trim()) {
       emit('submit', {
-        comment: comment.value.trim(),
+        content: content.value.trim(),
         rating: rating.value,
         imageUrl: imageUrl.value,
       });
-      comment.value = '';
+      content.value = '';
       rating.value = 0;
       imageUrl.value = null;
       closeModal();
@@ -147,7 +145,7 @@
     font-weight: bold;
   }
   
-  .comment-textarea {
+.review-textarea {
     width: 100%;
     height: 100px;
     margin: 10px 0;

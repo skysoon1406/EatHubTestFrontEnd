@@ -27,7 +27,7 @@
   <script setup>
 //   需要遷入詳細頁面的部分
   import { ref } from 'vue';
-  import CommentModal from '../components/AddComment.vue';
+  import CommentModal from '../components/AddReview.vue';
   
   const showModal = ref(false);
   const comments = ref([]);
