@@ -42,19 +42,9 @@
 
           <!-- 評分區塊 -->
           <div class="flex items-center mb-1">
-            <div class="rating rating-sm">
-              <input 
-                type="radio" 
-                name="rating-restaurant" 
-                class="mask mask-star-2" 
-                v-for="n in 5" 
-                :key="n" 
-                :class="n <= Math.round(restaurant.googleRating) ? 'bg-yellow-400' : 'bg-gray-300'"
-                disabled 
-              />
-            </div>
-            <span class="ml-2 text-sm text-gray-600">{{ restaurant.googleRating || '4.5' }}</span>
-            <span class="ml-1 text-xs text-gray-500">({{ restaurant.userRatingsTotal || 0 }})</span>
+           <font-awesome-icon :icon="['fas', 'star']" class="text-yellow-400" />
+           <span class="ml-2 text-sm text-gray-600">{{ restaurant.googleRating || '4.5' }}</span>
+           <span class="ml-1 text-xs text-gray-500">({{ restaurant.userRatingsTotal || 0 }})</span>
           </div>
 
           <!-- 地址區塊 -->
@@ -73,6 +63,7 @@
           </div>
 
           <!-- 營業時間區塊 -->
+           
           <div class="mb-6">
             <h3 class="text-base font-bold mb-3">營業時間</h3>
             <div class="space-y-1 text-sm">
@@ -169,19 +160,15 @@
                     </div>
                   </div>
                   <div class="ml-3 flex-1">
+
                     <div class="flex items-center mb-1">
-                      <h4 class="font-semibold text-sm">{{ review.user.userName }}</h4>
-                      <div class="rating rating-xs ml-2">
-                        <input 
-                          v-for="n in 5" 
-                          :key="n"
-                          type="radio" 
-                          class="mask mask-star-2"
-                          :class="n <= review.rating ? 'bg-yellow-400' : 'bg-gray-300'"
-                          disabled 
-                        />
-                      </div>
+                    <h4 class="font-semibold text-sm">{{ review.user.userName }}</h4>
+                    <div class="ml-2 flex items-center">
+                    <font-awesome-icon :icon="['fas', 'star']" class="text-yellow-400 text-xs" />
+                    <span class="ml-1 text-xs text-gray-600">{{ review.rating }}</span>
                     </div>
+                    </div>
+
                     <p class="text-sm text-gray-700">{{ review.content }}</p>
                     <p class="text-xs text-gray-400 mt-1">{{ formatDate(review.createdAt) }}</p>
                   </div>
@@ -250,6 +237,7 @@
       </div>
     </div>
   </div>
+  
 </template>
 
 <script setup>
