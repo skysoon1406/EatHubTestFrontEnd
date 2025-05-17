@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navbar></Navbar>
     <h1>Home</h1>
     <nav>
       <ul v-if="user">
@@ -22,12 +23,15 @@
         </li>
       </ul>
     </nav>
+    <Footer></Footer>
   </div>
 </template>
 
 <script setup>
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
 
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
