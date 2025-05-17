@@ -14,7 +14,7 @@
     <button class="btn btn-ghost btn-circle">
       <font-awesome-icon
         :icon="['fas', 'bars']"
-        class="text-3xl text-orange-500"
+        class="text-3xl text-red-500"
       />
     </button>
   </div>

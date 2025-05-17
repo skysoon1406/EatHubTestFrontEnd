@@ -407,22 +407,7 @@ const openHours = reactive({
   sunday: null,
 });
 
-//新增評論的功能
-const submitReview = async (reviewData) => {
-  try {
-    const restaurantId = route.params.id
-    await axios.post(`/restaurants/${restaurantId}/reviews`, {
-      rating: reviewData.rating, 
-      content: reviewData.content,
-      image_url: reviewData.imageUrl // 可選
-    })
-// 提交成功後重新載入評論
-    fetchRestaurantData()
-  } catch (error) {
-    console.error('Error submitting review:', error)
-    alert('提交評論失敗，請稍後再試')
-  }
-}
+
 
 reviews.value = [
   {
