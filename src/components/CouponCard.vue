@@ -83,7 +83,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import axios from '../axios'
+import axios from '@/axios'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const props = defineProps({
@@ -108,7 +108,7 @@ const discountText = computed(() => {
 
 const confirmDelete = async () => {
   try {
-    await axios.delete(`/userCoupons/${props.coupon.uuid}`)
+    await axios.delete(`/user-coupons/${props.coupon.uuid}`)
     emit('deleted', props.coupon.uuid)
   } catch (err) {
     console.error('刪除失敗', err)

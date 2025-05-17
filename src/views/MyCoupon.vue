@@ -1,4 +1,5 @@
 <template>
+  <Navbar></Navbar>
   <div class="p-6">
     <h1 class="text-2xl font-bold mb-4">我的優惠券</h1>
 
@@ -15,12 +16,15 @@
       />
     </div>
   </div>
+  <Footer></Footer>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from '../axios'
-import CouponCard from '../components/CouponCard.vue'
+import axios from '@/axios'
+import CouponCard from '@/components/CouponCard.vue'
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
 
 const coupons = ref([])
 
@@ -30,7 +34,7 @@ const onDeleted = (uuid) => {
 
 onMounted(async () => {
   try {
-    const res = await axios.get('/userCoupons/')
+    const res = await axios.get('/user-coupons/')
     coupons.value = res.data
   } catch (err) {
     console.error('載入優惠券失敗', err)
