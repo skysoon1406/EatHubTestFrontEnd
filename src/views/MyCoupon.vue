@@ -20,24 +20,22 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import axios from '@/axios'
-import CouponCard from '@/components/CouponCard.vue'
+import { ref, onMounted } from 'vue';
+import axios from '@/axios';
+import CouponCard from '@/components/CouponCard.vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 
-const coupons = ref([])
+const coupons = ref([]);
 
 const onDeleted = (uuid) => {
-  coupons.value = coupons.value.filter(c => c.uuid !== uuid)
-}
+  coupons.value = coupons.value.filter((c) => c.uuid !== uuid);
+};
 
 onMounted(async () => {
   try {
-    const res = await axios.get('/user-coupons/')
-    coupons.value = res.data
-  } catch (err) {
-    console.error('載入優惠券失敗', err)
-  }
-})
+    const res = await axios.get('/user-coupons/');
+    coupons.value = res.data;
+  } catch (err) {}
+});
 </script>
