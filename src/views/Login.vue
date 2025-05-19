@@ -3,7 +3,7 @@
     <Navbar></Navbar>
     <h1>Login</h1>
     <form @submit.prevent="handleLogin">
-      <input v-model="email" placeholder="Email" />
+      <input v-model="email" class="input" placeholder="Email" />
       <input
         class="input"
         v-model="password"
