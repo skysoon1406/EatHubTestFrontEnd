@@ -77,7 +77,7 @@
             class="w-full aspect-[2/1] bg-gray-200 rounded-lg overflow-hidden mb-4"
           >
             <GoogleMapEmbed
-              :mapUrl="'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.123456789012!2d-122.4194156846815!3d37.7749292797594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808c8c8c8c8c%3A0x8c8c8c8c8c8c8c8c!2sMy+Coffee+Shop!5e0!3m2!1sen!2sus!4v1631234567890'"
+              :mapUrl="mapUrl"
               alt="地圖"
               class="w-full h-full object-cover"
             />
@@ -445,6 +445,8 @@ const loadMoreReviews = () => {
 const couponClaimed = ref(false);
 const mapUrl = ref('');
 
+
+
 // 定義方法
 const fetchRestaurantData = async () => {
   try {
@@ -454,6 +456,8 @@ const fetchRestaurantData = async () => {
     const response = await axios.get(`/restaurants/${restaurantUuid}`)
     const data = response.data;
     
+    const placeId = data.result.restaurant.place_id;
+
     // 更新餐廳資料
     if (data && data.result) {
       // 更新餐廳資料
@@ -584,9 +588,9 @@ const handleCouponClick = async () => {
 
 
 const navigateToAddress = () => {
-  if (restaurant.address) {
+  if (placeId.value) {
     window.open(
-      `https://maps.google.com?q=${encodeURIComponent(restaurant.address)}`,
+      `https://www.google.com/maps/search/?api=1&query_place_id=${placeId.value}`,
       '_blank'
     );
   }
