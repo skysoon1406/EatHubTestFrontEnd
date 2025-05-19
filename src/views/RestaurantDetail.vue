@@ -28,7 +28,7 @@
                 class="text-blue-500 mr-2"
               />
               <h1 class="text-xl text-black font-bold">
-                {{ restaurant.name || '藤原豆腐店' }}
+                {{ restaurant.name }}
               </h1>
             </div>
         <!-- 最愛按鈕 -->
@@ -356,7 +356,7 @@ import axios from '@/axios';
   isFavorite.value = !isFavorite.value
     
   } catch (error) {
-    console.error('Error updating favorite status:', error)
+    
     alert('更新最愛狀態失敗，請稍後再試')
   }
 }
@@ -504,7 +504,7 @@ const fetchRestaurantData = async () => {
       }
     }
   } catch (error) {
-    console.error('Error fetching restaurant data:', error);
+    
     if (error.response && error.response.status === 404) {
       alert('找不到該餐廳資料');
     } else {
@@ -522,7 +522,7 @@ const claimCoupon = async () => {
     await axios.post(`/coupons/${coupon.value.uuid}/claim/`);
     couponClaimed.value = true;
   } catch (error) {
-       console.error('Error claiming coupon:', error);
+       
     if (error.response) {
     if (error.response.status === 401) {
       alert('請先登入')
