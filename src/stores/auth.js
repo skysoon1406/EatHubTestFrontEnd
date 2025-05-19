@@ -21,7 +21,6 @@ export const useAuthStore = defineStore('auth', {
           password,
         });
       } catch (error) {
-        console.error('Signup failed:', error);
         throw error;
       }
     },

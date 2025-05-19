@@ -4,19 +4,24 @@
     <h1>Signup</h1>
     <form @submit.prevent="handleSignup">
       <section>
-        <input v-model="firstName" placeholder="Firstname" />
+        <input v-model="firstName" class="input" placeholder="Firstname" />
       </section>
       <section>
-        <input v-model="lastName" placeholder="Lastname" />
+        <input v-model="lastName" class="input" placeholder="Lastname" />
       </section>
       <section>
-        <input v-model="userName" placeholder="Username" />
+        <input v-model="userName" class="input" placeholder="Username" />
       </section>
       <section>
-        <input v-model="email" placeholder="Email" />
+        <input v-model="email" class="input" placeholder="Email" />
       </section>
       <section>
-        <input v-model="password" type="password" placeholder="Password" />
+        <input
+          v-model="password"
+          class="input"
+          type="password"
+          placeholder="Password"
+        />
       </section>
       <button class="btn btn-primary" type="submit">Signup</button>
       <hr />

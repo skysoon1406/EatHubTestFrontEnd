@@ -302,7 +302,6 @@ const toggleFavorite = async () => {
     // 更新本地狀態
     isFavorite.value = !isFavorite.value;
   } catch (error) {
-    console.error('Error updating favorite status:', error);
     alert('更新最愛狀態失敗，請稍後再試');
   }
 };
@@ -486,9 +485,7 @@ const fetchRestaurantData = async () => {
         isFavorite.value = data.result.isFavorite;
       }
     }
-  } catch (error) {
-    console.error('Error fetching restaurant data:', error);
-  }
+  } catch (error) {}
 };
 
 // 修正 toggleCoupon 方法
@@ -504,7 +501,6 @@ const claimCoupon = async () => {
     );
     couponClaimed.value = true;
   } catch (error) {
-    console.error('Error claiming coupon:', error);
     alert('領取優惠券失敗，請稍後再試');
   }
 };

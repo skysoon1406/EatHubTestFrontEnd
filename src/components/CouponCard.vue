@@ -18,7 +18,10 @@
     >
       <!-- 圖片區 -->
       <img
-        :src="coupon.coupon.restaurant?.image_url || 'https://via.placeholder.com/96'"
+        :src="
+          coupon.coupon.restaurant?.image_url ||
+          'https://via.placeholder.com/96'
+        "
         alt="店家圖片"
         class="w-24 h-24 object-cover rounded-md bg-gray-100"
       />
@@ -29,7 +32,9 @@
           {{ coupon.coupon.restaurant?.name || '（無餐廳名稱）' }}
         </div>
         <div class="text-sm mt-2">優惠方案：{{ discountText }}</div>
-        <div class="text-sm">有效期限：{{ formatDate(coupon.coupon.ended_at) }}</div>
+        <div class="text-sm">
+          有效期限：{{ formatDate(coupon.coupon.ended_at) }}
+        </div>
       </div>
     </div>
 
@@ -46,7 +51,9 @@
           alt="QR Code"
           class="mx-auto"
         />
-        <p class="text-sm mt-3">使用期限：{{ formatDate(coupon.coupon.ended_at) }}</p>
+        <p class="text-sm mt-3">
+          使用期限：{{ formatDate(coupon.coupon.ended_at) }}
+        </p>
       </div>
     </div>
 
@@ -82,39 +89,38 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import axios from '@/axios'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { ref, computed } from 'vue';
+import axios from '@/axios';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const props = defineProps({
-  coupon: Object
-})
-const emit = defineEmits(['deleted'])
+  coupon: Object,
+});
+const emit = defineEmits(['deleted']);
 
-const showQr = ref(false)
-const showConfirm = ref(false)
+const showQr = ref(false);
+const showConfirm = ref(false);
 
 const formatDate = (str) => {
-  if (!str) return ''
-  return new Date(str).toLocaleDateString()
-}
+  if (!str) return '';
+  return new Date(str).toLocaleDateString();
+};
 
 const discountText = computed(() => {
-  const type = props.coupon?.coupon?.discount_type
-  const value = props.coupon?.coupon?.discount_value
-  if (!type || value == null) return '（無折扣資料）'
-  return type === 'amount' ? `折價 ${value} 元` : `折扣 ${value} %`
-})
+  const type = props.coupon?.coupon?.discount_type;
+  const value = props.coupon?.coupon?.discount_value;
+  if (!type || value == null) return '（無折扣資料）';
+  return type === 'amount' ? `折價 ${value} 元` : `折扣 ${value} %`;
+});
 
 const confirmDelete = async () => {
   try {
-    await axios.delete(`/user-coupons/${props.coupon.uuid}`)
-    emit('deleted', props.coupon.uuid)
+    await axios.delete(`/user-coupons/${props.coupon.uuid}`);
+    emit('deleted', props.coupon.uuid);
   } catch (err) {
-    console.error('刪除失敗', err)
-    alert('刪除失敗，請稍後再試')
+    alert('刪除失敗，請稍後再試');
   } finally {
-    showConfirm.value = false
+    showConfirm.value = false;
   }
-}
+};
 </script>
