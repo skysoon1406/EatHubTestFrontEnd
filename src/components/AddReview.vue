@@ -21,7 +21,7 @@
   
         <!-- 評論區 -->
         <textarea 
-          v-model="contnet" 
+          v-model="content" 
           placeholder="請輸入評論..." 
           class="review-textarea placeholder-gray-300 px-2 py-1 text-s text-black"
         ></textarea>
@@ -32,12 +32,12 @@
         </div>
       
         <div class="flex flex-col items-center mx-auto gap-2">
-            <label class="text-black border border-black text-center w-full py-1 rounded-full" >
+            <label class="text-black border border-black text-center w-full py-1 rounded-full cursor-pointer" >
                 上傳相片
                 <input type="file" @change="handleFileUpload" hidden/>
                 
             </label>
-            <button @click="submitReview" class="border bg-black text-white w-full text-center py-1 rounded-full">送出評論</button>
+            <button @click="submitReview" class="border bg-black text-white w-full text-center py-1 rounded-full cursor-pointer">送出評論</button>
           
         </div>
       </div>
@@ -45,7 +45,7 @@
   </template>
   
   <script setup>
-  import { ref, defineProps, defineEmits } from 'vue';
+  import { ref } from 'vue';
   
   const props = defineProps({
     show: Boolean,
