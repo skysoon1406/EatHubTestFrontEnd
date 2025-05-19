@@ -170,7 +170,7 @@
                   <div class="ml-3 flex-1">
 
                     <div class="flex flex-col items-left mb-1">
-                    <h4 class="font-semibold text-sm">{{ review.userName }}</h4>
+                    <h4 class="font-semibold text-sm text-black">{{ review.user.userName }}</h4>
                     
                     <div class="flex items-center">
                       <font-awesome-icon :icon="['fas', 'star']" class="text-yellow-400 text-xs " />
@@ -307,22 +307,48 @@ const handleReview = (data) => {
   };
 
 // 將評論同步到後端
+
+
 const submitReview = async (data) => {
     try {
-      const data = {}
-      await axios.post(`/restaurants/dedf5151-9e9f-42c1-a710-9388b4f18727/reviews/`, {
-        content: data.content,
-        rating: data.rating,
-        // image_url: data.imageUrl
-      }, {
-        withCredentials: true
-      });
-      alert('評論送出成功');
+        // 準備要送出的資料
+        const reviewData = {
+            content: data.content,
+            rating: data.rating,
+        };
+
+        // 如果有圖片才傳 image_url
+        if (data.imageUrl) {
+            reviewData.image_url = data.imageUrl;
+        }
+
+        console.log("送出的評論資料:", reviewData);
+
+        const restaurantId = route.params.id;
+
+        // 發送 POST 請求
+        const response = await axios.post(
+            `/restaurants/${restaurantId}/reviews/`,
+            reviewData,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${auth.token}`
+                }
+            }
+        );
+        reviews.value.unshift(response.data);
+        alert('評論送出成功');
+        showModal.value = false;
     } catch (err) {
-      console.log('送出評論失敗',err);
-      alert('評論失敗')
+        console.error('送出評論失敗', err);
+        alert('評論失敗');
     }
 };
+
+
+      
 //       const restaurantId = route.params.id;
 //       console.log(restaurantId);
       
