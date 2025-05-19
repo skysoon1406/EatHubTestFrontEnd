@@ -1,21 +1,27 @@
 <template>
   <div>
+    <Navbar></Navbar>
     <h1>Signup</h1>
     <form @submit.prevent="handleSignup">
       <section>
-        <input v-model="firstName" placeholder="Firstname" />
+        <input v-model="firstName" class="input" placeholder="Firstname" />
       </section>
       <section>
-        <input v-model="lastName" placeholder="Lastname" />
+        <input v-model="lastName" class="input" placeholder="Lastname" />
       </section>
       <section>
-        <input v-model="userName" placeholder="Username" />
+        <input v-model="userName" class="input" placeholder="Username" />
       </section>
       <section>
-        <input v-model="email" placeholder="Email" />
+        <input v-model="email" class="input" placeholder="Email" />
       </section>
       <section>
-        <input v-model="password" type="password" placeholder="Password" />
+        <input
+          v-model="password"
+          class="input"
+          type="password"
+          placeholder="Password"
+        />
       </section>
       <button class="btn btn-primary" type="submit">Signup</button>
       <hr />
@@ -24,13 +30,16 @@
     </form>
     <p v-if="error">{{ error }}</p>
     <p v-if="success">{{ success }}</p>
+    <Footer></Footer>
   </div>
 </template>
 
 <script setup>
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
