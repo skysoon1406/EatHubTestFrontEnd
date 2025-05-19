@@ -3,7 +3,7 @@ import './assets/styles/app.css';
 </script>
 
 <!-- src/App.vue -->
-<template>
+<template data-theme="light">
   <router-view />
 </template>
 
