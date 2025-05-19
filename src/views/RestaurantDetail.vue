@@ -334,10 +334,10 @@ import Footer from '@/components/Footer.vue';
 import axios from '@/axios';
 
 // 添加變量定義
-  const reviews = ref([])
-  const isFavorite = ref(false)
+const reviews = ref([])
+const isFavorite = ref(false)
 // 切換最愛狀態的方法
-  const toggleFavorite = async () => {
+const toggleFavorite = async () => {
   // 先檢查登入狀態
   const isLoggedIn = await checkAuth()
   if (!isLoggedIn) {
@@ -347,16 +347,15 @@ import axios from '@/axios';
   try {
     const restaurantUuid = route.params.id;
     
-  if (isFavorite.value) {
-  await axios.delete(`/restaurants/${restaurantUuid}/favorite/`)
-} else {
-  await axios.post(`/restaurants/${restaurantUuid}/favorite/`)
-}
+    if (isFavorite.value) {
+      await axios.delete(`/restaurants/${restaurantUuid}/favorite/`)
+    } else {
+      await axios.post(`/restaurants/${restaurantUuid}/favorite/`)
+    }
     // 更新本地狀態
-  isFavorite.value = !isFavorite.value
+    isFavorite.value = !isFavorite.value
     
   } catch (error) {
-    
     alert('更新最愛狀態失敗，請稍後再試')
   }
 }
@@ -407,8 +406,6 @@ const openHours = reactive({
   sunday: null,
 });
 
-
-
 reviews.value = [
   {
     user: {
@@ -421,7 +418,6 @@ reviews.value = [
     createdAt: '2025-01-15T14:30:00Z',
     imageUrl: null,
   },
-  
 ]
 
 const displayedReviewsCount = ref(3);
@@ -444,8 +440,7 @@ const loadMoreReviews = () => {
 
 const couponClaimed = ref(false);
 const mapUrl = ref('');
-
-
+const placeId = ref('');
 
 // 定義方法
 const fetchRestaurantData = async () => {
@@ -456,7 +451,11 @@ const fetchRestaurantData = async () => {
     const response = await axios.get(`/restaurants/${restaurantUuid}`)
     const data = response.data;
     
-    const placeId = data.result.restaurant.place_id;
+    // 嘗試從 API 取得 placeId (檢查兩種可能的欄位名稱)
+    if (data?.result?.restaurant) {
+      placeId.value = data.result.restaurant.placeId ;
+      console.log('取得的 placeId:', placeId.value);
+    }
 
     // 更新餐廳資料
     if (data && data.result) {
@@ -488,7 +487,7 @@ const fetchRestaurantData = async () => {
       }
       
       // 設定優惠券（如果有資料才覆蓋）
-        if (data.result.coupon) {
+      if (data.result.coupon) {
         coupon.value = data.result.coupon
         // 檢查後端回傳的已領取狀態
         if (data.result.userStatus && data.result.userStatus.hasClaimedCoupon) {
@@ -517,28 +516,24 @@ const fetchRestaurantData = async () => {
   }
 };
 
-
-
 // 領取優惠券的方法
 const claimCoupon = async () => {
   try {
-    
     await axios.post(`/coupons/${coupon.value.uuid}/claim/`);
     couponClaimed.value = true;
   } catch (error) {
-       
     if (error.response) {
-    if (error.response.status === 401) {
-      alert('請先登入')
-    } else if (error.response.status === 403) {
-      alert('您已領取過此優惠券')
+      if (error.response.status === 401) {
+        alert('請先登入')
+      } else if (error.response.status === 403) {
+        alert('您已領取過此優惠券')
+      } else {
+        alert('領取優惠券失敗：' + (error.response.data.message || '請稍後再試'))
+      }
     } else {
-      alert('領取優惠券失敗：' + (error.response.data.message || '請稍後再試'))
+      alert('網路連線問題，請稍後再試');
     }
-  } else {
-    alert('網路連線問題，請稍後再試');
   }
-}
 }
 
 // 計算屬性：優惠券是否已過期
@@ -586,11 +581,11 @@ const handleCouponClick = async () => {
   }
 }
 
-
+// 修改 navigateToAddress 方法，使用 placeId.value
 const navigateToAddress = () => {
   if (placeId.value) {
     window.open(
-      `https://www.google.com/maps/search/?api=1&query_place_id=${placeId.value}`,
+      `https://www.google.com/maps/place/?q=place_id:${placeId.value}`,
       '_blank'
     );
   }
