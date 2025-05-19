@@ -157,13 +157,13 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   background-image: 
-    radial-gradient(1px 1px at 25% 10%, white 100%, transparent 100%),
-    radial-gradient(4px 4px at 10% 20%, white 100%, transparent 100%),
-    radial-gradient(1px 1px at 15% 15%, white 100%, transparent 100%),
-    radial-gradient(3px 3px at 20% 25%, #d4ff00 100%, transparent 100%),
+    radial-gradient(1px 1px at 85% 80%, white 100%, transparent 100%),
+    radial-gradient(4px 4px at 80% 80%, white 100%, transparent 100%),
+    radial-gradient(1px 1px at 75% 75%, white 100%, transparent 100%),
+    radial-gradient(3px 3px at 80% 80%, #d4ff00 100%, transparent 100%),
     radial-gradient(1px 1px at 35% 35%, white 100%, transparent 100%),
     radial-gradient(1px 1px at 45% 15%, white 100%, transparent 100%),
-    radial-gradient(1px 1px at 55% 25%, #ff6b6b 100%, transparent 100%),
+    radial-gradient(2px 2px at 55% 25%, #ff6b6b 100%, transparent 100%),
     radial-gradient(1px 1px at 65% 35%, white 100%, transparent 100%),
     radial-gradient(1px 1px at 75% 45%, white 100%, transparent 100%),
     radial-gradient(3px 3px at 65% 35%, white 100%, transparent 100%),
@@ -173,12 +173,8 @@ onUnmounted(() => {
     radial-gradient(2px 2px at 40% 30%, #6e8fff 100%, transparent 100%),
     radial-gradient(2px 2px at 90% 15%, white 100%, transparent 100%),
     radial-gradient(3px 3px at 30% 40%, white 100%, transparent 100%),
-    radial-gradient(1px 1px at 60% 50%, #6e8fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 75% 60%, white 100%, transparent 100%),
-    radial-gradient(1px 1px at 35% 70%, white 100%, transparent 100%),
-    radial-gradient(3px 3px at 85% 75%, #ff6b6b 100%, transparent 100%),
-    radial-gradient(2px 2px at 20% 80%, white 100%, transparent 100%),
-    radial-gradient(1px 1px at 45% 85%, #6e8fff 100%, transparent 100%),
+    
+   
     radial-gradient(5px 5px at 65% 90%, white 100%, transparent 100%);
   background-repeat: repeat;
   background-size: 200% 200%;
@@ -216,9 +212,9 @@ onUnmounted(() => {
 }
 
 @keyframes twinkle {
-  0% { opacity: 0.5; background-position: 0% 0%; }
+  0% { opacity: 0.7; background-position: 0% 0%; }
   50% { opacity: 1; background-position: 100% 100%; }
-  100% { opacity: 0.5; background-position: 0% 0%; }
+  100% { opacity: 0.7; background-position: 0% 0%; }
 }
 
 .main-content {
@@ -285,7 +281,7 @@ onUnmounted(() => {
 .home-button:hover {
   background-color: #fb5800;
   transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255, 217, 170, 0.915);
+  box-shadow: 0 0 90px rgb(255, 255, 255);
 }
 
 .ufo {
@@ -299,9 +295,9 @@ onUnmounted(() => {
 
 @keyframes moveUfo {
   0% { left: -150px; transform: rotate(10deg); }
-  50% { left: calc(100% + 150px); transform: rotate(-10deg); }
-  51% { left: calc(100% + 150px); transform: rotate(170deg); }
-  100% { left: -150px; transform: rotate(190deg); }
+  50% { left: calc(100% + 150px); transform: rotate(-30deg); }
+  51% { left: calc(100% + 150px); transform: rotate(-30deg); }
+  100% { left: -150px; transform: rotate(10deg); }
 }
 
 .planet {
