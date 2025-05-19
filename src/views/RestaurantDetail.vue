@@ -345,12 +345,12 @@ import axios from '@/axios';
     return
   }
   try {
-    const restaurantId = route.params.id
+    const restaurantUuid = route.params.id;
     
   if (isFavorite.value) {
-  await axios.delete(`/restaurants/${restaurantId}/favorite/`)
+  await axios.delete(`/restaurants/${restaurantUuid}/favorite/`)
 } else {
-  await axios.post(`/restaurants/${restaurantId}/favorite/`)
+  await axios.post(`/restaurants/${restaurantUuid}/favorite/`)
 }
     // 更新本地狀態
   isFavorite.value = !isFavorite.value
@@ -448,11 +448,11 @@ const mapUrl = ref('');
 // 定義方法
 const fetchRestaurantData = async () => {
   try {
-    const restaurantId = route.params.id;
+    const restaurantUuid = route.params.id;
 
     // 從後端取得資料
-const response = await axios.get(`/restaurants/${restaurantId}`)
-    const data = response.data
+    const response = await axios.get(`/restaurants/${restaurantUuid}`)
+    const data = response.data;
     
     // 更新餐廳資料
     if (data && data.result) {
@@ -486,8 +486,8 @@ const response = await axios.get(`/restaurants/${restaurantId}`)
       // 設定優惠券（如果有資料才覆蓋）
         if (data.result.coupon) {
         coupon.value = data.result.coupon
-        // 檢查後端回傳的已領取狀態（這裡假設後端會回傳 isClaimed 欄位）
-        if (data.result.coupon.isClaimed) {
+        // 檢查後端回傳的已領取狀態
+        if (data.result.userStatus && data.result.userStatus.hasClaimedCoupon) {
           couponClaimed.value = true
         }
       }
@@ -499,24 +499,30 @@ const response = await axios.get(`/restaurants/${restaurantId}`)
       }
 
       // 設定最愛狀態（如果後端有提供）
-      if (data.result.isFavorite !== undefined) {
-        isFavorite.value = data.result.isFavorite;
+      if (data.result.userStatus && data.result.userStatus.hasFavorited !== undefined) {
+        isFavorite.value = data.result.userStatus.hasFavorited;
       }
     }
   } catch (error) {
     console.error('Error fetching restaurant data:', error);
+    if (error.response && error.response.status === 404) {
+      alert('找不到該餐廳資料');
+    } else {
+      alert('載入餐廳資料失敗，請稍後再試');
+    }
   }
 };
+
 
 
 // 領取優惠券的方法
 const claimCoupon = async () => {
   try {
-    const restaurantId = route.params.id
-    await axios.post(`/coupons/${coupon.value.uuid}/claim/`) 
-    couponClaimed.value = true
+    
+    await axios.post(`/coupons/${coupon.value.uuid}/claim/`);
+    couponClaimed.value = true;
   } catch (error) {
-       console.error('Error claiming coupon:', error)
+       console.error('Error claiming coupon:', error);
     if (error.response) {
     if (error.response.status === 401) {
       alert('請先登入')
@@ -526,7 +532,7 @@ const claimCoupon = async () => {
       alert('領取優惠券失敗：' + (error.response.data.message || '請稍後再試'))
     }
   } else {
-    alert('網路連線問題，請稍後再試')
+    alert('網路連線問題，請稍後再試');
   }
 }
 }
