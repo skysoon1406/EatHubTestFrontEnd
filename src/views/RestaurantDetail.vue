@@ -351,9 +351,9 @@ const toggleFavorite = async () => {
   try {
     const restaurantUuid = route.params.id;
     if (isFavorite.value) {
-      await axios.delete(`/restaurants/${restaurantUuid}/favorite/`);
+      await axios.delete(`/restaurants/${restaurantUuid}/favorites/`);
     } else {
-      await axios.post(`/restaurants/${restaurantUuid}/favorite/`);
+      await axios.post(`/restaurants/${restaurantUuid}/favorites/`);
     }
     isFavorite.value = !isFavorite.value;
   } catch (error) {
