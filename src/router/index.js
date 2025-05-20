@@ -20,12 +20,22 @@ const routes = [
   },
   
   {path: '/restaurants', component:() => import('../views/RestaurantsList.vue')},
+
+
+  {
+    path: '/terms-of-service',
+    name: 'TermsOfService',
+    component: () => import('../views/TermsOfService.vue'),
+  }
+
+
   
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFound
   },
+
 ];
 
 const router = createRouter({
