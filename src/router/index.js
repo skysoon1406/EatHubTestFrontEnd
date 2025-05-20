@@ -12,7 +12,7 @@ const routes = [
     component: () => import('../views/MyCoupon.vue'),
     meta: { requiresAuth: true },
   },
-  { path: '/testmodal', component: () => import('../views/Test_modal.vue') },
+
 
   {
     path: '/restaurants/:id',

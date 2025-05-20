@@ -340,7 +340,7 @@ const { user } = storeToRefs(auth);
 
 
 // 添加變量定義
-  // const reviews = ref([])
+
   const isFavorite = ref(false)
 // 切換最愛狀態的方法
   const toggleFavorite = async () => {
@@ -441,7 +441,7 @@ const submitReview = async (data) => {
             reviewData.image_url = data.imageUrl;
         }
 
-        console.log("送出的評論資料:", reviewData);
+        
 
         const restaurantUuid = route.params.id;
 
@@ -453,7 +453,7 @@ const submitReview = async (data) => {
         alert('評論送出成功');
         showModal.value = false;
     } catch (err) {
-        console.error('送出評論失敗', err);
+       
         alert('評論失敗');
     }
 };
