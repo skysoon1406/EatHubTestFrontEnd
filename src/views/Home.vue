@@ -116,56 +116,58 @@
       </div>
     </div>
 
-    <div class="p-6 space-y-4">
-      <div class="card bg-orange-600 shadow-xl p-6">
+    <div class="p-6 space-y-4 text-center">
+      <div class="bg-primary text-white p-4">
         <h2 class="text-xl font-bold mb-4">下一餐吃什麼？</h2>
 
         <div class="flex space-x-4">
-          <div class="card w-1/3 bg-neutral-content text-neutral-content">
+          <div class="w-1/3 card bg-secondary text-neutral-content">
             <div class="card-body">
               <h2 class="text-center text-xl text-black">口味</h2>
             </div>
           </div>
-          <div class="card w-1/3 bg-neutral-content text-primary-content">
+          <div class="w-1/3 card bg-secondary text-primary-content">
             <div class="card-body">
               <h2 class="text-center text-xl text-black">主食</h2>
             </div>
           </div>
-          <div class="card w-1/3 bg-neutral-content text-secondary-content">
+          <div class="w-1/3 card bg-secondary text-secondary-content">
             <div class="card-body">
-              <h2 class="text-xl text-center text-black">類型</h2>
+              <h2 class="text-center text-xl text-black">類型</h2>
             </div>
           </div>
         </div>
         <br />
         <div class="flex justify-end">
-          <label for="my-modal" class="btn btn-primary w-1/12 align-item-end">
+          <label for="my-modal" class="btn btn-neutral w-1/12 align-item-end">
             <font-awesome-icon :icon="['fas', 'sliders']" />
           </label>
         </div>
         <br />
-        <button class="btn btn-primary" @click="getRecommendations">
-          幫我選！
+        <button class="btn btn-neutral" @click="getRecommendations">
+          請幫我選！
         </button>
       </div>
     </div>
-    <div class="p-6">
-      <h2 class="text-2xl font-bold mb-4">推薦結果</h2>
+    <div class="p-6 text-center relative">
+      <h2 class="text-2xl font-bold mb-4 p-6">推薦結果</h2>
+
+      <!-- Loading 遮罩 -->
+      <div
+        v-if="isLoading"
+        class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10"
+      >
+        <span class="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+
       <div v-if="restaurants.length === 0">尚未有推薦</div>
       <div v-else class="grid gap-4">
-        <div
+        <RestaurantCard
           v-for="r in restaurants"
           :key="r.placeId"
-          class="card shadow-md p-4"
-        >
-          <router-link :to="`/restaurants/${r.uuid}`">
-            <h2 class="text-xl font-semibold">{{ r.name }}</h2>
-          </router-link>
-          <p>{{ r.address }}</p>
-          <p>⭐️ 評分：{{ r.googleRating }}</p>
-        </div>
+          :restaurant="r"
+        />
       </div>
-      <hr />
       <br />
       <router-link to="/restaurants"
         ><button class="btn btn-primary">看更多</button></router-link
@@ -178,6 +180,8 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
+import RestaurantCard from '@/components/RestaurantCard.vue';
+
 import axios from 'axios';
 import { ref, onMounted, computed } from 'vue';
 import { useRestaurantStore } from '@/stores/restaurant';
@@ -187,6 +191,7 @@ const longitude = ref(null);
 const error = ref(null);
 const store = useRestaurantStore();
 const restaurants = computed(() => store.restaurants.slice(0, 3));
+const isLoading = ref(false);
 
 onMounted(() => {
   if (navigator.geolocation) {
@@ -204,11 +209,17 @@ onMounted(() => {
   }
 });
 
-const flavors = ref([]);
-const mains = ref(['豬肉', '牛肉']);
-const staples = ref([]);
+const flavorsOptions = ['中式', '日式'];
+const mainsOptions = ['豬肉', '牛肉'];
+const staplesOptions = ['火鍋', '燉飯'];
+
+const flavors = ref(flavorsOptions);
+const mains = ref(mainsOptions);
+const staples = ref(staplesOptions);
 
 const getRecommendations = async () => {
+  isLoading.value = true;
+
   const payload = {
     flavors: flavors.value,
     mains: mains.value,
@@ -228,6 +239,8 @@ const getRecommendations = async () => {
     store.setResults(data.result);
   } catch (err) {
     alert('取得推薦失敗');
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>
