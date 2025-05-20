@@ -316,7 +316,7 @@
       <Footer></Footer>
     </div>
   </div>
-<<<<<<< HEAD
+
 
   
 </template>
@@ -448,15 +448,7 @@ const submitReview = async (data) => {
         // 發送 POST 請求
         const response = await axios.post(
             `/restaurants/${restaurantUuid}/reviews/`,
-            reviewData,
-            {
-                withCredentials: true,
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${auth.token}`
-                }
-            }
-        );
+            reviewData);
         reviews.value.unshift(response.data);
         alert('評論送出成功');
         showModal.value = false;
