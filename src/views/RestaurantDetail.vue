@@ -281,7 +281,7 @@ const couponDetails = computed(() => {
   if (!coupon.value) return {};
   
   return {
-    '序號'    : coupon.value.serialNumber,
+    '序號'   : coupon.value.serialNumber,
     '折扣類型': coupon.value.discountType === 'percentage' ? '折扣' : '金額折抵',
     '折扣值'  : coupon.value.discountType === 'percentage' ? 
               `${coupon.value.discountValue}%` : 
