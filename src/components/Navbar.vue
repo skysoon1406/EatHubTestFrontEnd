@@ -11,7 +11,6 @@
     </div>
 
     <!-- 右邊 漢堡選單 -->
-    <button class="btn btn-ghost btn-circle"></button>
     <div class="flex-none">
       <div class="dropdown dropdown-end">
         <label tabindex="0" class="btn btn-ghost btn-circle">
@@ -27,6 +26,7 @@
           <nav>
             <ul v-if="user">
               <li>目前登入者：{{ user.userName }}</li>
+              <li><a href="/users/coupons">我的優惠券</a></li>
               <li><button class="btn" @click="handleLogout">登出</button></li>
             </ul>
 
