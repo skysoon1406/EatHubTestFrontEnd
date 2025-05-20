@@ -1,9 +1,5 @@
 <template>
-<<<<<<< HEAD
   <div>
-=======
-  <div class="">
->>>>>>> 61e3845 (feat: update Home style)
     <Navbar></Navbar>
     <h1>Login</h1>
     <form @submit.prevent="handleLogin">
