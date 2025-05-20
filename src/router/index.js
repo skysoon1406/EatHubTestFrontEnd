@@ -19,6 +19,19 @@ const routes = [
   },
   
   {path: '/restaurants', component:() => import('../views/RestaurantsList.vue')},
+
+
+
+
+
+
+
+  
+    {
+    path: '/privacy-policy',
+    name: 'PrivacyPolicy',
+    component: () => import('../views/PrivacyPolicy.vue'),
+  }
 ];
 
 const router = createRouter({
