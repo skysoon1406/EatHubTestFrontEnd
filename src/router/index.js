@@ -14,6 +14,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
 
+
   {
     path: '/restaurants/:id',
     component: () => import('../views/RestaurantDetail.vue'),
