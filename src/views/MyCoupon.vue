@@ -1,6 +1,6 @@
 <template>
   <Navbar></Navbar>
-  <div class="p-6">
+  <div class="p-6 min-h-screen">
     <h1 class="text-2xl font-bold mb-4">我的優惠券</h1>
 
     <div v-if="coupons.length === 0" class="text-center text-gray-400 mt-8">

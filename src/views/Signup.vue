@@ -1,35 +1,78 @@
 <template>
   <div class="">
     <Navbar></Navbar>
-    <h1>Signup</h1>
-    <form @submit.prevent="handleSignup">
-      <section>
-        <input v-model="firstName" class="input" placeholder="Firstname" />
-      </section>
-      <section>
-        <input v-model="lastName" class="input" placeholder="Lastname" />
-      </section>
-      <section>
-        <input v-model="userName" class="input" placeholder="Username" />
-      </section>
-      <section>
-        <input v-model="email" class="input" placeholder="Email" />
-      </section>
-      <section>
-        <input
-          v-model="password"
-          class="input"
-          type="password"
-          placeholder="Password"
-        />
-      </section>
-      <button class="btn btn-primary" type="submit">Signup</button>
-      <hr />
-      <router-link to="/login">登入</router-link> <span>/</span>
-      <router-link to="/">回首頁</router-link>
-    </form>
-    <p v-if="error">{{ error }}</p>
-    <p v-if="success">{{ success }}</p>
+    <section
+      class="min-h-screen flex items-center justify-center bg-base-200 p-4"
+    >
+      <div class="w-full max-w-md">
+        <form
+          @submit.prevent="handleSignup"
+          class="bg-base-100 shadow-xl rounded-xl p-8 space-y-4"
+        >
+          <h1 class="text-2xl font-bold text-center mb-6">會員註冊</h1>
+
+          <section>
+            <input
+              v-model="firstName"
+              class="input input-bordered w-full"
+              placeholder="Firstname"
+              required
+            />
+          </section>
+          <section>
+            <input
+              v-model="lastName"
+              class="input input-bordered w-full"
+              placeholder="Lastname"
+              required
+            />
+          </section>
+          <section>
+            <input
+              v-model="userName"
+              class="input input-bordered w-full"
+              placeholder="Username"
+              required
+            />
+          </section>
+          <section>
+            <input
+              v-model="email"
+              class="input input-bordered w-full"
+              placeholder="Email"
+              required
+            />
+          </section>
+          <section>
+            <input
+              v-model="password"
+              class="input input-bordered w-full"
+              type="password"
+              placeholder="Password"
+              required
+            />
+          </section>
+
+          <button class="btn btn-primary w-full">註冊</button>
+
+          <div class="divider">或</div>
+
+          <div class="text-center space-x-2">
+            <router-link to="/login" class="link link-hover text-primary"
+              >登入</router-link
+            >
+            <span>/</span>
+            <router-link to="/" class="link link-hover text-primary"
+              >回首頁</router-link
+            >
+          </div>
+
+          <p v-if="error" class="text-red-500 text-center">{{ error }}</p>
+          <p v-if="success" class="text-green-500 text-center">{{ success }}</p>
+        </form>
+      </div>
+    </section>
+
     <Footer></Footer>
   </div>
 </template>
