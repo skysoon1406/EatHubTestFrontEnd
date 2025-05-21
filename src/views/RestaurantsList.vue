@@ -9,16 +9,12 @@
             <li
               v-for="r in topTenRestaurants"
               :key="r.placeId"
-              class="card w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl"
+              class="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl"
             >
-              <router-link :to="`/restaurants/${r.placeId}`" class="flex flex-row gap-4 w-full items-start">
-                <figure class="shrink-0">
-                  <img
-                    :src="r.image || 'https://picsum.photos/100'"
-                    class="w-[100px] h-[100px] rounded-lg object-cover"
-                    alt="餐廳圖片"
-                  />
-                </figure>
+            
+            <RestaurantCard :restaurant="r" />
+              <!-- <router-link :to="`/restaurants/${r.placeId}`" class="flex flex-row gap-4 w-full items-start">
+                
                 <div class="flex flex-col flex-1">
                   <div class="flex flex-row justify-between items-center">
                     <p class="inline-block  whitespace-nowrap truncate max-w-[8em] sm:max-w-[10em] md:max-w-[12em] font-bold text-black text-xs sm:text-base ">{{ r.name }}</p>
@@ -26,7 +22,7 @@
                   <p class="text-black text-xs sm:text-base">⭐ {{ r.googleRating }}</p>
                   <p class="inline-block truncate whitespace-nowrap  max-w-[8em] sm:max-w-[11em] md:max-w-[13em]  text-black text-xs sm:text-base ">{{ r.address }}</p>
                 </div>
-              </router-link>
+              </router-link> --> 
             </li>
           </ul>
 
@@ -39,11 +35,12 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
+import RestaurantCard from '@/components/RestaurantCard.vue'; 
 import { ref, onMounted, computed } from 'vue';
 import { useRestaurantStore } from '@/stores/restaurant';
 
 const store = useRestaurantStore();
-const topTenRestaurants = computed(() => store.restaurants.slice(0, 10));
+const topTenRestaurants = computed(() => store.restaurants.slice(0, 12));
 
 // const restaurants = ref([
 //   {
