@@ -56,7 +56,7 @@
           <button class="btn btn-primary w-full">註冊</button>
 
           <div class="divider">或</div>
-
+          <GoogleLoginButton />
           <div class="text-center space-x-2">
             <router-link to="/login" class="link link-hover text-primary"
               >登入</router-link
@@ -83,6 +83,7 @@ import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
+import GoogleLoginButton from '@/components/GoogleLoginButton.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
