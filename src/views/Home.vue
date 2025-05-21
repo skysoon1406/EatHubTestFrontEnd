@@ -150,7 +150,9 @@
       </div>
     </div>
     <div class="p-6 text-center relative">
-      <h2 class="text-2xl font-bold mb-4 p-6">推薦結果</h2>
+      <h2 class="text-2xl font-bold mb-4 p-6">
+        推薦結果 <span v-if="dishResult">：{{ dishResult }}</span>
+      </h2>
 
       <!-- Loading 遮罩 -->
       <div
@@ -191,6 +193,7 @@ const longitude = ref(null);
 const error = ref(null);
 const store = useRestaurantStore();
 const restaurants = computed(() => store.restaurants.slice(0, 3));
+const dishResult = computed(() => store.dishResult);
 const isLoading = ref(false);
 
 onMounted(() => {

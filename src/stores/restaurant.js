@@ -5,6 +5,7 @@ export const useRestaurantStore = defineStore(
   'restaurant',
   () => {
     const restaurants = ref([]);
+    const dishResult = ref('');
     const userSelections = ref({
       flavors: [],
       mains: [],
@@ -16,7 +17,8 @@ export const useRestaurantStore = defineStore(
     });
 
     const setResults = (data) => {
-      restaurants.value = data;
+      restaurants.value = data.restaurants;
+      dishResult.value = data.dish;
     };
 
     const setSelections = (selections) => {
@@ -25,6 +27,7 @@ export const useRestaurantStore = defineStore(
 
     return {
       restaurants,
+      dishResult,
       userSelections,
       setResults,
       setSelections,
