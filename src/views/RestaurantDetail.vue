@@ -260,7 +260,7 @@ const submitReview = async (data) => {
 
         // 發送 POST 請求
         const response = await axios.post(
-            `/restaurants/${restaurantUuid}/reviews`,
+            `/restaurants/${restaurantUuid}/reviews/`,
             reviewData);
         reviews.value.unshift(response.data);
         alert('評論送出成功');
