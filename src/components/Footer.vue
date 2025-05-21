@@ -24,7 +24,9 @@
         <h4 class="font-bold mb-3 text-sm">關於我們</h4>
         <ul class="text-xs text-gray-400 space-y-1">
           <li>服務項目</li>
-          <li>聯繫方式</li>
+          <li>
+            <a href="mailto:eathubtw@gmail.com" class=" hover:underline">聯絡我們</a>
+          </li>
           <li>
             <RouterLink to="/terms-of-service" class="hover:underline">條款與政策</RouterLink>
           </li>
