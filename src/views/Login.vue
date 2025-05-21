@@ -1,20 +1,45 @@
 <template>
   <div>
     <Navbar></Navbar>
-    <h1>Login</h1>
-    <form @submit.prevent="handleLogin">
-      <input v-model="email" class="input" placeholder="Email" />
-      <input
-        class="input"
-        v-model="password"
-        type="password"
-        placeholder="Password"
-      />
-      <button class="btn btn-primary" type="submit">Login</button>
-      <GoogleLoginButton />
-    </form>
-    <p>還沒有帳號？<router-link to="/signup">註冊</router-link></p>
-    <router-link to="/">回首頁</router-link>
+    <section
+      class="min-h-screen flex items-center justify-center bg-base-200 p-4"
+    >
+      <div class="w-full max-w-md">
+        <section class="bg-base-100 shadow-xl rounded-xl p-8 space-y-6">
+          <h1 class="text-2xl font-bold text-center">會員登入</h1>
+
+          <form @submit.prevent="handleLogin" class="space-y-4">
+            <input
+              v-model="email"
+              class="input input-bordered w-full"
+              placeholder="Email"
+              required
+            />
+            <input
+              class="input input-bordered w-full"
+              v-model="password"
+              type="password"
+              placeholder="Password"
+              required
+            />
+            <button class="btn btn-primary w-full" type="submit">登入</button>
+          </form>
+            <GoogleLoginButton />
+
+          <div class="text-center space-y-2">
+            <p>
+              還沒有帳號？
+              <router-link to="/signup" class="link link-hover text-primary"
+                >註冊</router-link
+              >
+            </p>
+            <router-link to="/" class="link link-hover text-primary"
+              >回首頁</router-link
+            >
+          </div>
+        </section>
+      </div>
+    </section>
     <Footer></Footer>
   </div>
 </template>

@@ -18,31 +18,35 @@
           />
         </label>
         <ul
+          v-if="user"
           tabindex="0"
-          class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
         >
-          <nav>
-            <ul v-if="user">
-              <li>目前登入者：{{ user.userName }}</li>
-              <li><a href="/users/coupons">我的優惠券</a></li>
-              <li><button class="btn" @click="handleLogout">登出</button></li>
-            </ul>
-
-            <ul v-else>
-              <li>
-                <a class="btn" href="/signup">
-                  <font-awesome-icon :icon="['fas', 'user-plus']" />
-                  註冊
-                </a>
-              </li>
-              <li>
-                <a class="btn" href="/login">
-                  <font-awesome-icon :icon="['fas', 'right-to-bracket']" />
-                  登入
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <li>
+            <a href="#">目前登入者：{{ user.userName }}</a>
+          </li>
+          <li>
+            <a href="/users/coupons">我的優惠券</a>
+          </li>
+          <li><button class="" @click="handleLogout">登出</button></li>
+        </ul>
+        <ul
+          v-else
+          tabindex="0"
+          class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+        >
+          <li>
+            <a class="" href="/signup">
+              <font-awesome-icon :icon="['fas', 'user-plus']" />
+              註冊
+            </a>
+          </li>
+          <li>
+            <a class="" href="/login">
+              <font-awesome-icon :icon="['fas', 'right-to-bracket']" />
+              登入
+            </a>
+          </li>
         </ul>
       </div>
     </div>
