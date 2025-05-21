@@ -1,13 +1,14 @@
 <template>
 <Navbar></Navbar>
-  <div class="max-w-3xl mx-auto px-4 py-8 text-black text-base leading-relaxed">
-    <h1 class="text-2xl md:text-3xl font-bold text-center mb-6">隱私權條款</h1>
+<main class="max-w-3xl mx-auto px-4 py-10  text-left">
+  <div class="max-w-3xl mx-auto px-4   text-black text-base leading-relaxed">
+    <h1 class="text-2xl md:text-3xl text-center font-bold mb-6">隱私權條款</h1>
 
     <p class="mb-6">
-      歡迎您使用「尋飽」（eathub，以下簡稱「本網站」或「我們」）所提供的各項服務。為了保護您的個人資料與隱私權，我們根據相關法規制定本《隱私權條款》，請您詳閱以下內容。
+      歡迎您使用「尋飽」（EatHub，以下簡稱「本網站」或「我們」）所提供的各項服務。為了保護您的個人資料與隱私權，我們根據相關法規制定本《隱私權條款》，請您詳閱以下內容。
     </p>
 
-    <section class="mb-8">
+    <section class="mb-8" >
       <h2 class="text-xl font-semibold mb-2">一、我們如何蒐集您的資料</h2>
       <ul class="list-disc pl-6 space-y-1">
         <li>註冊資訊：如姓名、電子郵件、使用者名稱、密碼等。</li>
@@ -81,6 +82,7 @@
 
     <p class="mt-6 text-sm text-black">最新更新日期：2025 年 5 月 20 日</p>
   </div>
+  </main>
   <Footer></Footer>
 </template>
 
