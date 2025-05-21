@@ -25,6 +25,10 @@
         <ul class="text-xs text-gray-400 space-y-1">
           <li>服務項目</li>
           <li>聯繫方式</li>
+          <li>條款與政策</li>
+          <li>
+            <RouterLink to="/privacy-policy" class="hover:underline">隱私權條款</RouterLink>
+          </li>
           <li>
             <RouterLink to="/terms-of-service" class="hover:underline">條款與政策</RouterLink>
           </li>
