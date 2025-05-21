@@ -30,262 +30,6 @@
                 class="text-2xl" 
               />
             </button>
-      </div>            
-
-          <!-- 評分區塊 -->
-          <div class="flex items-center mb-1">
-            <font-awesome-icon
-              :icon="['fas', 'star']"
-              class="text-yellow-400"
-            />
-            <span class="ml-2 text-sm text-gray-600">{{
-              restaurant.googleRating || '4.5'
-            }}</span>
-            <span class="ml-1 text-xs text-gray-500"
-              >({{ restaurant.userRatingsTotal || 0 }})</span
-            >
-          </div>
-
-          <!-- 地址區塊 -->
-          <div class="flex items-start mb-4">
-            <font-awesome-icon
-              :icon="['fas', 'map-marker-alt']"
-              class="text-gray-500 mt-0.5 mr-2"
-            />
-            <span class="text-sm text-gray-700">{{
-              restaurant.address || '地址載入中...'
-            }}</span>
-          </div>
-
-          <!-- 地圖區塊 -->
-          <div
-            class="w-full aspect-[2/1] bg-gray-200 rounded-lg overflow-hidden mb-4"
-          >
-            <GoogleMapEmbed
-              :mapUrl="'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.123456789012!2d-122.4194156846815!3d37.7749292797594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808c8c8c8c8c%3A0x8c8c8c8c8c8c8c8c!2sMy+Coffee+Shop!5e0!3m2!1sen!2sus!4v1631234567890'"
-              alt="地圖"
-              class="w-full h-full object-cover"
-            />
-          </div>
-
-          <!-- 營業時間區塊 -->
-
-          <div class="mb-6">
-            <h3 class="text-base font-bold mb-3">營業時間</h3>
-            <div class="space-y-1 text-sm">
-              <div class="flex justify-between">
-                <span class="text-gray-700">星期一</span>
-                <span class="text-gray-700">{{
-                  openHours.monday || '未提供'
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-700">星期二</span>
-                <span class="text-gray-700">{{
-                  openHours.tuesday || '未提供'
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-700">星期三</span>
-                <span class="text-gray-700">{{
-                  openHours.wednesday || '未提供'
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-700">星期四</span>
-                <span class="text-gray-700">{{
-                  openHours.thursday || '未提供'
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-700">星期五</span>
-                <span class="text-gray-700">{{
-                  openHours.friday || '未提供'
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-700">星期六</span>
-                <span class="text-gray-700">{{
-                  openHours.saturday || '未提供'
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-700">星期日</span>
-                <span class="text-gray-700">{{
-                  openHours.sunday || '未提供'
-                }}</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- 領取優惠券按鈕 -->
-<button 
-    @click="handleCouponClick"
-    :class="[
-      'btn w-full rounded-lg mb-2 border transition-colors duration-300',
-      couponClaimed ? 'bg-white text-black border-black' : 
-        isExpired ? 'bg-gray-300 text-gray-700 border-gray-400' : 
-        isNotStarted ? 'bg-gray-300 text-gray-700 border-gray-400' : 'bg-black text-white border-black'
-    ]"
-    :disabled="isExpired || isNotStarted"
-  >
-    <font-awesome-icon 
-      :icon="couponClaimed ? ['fas', 'check'] : isExpired ? ['fas', 'clock'] : isNotStarted ? ['fas', 'clock'] : ['fas', 'ticket']" 
-      class="mr-2" 
-    />
-    {{ couponButtonText }}
-  </button>
-
-<!-- 優惠券詳細資訊 (新增區塊) -->
-<div v-if="coupon" class="bg-gray-50 rounded-lg p-4 mb-6">
-    <div class="mb-2 flex justify-between items-center">
-      <h4 class="text-sm font-bold">優惠券詳細資訊</h4>
-    </div>
-    
-    <div class="space-y-2 text-sm">
-      <div>
-        <span class="text-gray-500">序號：</span>
-        <span class="font-medium">{{ coupon.serialNumber }}</span>
-      </div>
-      <div>
-        <span class="text-gray-500">折扣類型：</span>
-        <span class="font-medium">
-          {{ coupon.discountType === 'percentage' ? '折扣' : '金額折抵' }}
-        </span>
-      </div>
-      <div>
-        <span class="text-gray-500">折扣值：</span>
-        <span class="font-medium text-red-500">
-          {{ coupon.discountType === 'percentage' ? `${coupon.discountValue}%` : `${coupon.discountValue}元` }}
-        </span>
-      </div>
-      <div>
-        <span class="text-gray-500">有效期間：</span>
-        <span class="font-medium">{{ formatDate(coupon.startedAt) }} - {{ formatDate(coupon.endedAt) }}</span>
-      </div>
-      <div v-if="coupon.description">
-        <span class="text-gray-500">使用說明：</span>
-        <p class="mt-1 text-gray-700">{{ coupon.description }}</p>
-      </div>
-    </div>
-    
-    <div v-if="!isExpired && !isNotStarted && !couponClaimed" class="mt-3 text-xs text-gray-500">
-      點擊上方按鈕領取優惠券
-    </div>
-    <div v-else-if="couponClaimed" class="mt-3 text-xs text-gray-500">
-      使用時向店家出示此頁面
-    </div>
-    <div v-else-if="isNotStarted" class="mt-3 text-xs text-gray-500">
-      請於活動開始後再來領取
-    </div>
-    <div v-else-if="isExpired" class="mt-3 text-xs text-gray-500">
-      此優惠券已過期
-    </div>
-  </div>
-
-          <!-- 最新動態區塊 -->
-          <div class="mb-6">
-            <h3 class="text-base font-bold mb-3">最新動態</h3>
-            <div class="space-y-3">
-              <div class="card bg-base-100 shadow-sm border">
-                <figure v-if="promotion.imageUrl" class="h-40">
-                  <img
-                    :src="promotion.imageUrl"
-                    :alt="promotion.title"
-                    class="w-full h-full object-cover"
-                  />
-                </figure>
-                <div class="card-body p-3">
-                  <h4 class="font-semibold text-sm">
-                    {{ promotion?.title || '暫無活動' }}
-                  </h4>
-                  <p class="text-sm">
-                    {{ promotion?.description || '目前沒有特別活動' }}
-                  </p>
-                  <p
-                    v-if="promotion?.startedAt"
-                    class="text-xs text-gray-500 mt-1"
-                  >
-                    活動期間：{{ formatDate(promotion.startedAt) }} -
-                    {{ formatDate(promotion.endedAt) }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 評論區塊 -->
-          <div class="mb-6">
-            <div class="flex justify-between items-center mb-3">
-              <h3 class="text-base font-bold">
-                評論
-                <span class="text-sm text-gray-500 font-normal">
-                  (共 {{ reviews.length }} 則)
-                </span>
-              </h3>
-              <button @click="showModal = true" class="btn btn-sm bg-gray-300 border-0 rounded-3xl px-6 cursor-pointer">
-                <font-awesome-icon :icon="['far', 'clipboard']" /> 新增
-              </button>
-            </div>
-
-            <div class="space-y-3">
-              <div
-                v-if="reviews.length === 0"
-                class="text-center py-8 text-gray-500"
-              >
-                暫無評論
-              </div>
-
-              <!-- userName 跟 userAvatar 待更新成變數 -->
-            <ReviewModal
-              :show="showModal"
-              :userName="user.userName"
-              userAvatar="https://cdn-icons-png.flaticon.com/512/266/266033.png"
-              @close="showModal = false"
-              @submit="submitReview"
-            />
-        
-    <!-- 顯示在畫面上的樣式 -->
-    <div v-for="(review, index) in reviews" :key="index" class="bg-gray-100 rounded-lg p-4">
-                <div class="flex items-start">
-                  <div class="avatar">
-                    <div class="w-10 rounded-full">
-                      <img :src="'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'"  />
-                    </div>
-                  </div>
-                  <div class="ml-3 flex-1">
-
-                    <div class="flex flex-col items-left mb-1">
-                    <h4 class="font-semibold text-sm text-black">{{ review.user.userName }}</h4>
-                    
-                    <div class="flex items-center">
-                      <font-awesome-icon :icon="['fas', 'star']" class="text-yellow-400 text-xs " />
-                      <span class="ml-1 text-xs text-gray-600">{{ review.rating }}</span>
-                    </div>
-                    </div>
-
-                    <p class="text-sm text-gray-700">{{ review.content }}</p>
-                    <img v-if="review.imageUrl" :src="review.imageUrl" alt="上傳圖片" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 查看更多按鈕 -->
-            <button
-              v-if="hasMoreReviews"
-              @click="loadMoreReviews"
-              class="btn btn-outline btn-sm w-full mt-4"
-            >
-              查看更多
-              <font-awesome-icon
-                :icon="['fas', 'chevron-right']"
-                class="ml-1"
-              />
-              <span class="text-xs text-gray-500 ml-1">
-                (還有 {{ reviews.length - displayedReviewsCount }} 則)
-              </span>
-            </button>
             <button @click="navigateToAddress" class="btn btn-circle">
               <font-awesome-icon :icon="['fas', 'location-arrow']" class="text-3xl" />
             </button>
@@ -309,7 +53,11 @@
           <GoogleMapEmbed :mapUrl="mapUrl" alt="地圖" class="w-full h-full object-cover" />
         </div>
 
+          <!-- 營業時間區塊 -->
+          <!-- 營業時間區塊 -->
+
         <!-- 營業時間區塊 -->
+
         <div class="mb-6">
           <h3 class="text-base font-bold mb-3">營業時間</h3>
           <div class="space-y-1 text-sm">
@@ -380,68 +128,85 @@
           </div>
         </div>
 
-        <!-- 評論區塊 -->
-        <div class="mb-6">
-          <div class="flex justify-between items-center mb-3">
-            <h3 class="text-base font-bold">
-              評論 <span class="text-sm text-gray-500 font-normal">(共 {{ reviews.length }} 則)</span>
-            </h3>
-            <button class="btn btn-sm bg-red-200 border-0 rounded-3xl px-6">
-              <font-awesome-icon :icon="['far', 'clipboard']" /> 新增
-            </button>
-          </div>
-
-          <div v-if="reviews.length === 0" class="text-center py-8 text-gray-500">
-            暫無評論
-          </div>
-
-          <div v-else class="space-y-3">
-            <div v-for="review in displayedReviews" :key="review.createdAt" class="bg-gray-50 rounded-lg p-4">
-              <div class="flex items-start">
-                <div class="avatar">
-                  <div class="w-10 rounded-full">
-                    <img :src="review.user.imageUrl || 'https://picsum.photos/40/40'" :alt="review.user.userName" />
-                  </div>
+            <!-- t 評論區塊 -->
+            <div class="mb-6">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-base font-bold">
+                  評論
+                  <span class="text-sm text-gray-500 font-normal">
+                    (共 {{ reviews.length }} 則)
+                  </span>
+                </h3>
+                <button @click="showModal = true" class="btn btn-sm bg-gray-300 border-0 rounded-3xl px-6 cursor-pointer">
+                  <font-awesome-icon :icon="['far', 'clipboard']" /> 新增
+                </button>
+              </div>
+  
+              <div class="space-y-3">
+                <div
+                  v-if="reviews.length === 0"
+                  class="text-center py-8 text-gray-500"
+                >
+                  暫無評論
                 </div>
-                <div class="ml-3 flex-1">
-                  <div class="flex items-center mb-1">
-                    <h4 class="font-semibold text-sm">{{ review.user.userName }}</h4>
-                    <div class="ml-2 flex items-center">
-                      <font-awesome-icon :icon="['fas', 'star']" class="text-yellow-400 text-xs" />
-                      <span class="ml-1 text-xs text-gray-600">{{ review.rating }}</span>
+  
+                <!-- t  userName 跟 userAvatar 待更新成變數 -->
+              <ReviewModal
+                :show="showModal"
+                :userName="user.userName"
+                userAvatar="https://cdn-icons-png.flaticon.com/512/266/266033.png"
+                @close="showModal = false"
+                @submit="submitReview"
+              />
+          
+      <!-- t 顯示在畫面上的樣式 -->
+      <div v-for="(review, index) in reviews" :key="index" class="bg-gray-100 rounded-lg p-4">
+                  <div class="flex items-start">
+                    <div class="avatar">
+                      <div class="w-10 rounded-full">
+                        <img :src="'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'"  />
+                      </div>
+                    </div>
+                    <div class="ml-3 flex-1">
+  
+                      <div class="flex flex-col items-left mb-1">
+                      <h4 class="font-semibold text-sm text-black">{{ review.user.userName }}</h4>
+                      
+                      <div class="flex items-center">
+                        <font-awesome-icon :icon="['fas', 'star']" class="text-yellow-400 text-xs " />
+                        <span class="ml-1 text-xs text-gray-600">{{ review.rating }}</span>
+                      </div>
+                      </div>
+  
+                      <p class="text-sm text-gray-700">{{ review.content }}</p>
+                      <img v-if="review.imageUrl" :src="review.imageUrl" alt="上傳圖片" />
                     </div>
                   </div>
-                  <p class="text-sm text-gray-700">{{ review.content }}</p>
-                  <p class="text-xs text-gray-400 mt-1">{{ formatDate(review.createdAt) }}</p>
                 </div>
               </div>
+  
+              <!-- 查看更多按鈕 -->
+              <button
+                v-if="hasMoreReviews"
+                @click="loadMoreReviews"
+                class="btn btn-outline btn-sm w-full mt-4"
+              >
+                查看更多
+                <font-awesome-icon
+                  :icon="['fas', 'chevron-right']"
+                  class="ml-1"
+                />
+                <span class="text-xs text-gray-500 ml-1">
+                  (還有 {{ reviews.length - displayedReviewsCount }} 則)
+                </span>
+              </button>
             </div>
-          </div>
-
-          <!-- 查看更多按鈕 -->
-          <button
-            v-if="hasMoreReviews"
-            @click="loadMoreReviews"
-            class="btn btn-outline btn-sm w-full mt-4"
-          >
-            查看更多 <font-awesome-icon :icon="['fas', 'chevron-right']" class="ml-1" />
-            <span class="text-xs text-gray-500 ml-1">
-              (還有 {{ reviews.length - displayedReviewsCount }} 則)
-            </span>
-          </button>
-          
-          <div v-else-if="reviews.length > 5" class="text-center text-sm text-gray-500 mt-4">
-            已顯示所有評論
-          </div>
-        </div>
       </div>
       <Footer />
     </div>
   </div>
-
-
-  
 </template>
+[]  
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
@@ -546,7 +311,7 @@ const submitReview = async (data) => {
 
         // 發送 POST 請求
         const response = await axios.post(
-            `/restaurants/${restaurantUuid}/reviews/`,
+            `/restaurants/${restaurantUuid}/reviews`,
             reviewData);
         reviews.value.unshift(response.data);
         alert('評論送出成功');
@@ -600,13 +365,6 @@ const hasMoreReviews = computed(() => {
   return displayedReviewsCount.value < reviews.value.length;
 });
 
-// 載入更多評論的方法
-const loadMoreReviews = () => {
-  displayedReviewsCount.value += reviewsIncrement;
-};
-
-const couponClaimed = ref(false);
-const mapUrl = ref('');
 
 // 定義方法
 const fetchRestaurantData = async () => {
@@ -619,69 +377,49 @@ const fetchRestaurantData = async () => {
     if (data.result.reviews) {
             reviews.value = data.result.reviews;
         }
-    
-    // 更新餐廳資料
-    if (data && data.result) {
-      // 更新餐廳資料
-      if (data.result.restaurant) {
-        Object.assign(restaurant, data.result.restaurant);
-
-        // 判斷是否有經緯度
-        if (
-          data.result.restaurant.latitude &&
-          data.result.restaurant.longitude
-        ) {
-          mapUrl.value = `https://www.google.com/maps?q=${data.result.restaurant.latitude},${data.result.restaurant.longitude}&z=18&output=embed`;
-        } else {
-          // 預設使用台北車站座標
-          mapUrl.value =
-            'https://www.google.com/maps?q=25.0459993,121.5170414&z=18&output=embed';
-        }
+        if (data?.result?.restaurant) {
+      // 更新餐廳基本信息
+      Object.assign(restaurant, data.result.restaurant);
+      placeId.value = data.result.restaurant.placeId;
+      
+      // 設置地圖URL
+      if (restaurant.latitude && restaurant.longitude) {
+        mapUrl.value = `https://www.google.com/maps?q=${restaurant.latitude},${restaurant.longitude}&z=18&output=embed`;
+      } else {
+        mapUrl.value = 'https://www.google.com/maps?q=25.0459993,121.5170414&z=18&output=embed';
       }
-    
+      
       // 更新營業時間
       if (data.result.restaurant.openHours) {
         Object.assign(openHours, data.result.restaurant.openHours);
       }
-
-      // 設定優惠活動（如果有資料才覆蓋）
-      if (data.result.promotion) {
-        promotion.value = data.result.promotion;
+    }
+    
+    // 更新其他數據
+    if (data.result.promotion) promotion.value = data.result.promotion;
+    if (data.result.coupon) coupon.value = data.result.coupon;
+    if (data.result.reviews?.length > 0) reviews.value = data.result.reviews;
+    
+    // 設定用戶狀態
+    if (data.result.userStatus) {
+      if (data.result.userStatus.hasClaimedCoupon !== undefined) {
+        couponClaimed.value = data.result.userStatus.hasClaimedCoupon;
       }
-      
-      // 設定優惠券（如果有資料才覆蓋）
-        if (data.result.coupon) {
-        coupon.value = data.result.coupon
-        // 檢查後端回傳的已領取狀態
-        if (data.result.userStatus && data.result.userStatus.hasClaimedCoupon) {
-          couponClaimed.value = true
-        }
-      }
-
-      // 設定評論（如果有資料才覆蓋）
-      if (data.result.reviews && data.result.reviews.length > 0) {
-        reviews.value = data.result.reviews;
-        displayedReviewsCount.value = 5;
-      }
-
-      // 設定最愛狀態（如果後端有提供）
-      if (data.result.userStatus && data.result.userStatus.hasFavorited !== undefined) {
+      if (data.result.userStatus.hasFavorited !== undefined) {
         isFavorite.value = data.result.userStatus.hasFavorited;
       }
     }
     
   } catch (error) {
-    
-    if (error.response && error.response.status === 404) {
+    if (error.response?.status === 404) {
       alert('找不到該餐廳資料');
     } else {
       alert('載入餐廳資料失敗，請稍後再試');
-      }
     }
   }
-
-
-
+};
+    
+  
 
 
 
@@ -828,54 +566,6 @@ const checkAuth = async () => {
   }
 };
 
-// 方法：獲取餐廳數據
-const fetchRestaurantData = async () => {
-  try {
-    const restaurantUuid = route.params.id;
-    const response = await axios.get(`/restaurants/${restaurantUuid}`);
-    const data = response.data;
-    
-    if (data?.result?.restaurant) {
-      // 更新餐廳基本信息
-      Object.assign(restaurant, data.result.restaurant);
-      placeId.value = data.result.restaurant.placeId;
-      
-      // 設置地圖URL
-      if (restaurant.latitude && restaurant.longitude) {
-        mapUrl.value = `https://www.google.com/maps?q=${restaurant.latitude},${restaurant.longitude}&z=18&output=embed`;
-      } else {
-        mapUrl.value = 'https://www.google.com/maps?q=25.0459993,121.5170414&z=18&output=embed';
-      }
-      
-      // 更新營業時間
-      if (data.result.restaurant.openHours) {
-        Object.assign(openHours, data.result.restaurant.openHours);
-      }
-    }
-    
-    // 更新其他數據
-    if (data.result.promotion) promotion.value = data.result.promotion;
-    if (data.result.coupon) coupon.value = data.result.coupon;
-    if (data.result.reviews?.length > 0) reviews.value = data.result.reviews;
-    
-    // 設定用戶狀態
-    if (data.result.userStatus) {
-      if (data.result.userStatus.hasClaimedCoupon !== undefined) {
-        couponClaimed.value = data.result.userStatus.hasClaimedCoupon;
-      }
-      if (data.result.userStatus.hasFavorited !== undefined) {
-        isFavorite.value = data.result.userStatus.hasFavorited;
-      }
-    }
-    
-  } catch (error) {
-    if (error.response?.status === 404) {
-      alert('找不到該餐廳資料');
-    } else {
-      alert('載入餐廳資料失敗，請稍後再試');
-    }
-  }
-};
 
 // 組件載入時執行
 onMounted(fetchRestaurantData);
