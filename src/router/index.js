@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import axios from '../axios';
+import NotFound from '@/views/NotFound.vue'
 
 const routes = [
   { path: '/', component: () => import('../views/Home.vue') },
@@ -20,6 +21,24 @@ const routes = [
   },
   
   {path: '/restaurants', component:() => import('../views/RestaurantsList.vue')},
+
+    {
+    path: '/privacy-policy',
+    name: 'PrivacyPolicy',
+    component: () => import('../views/PrivacyPolicy.vue'),
+  },
+  {
+    path: '/terms-of-service',
+    name: 'TermsOfService',
+    component: () => import('../views/TermsOfService.vue'),
+  },
+
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound
+  },
+
 ];
 
 const router = createRouter({
