@@ -1,6 +1,6 @@
 <template>
   <div class="map-container">
-    <!-- 這個 iframe 就是顯示地圖的地方 -->
+    
     <div class="map-frame-wrapper">
       <iframe
         :src="mapUrl"
@@ -16,16 +16,16 @@
 </template>
 
 <script setup>
-// 使用 defineProps 定義組件的屬性
+
 const props = defineProps({
-  // 這些是可以從外部傳入的參數
+ 
   shopName: {
     type: String,
     default: '我的店家'
   },
   mapUrl: {
     type: String,
-    required: true  // 這個是必須的！
+    required: true  
   },
   mapWidth: {
     type: String,
