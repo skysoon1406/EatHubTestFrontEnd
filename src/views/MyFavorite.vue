@@ -19,7 +19,6 @@
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import RestaurantCard from '@/components/RestaurantCard.vue';
-
 import axios from '@/axios';
 import { ref, onMounted } from 'vue';
 
@@ -29,8 +28,6 @@ onMounted(async () => {
   try {
     const res = await axios.get('/favorites/');
     restaurants.value = res.data.restaurants;
-  } catch (err) {
-    alert(err);
-  }
+  } catch (err) {}
 });
 </script>
