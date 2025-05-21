@@ -23,7 +23,7 @@
                   <div class="flex flex-row justify-between items-center">
                     <p class="inline-block  whitespace-nowrap truncate max-w-[8em] sm:max-w-[10em] md:max-w-[12em] font-bold text-black text-xs sm:text-base ">{{ r.name }}</p>
                   </div>
-                  <p class="text-black text-xs sm:text-base overflow-hidden">⭐ {{ r.rating }}</p>
+                  <p class="text-black text-xs sm:text-base">⭐ {{ r.googleRating }}</p>
                   <p class="inline-block truncate whitespace-nowrap  max-w-[8em] sm:max-w-[11em] md:max-w-[13em]  text-black text-xs sm:text-base ">{{ r.address }}</p>
                 </div>
               </router-link>
