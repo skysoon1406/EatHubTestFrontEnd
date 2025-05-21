@@ -117,9 +117,8 @@
     </div>
 
     <div class="p-6 space-y-4 text-center">
-      <div class="bg-primary text-white p-4">
-        <h2 class="text-xl font-bold mb-4">下一餐吃什麼？</h2>
-
+      <div class="bg-primary card text-white p-4">
+        <h2 class="text-4xl font-bold m-10">下一餐吃什麼？</h2>
         <div class="flex space-x-4">
           <div class="w-1/3 card bg-secondary text-neutral-content">
             <div class="card-body">
@@ -139,13 +138,13 @@
         </div>
         <br />
         <div class="flex justify-end">
-          <label for="my-modal" class="btn btn-neutral w-1/12 align-item-end">
+          <label for="my-modal" class="btn btn-neutral align-item-end">
             <font-awesome-icon :icon="['fas', 'sliders']" />
           </label>
         </div>
         <br />
-        <button class="btn btn-neutral" @click="getRecommendations">
-          請幫我選！
+        <button class="btn btn-neutral btn-lg" @click="getRecommendations">
+          請推薦我美食！
         </button>
       </div>
     </div>
@@ -170,7 +169,7 @@
       </div>
       <br />
       <router-link to="/restaurants"
-        ><button class="btn btn-primary">看更多</button></router-link
+        ><button class="btn btn-primary btn-lg">看更多</button></router-link
       >
     </div>
     <Footer></Footer>
