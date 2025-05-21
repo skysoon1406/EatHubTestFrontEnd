@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-base-100 text-base-content">
     <Navbar></Navbar>
 
-    <main class="max-w-3xl mx-auto px-4 py-10">
+    <main class="max-w-3xl mx-auto px-4 py-10 text-left">
       <h1 class="text-2xl font-bold mb-6 text-center">服務條款</h1>
 
       <section class="mb-6">
