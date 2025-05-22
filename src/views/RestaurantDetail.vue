@@ -128,7 +128,7 @@
         </div>
       </div>
 
-      <!-- t 評論區塊 -->
+      <!--  評論區塊 -->
             <div class="mb-6">
               <div class="flex justify-between items-center mb-3">
                 <h3 class="text-base font-bold">
@@ -150,7 +150,7 @@
                   暫無評論
                 </div>
   
-                <!-- t  userName 跟 userAvatar 待更新成變數 -->
+                <!--   userName 跟 userAvatar 待更新成變數 -->
               <ReviewModal
                 v-if="showModal"
                 :show="showModal"
@@ -160,7 +160,7 @@
                 @submit="submitReview"
               />
           
-      <!-- t 顯示在畫面上的樣式 -->
+      <!--  顯示在畫面上的樣式 -->
       <div v-for="(review, index) in reviews" :key="index" class="bg-gray-100 rounded-lg p-4">
                   <div class="flex items-start">
                     <div class="avatar">
@@ -229,47 +229,48 @@ const { user } = storeToRefs(auth);
 const showModal = ref(false);
 const reviews = ref([]);
 
-const handleReview = (data) => {
-    reviews.value.push({
-      userName: user.userName,
-      content: data.content,
-      rating: data.rating,
-      imageUrl: data.imageUrl,
-    });
-  };
+
 
 // 將評論同步到後端
 
-
 const submitReview = async (data) => {
-    try {
-        // 準備要送出的資料
-        const reviewData = {
-            content: data.content,
-            rating: Number(data.rating) || 5,
-        };
+  try {
+    const restaurantUuid = route.params.id;
 
-        // 如果有圖片才傳 image_url
-        if (data.imageUrl) {
-            reviewData.image_url = data.imageUrl;
-        }
+    // 使用 FormData 建立表單資料
+    const formData = new FormData();
+    formData.append('content', data.content);
+    formData.append('rating', Number(data.rating) || 5);
 
-
-
-        const restaurantUuid = route.params.id;
-
-        // 發送 POST 請求
-        const response = await axios.post(
-            `/restaurants/${restaurantUuid}/reviews/`,
-            reviewData);
-        reviews.value.unshift(response.data);
-        alert('評論送出成功');
-        showModal.value = false;
-    } catch (err) {
-
-        alert('評論失敗');
+    // 若有圖片則附加
+    if (data.imageFile) {
+      formData.append('image', data.imageFile); // 注意這裡的欄位名稱 'image' 要跟後端一致
     }
+
+    // 發送 multipart/form-data 請求
+    const response = await axios.post(
+      `/restaurants/${restaurantUuid}/reviews/`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+
+    // 成功後加入評論列表最前面
+    reviews.value.unshift(response.data);
+    alert('評論送出成功');
+    showModal.value = false;
+
+  } catch (err) {
+    alert('評論失敗');
+  }
 };
+
+
+
+
 //-----
 
 const route = useRoute();
