@@ -24,7 +24,8 @@
             />
             <button class="btn btn-primary w-full" type="submit">登入</button>
           </form>
-            <GoogleLoginButton />
+          <div class="divider">或</div>
+          <GoogleLoginButton />
 
           <div class="text-center space-y-2">
             <p>

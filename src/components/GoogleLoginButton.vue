@@ -1,8 +1,10 @@
 <template>
   <button
     @click="handleGoogleLogin"
-    class="btn btn-primary">
-    Google 登入
+    class="w-full flex items-center justify-center gap-2 border border-gray-300 rounded-full py-3 text-gray-700 hover:bg-gray-100 transition"
+  >
+    <font-awesome-icon :icon="['fab', 'google']" />
+    <span class="font-medium">使用 Google 帳號</span>
   </button>
 </template>
 
