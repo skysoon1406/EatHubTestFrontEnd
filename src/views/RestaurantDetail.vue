@@ -137,7 +137,7 @@
                     (共 {{ reviews.length }} 則)
                   </span>
                 </h3>
-                <button @click="showModal = true" class="btn btn-sm bg-gray-300 border-0 rounded-3xl px-6 cursor-pointer">
+                <button @click="handleAddReviewClick" class="btn btn-sm bg-gray-300 border-0 rounded-3xl px-6 cursor-pointer">
                   <font-awesome-icon :icon="['far', 'clipboard']" /> 新增
                 </button>
               </div>
@@ -150,11 +150,11 @@
                   暫無評論
                 </div>
   
-                <!--   userName 跟 userAvatar 待更新成變數 -->
+
               <ReviewModal
                 v-if="showModal"
                 :show="showModal"
-                :userName="user.userName"
+                :userName="user?.userName || ''"
                 userAvatar="https://cdn-icons-png.flaticon.com/512/266/266033.png"
                 @close="showModal = false"
                 @submit="submitReview"
@@ -181,7 +181,7 @@
                       </div>
   
                       <p class="text-sm text-gray-700">{{ review.content }}</p>
-                      <img v-if="review.imageUrl" :src="review.imageUrl" alt="上傳圖片" />
+                      <img v-if="review.imageUrl" :src="review.imageUrl" alt="上傳圖片" class="mt-2 max-w-xs w-full rounded-lg object-cover"/>
                     </div>
                   </div>
                 </div>
@@ -231,9 +231,25 @@ const reviews = ref([]);
 
 
 
+const handleAddReviewClick = async () => {
+  const isLoggedIn = await checkAuth(); 
+  if (!isLoggedIn) {
+    alert('請先登入後才能留言');
+    return;
+  }
+  showModal.value = true;
+};
+
+
 // 將評論同步到後端
 
 const submitReview = async (data) => {
+  const isLoggedIn = await checkAuth();
+  if (!isLoggedIn) {
+    alert('請先登入才能評論');
+    return;
+  }
+
   try {
     const restaurantUuid = route.params.id;
 
@@ -244,18 +260,12 @@ const submitReview = async (data) => {
 
     // 若有圖片則附加
     if (data.imageFile) {
-      formData.append('image', data.imageFile); // 注意這裡的欄位名稱 'image' 要跟後端一致
+      formData.append('image', data.imageFile); 
     }
 
-    // 發送 multipart/form-data 請求
     const response = await axios.post(
       `/restaurants/${restaurantUuid}/reviews/`,
       formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
     );
 
     // 成功後加入評論列表最前面
