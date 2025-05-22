@@ -28,6 +28,9 @@ export const useAuthStore = defineStore('auth', {
       await axios.post('/auth/logout');
       this.user = null;
     },
+    clearUser() {
+      this.user = null;
+    },
   },
   persist: {
     key: 'auth', // localStorage key
