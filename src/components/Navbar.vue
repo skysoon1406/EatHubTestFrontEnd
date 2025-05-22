@@ -26,6 +26,9 @@
             <a href="#">目前登入者：{{ user.userName }}</a>
           </li>
           <li>
+            <a href="/users/favorites">我的收藏</a>
+          </li>
+          <li>
             <a href="/users/coupons">我的優惠券</a>
           </li>
           <li><button class="" @click="handleLogout">登出</button></li>
