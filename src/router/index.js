@@ -51,9 +51,11 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     try {
-      await axios.get('/auth/me'); // check user auth
+      await axios.get('/auth/me');
       next();
     } catch {
+      const authStore = useAuthStore();
+      authStore.clearUser();
       next('/login');
     }
   } else {
