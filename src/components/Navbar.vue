@@ -1,8 +1,6 @@
 <template>
   <!-- 頂部導航欄 -->
-  <div
-    class="navbar bg-white shadow-sm px-4 py-3 border-b flex justify-between items-center"
-  >
+  <div class="navbar bg-white shadow-sm px-4 py-3 border-b flex justify-between items-center">
     <!-- 左邊 Logo 區 -->
     <div class="flex items-center">
       <a href="/">
@@ -59,13 +57,33 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
+import axios from '@/axios';
+
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
 
+onMounted(async () => {
+  try {
+    const res = await axios.get('auth/me');
+    auth.user = {
+      uuid: res.data.user_uuid,
+      userName: res.data.userName,
+      email: res.data.email,
+    };
+  } catch {
+    auth.user = null;
+  }
+});
+
 const handleLogout = async () => {
   await auth.logout();
+  if (window.google?.accounts?.id) {
+    window.google.accounts.id.disableAutoSelect();
+  }
+  window.location.href = '/';
 };
 
 defineProps({});

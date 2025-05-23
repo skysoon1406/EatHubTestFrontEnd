@@ -24,6 +24,8 @@
             />
             <button class="btn btn-primary w-full" type="submit">登入</button>
           </form>
+          <div class="divider">或</div>
+          <GoogleLoginButton />
 
           <div class="text-center space-y-2">
             <p>
@@ -49,6 +51,7 @@ import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
+import GoogleLoginButton from '@/components/GoogleLoginButton.vue';
 
 const email = ref('');
 const password = ref('');
