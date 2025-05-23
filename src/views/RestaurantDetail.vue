@@ -161,80 +161,65 @@
         </div>
       </div>
 
-      <!-- t 評論區塊 -->
-      <div class="mb-6">
-        <div class="flex justify-between items-center mb-3">
-          <h3 class="text-base font-bold">
-            評論
-            <span class="text-sm text-gray-500 font-normal">
-              (共 {{ reviews.length }} 則)
-            </span>
-          </h3>
-          <button
-            @click="showModal = true"
-            class="btn btn-sm bg-gray-300 border-0 rounded-3xl px-6 cursor-pointer"
-          >
-            <font-awesome-icon :icon="['far', 'clipboard']" /> 新增
-          </button>
-        </div>
-
-        <div class="space-y-3">
-          <div
-            v-if="reviews.length === 0"
-            class="text-center py-8 text-gray-500"
-          >
-            暫無評論
-          </div>
-
-          <!-- t  userName 跟 userAvatar 待更新成變數 -->
-          <ReviewModal
-            v-if="showModal"
-            :show="showModal"
-            :userName="user.userName"
-            userAvatar="https://cdn-icons-png.flaticon.com/512/266/266033.png"
-            @close="showModal = false"
-            @submit="submitReview"
-          />
-
-          <!-- t 顯示在畫面上的樣式 -->
-          <div
-            v-for="(review, index) in reviews"
-            :key="index"
-            class="bg-gray-100 rounded-lg p-4"
-          >
-            <div class="flex items-start">
-              <div class="avatar">
-                <div class="w-10 rounded-full">
-                  <img
-                    :src="'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'"
-                  />
-                </div>
+      <!--  評論區塊 -->
+            <div class="mb-6">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-base font-bold">
+                  評論
+                  <span class="text-sm text-gray-500 font-normal">
+                    (共 {{ reviews.length }} 則)
+                  </span>
+                </h3>
+                <button @click="handleAddReviewClick" class="btn btn-sm bg-gray-300 border-0 rounded-3xl px-6 cursor-pointer">
+                  ＋ 新增
+                </button>
               </div>
-              <div class="ml-3 flex-1">
-                <div class="flex flex-col items-left mb-1">
-                  <div v-if="review.user">
-                    <h4 class="font-semibold text-sm text-black">
-                      {{ review.user.userName }}
-                    </h4>
-                  </div>
-                  <div class="flex items-center">
-                    <font-awesome-icon
-                      :icon="['fas', 'star']"
-                      class="text-yellow-400 text-xs"
-                    />
-                    <span class="ml-1 text-xs text-gray-600">{{
-                      review.rating
-                    }}</span>
+  
+              <div class="space-y-3">
+                <div
+                  v-if="reviews.length === 0"
+                  class="text-center py-8 text-gray-500"
+                >
+                  暫無評論
+                </div>
+  
+
+              <ReviewModal
+                v-if="showModal"
+                :show="showModal"
+                :userName="user?.userName || ''"
+                userAvatar="https://cdn-icons-png.flaticon.com/512/266/266033.png"
+                @close="showModal = false"
+                @submit="submitReview"
+              />
+          
+      <!--  顯示在畫面上的樣式 -->
+      <div v-for="(review, index) in reviews" :key="index" class="bg-gray-100 rounded-lg p-4">
+                  <div class="flex items-start">
+                    <div class="avatar">
+                      <div class="w-10 rounded-full">
+                        <img :src="'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'"  />
+                      </div>
+                    </div>
+                    <div class="ml-3 flex-1">
+  
+                      <div class="flex flex-col items-left mb-1">
+                      <div v-if="review.user">
+                      <h4 class="font-semibold text-sm text-black">{{ review.user.userName }}</h4>
+                      </div>
+                      <div class="flex items-center">
+                        <font-awesome-icon :icon="['fas', 'star']" class="text-yellow-400 text-xs " />
+                        <span class="ml-1 text-xs text-gray-600">{{ review.rating }}</span>
+                      </div>
+                      </div>
+  
+                      <p class="text-sm text-gray-700">{{ review.content }}</p>
+                      <img v-if="review.imageUrl" :src="review.imageUrl" alt="上傳圖片" class="mt-2 max-w-xs w-full rounded-lg object-cover"/>
+                    </div>
                   </div>
                 </div>
 
-                <p class="text-sm text-gray-700">{{ review.content }}</p>
-                <img
-                  v-if="review.imageUrl"
-                  :src="review.imageUrl"
-                  alt="上傳圖片"
-                />
-              </div>
+               
             </div>
           </div>
         </div>
@@ -259,10 +244,10 @@
           已顯示所有評論
         </div>
       </div>
-    </div>
+    <!-- </div> -->
 
     <Footer />
-  </div>
+  <!-- </div> -->
 </template>
 
 <script setup>
@@ -284,44 +269,58 @@ const { user } = storeToRefs(auth);
 const showModal = ref(false);
 const reviews = ref([]);
 
-const handleReview = (data) => {
-  reviews.value.push({
-    userName: user.userName,
-    content: data.content,
-    rating: data.rating,
-    imageUrl: data.imageUrl,
-  });
+
+
+const handleAddReviewClick = async () => {
+  const isLoggedIn = await checkAuth(); 
+  if (!isLoggedIn) {
+    alert('請先登入後才能留言');
+    return;
+  }
+  showModal.value = true;
 };
+
 
 // 將評論同步到後端
 
 const submitReview = async (data) => {
+  const isLoggedIn = await checkAuth();
+  if (!isLoggedIn) {
+    alert('請先登入才能評論');
+    return;
+  }
+
   try {
-    // 準備要送出的資料
-    const reviewData = {
-      content: data.content,
-      rating: Number(data.rating) || 5,
-    };
-
-    // 如果有圖片才傳 image_url
-    if (data.imageUrl) {
-      reviewData.image_url = data.imageUrl;
-    }
-
     const restaurantUuid = route.params.id;
 
-    // 發送 POST 請求
+    // 使用 FormData 建立表單資料
+    const formData = new FormData();
+    formData.append('content', data.content);
+    formData.append('rating', Number(data.rating) || 5);
+
+    // 若有圖片則附加
+    if (data.imageFile) {
+      formData.append('image', data.imageFile); 
+    }
+
     const response = await axios.post(
       `/restaurants/${restaurantUuid}/reviews/`,
-      reviewData
+      formData,
     );
+
+    // 成功後加入評論列表最前面
     reviews.value.unshift(response.data);
     alert('評論送出成功');
     showModal.value = false;
+
   } catch (err) {
     alert('評論失敗');
   }
 };
+
+
+
+
 //-----
 
 const route = useRoute();
