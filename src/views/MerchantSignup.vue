@@ -9,29 +9,14 @@
           @submit.prevent="handleSignup"
           class="bg-base-100 shadow-xl rounded-xl p-8 space-y-4"
         >
-          <h1 class="text-2xl font-bold text-center mb-6">商家註冊</h1>
+          <h1 class="text-2xl font-bold text-center mb-6">店家註冊</h1>
 
-          <section>
-            <input
-              v-model="firstName"
-              class="input input-bordered w-full"
-              placeholder="Firstname"
-              required
-            />
-          </section>
-          <section>
-            <input
-              v-model="lastName"
-              class="input input-bordered w-full"
-              placeholder="Lastname"
-              required
-            />
-          </section>
+
           <section>
             <input
               v-model="userName"
               class="input input-bordered w-full"
-              placeholder="Username"
+              placeholder="餐廳名稱"
               required
             />
           </section>
@@ -48,19 +33,20 @@
               v-model="password"
               class="input input-bordered w-full"
               type="password"
-              placeholder="Password"
+              placeholder="設定密碼"
               required
             />
           </section>
 
           <button class="btn btn-primary w-full">註冊</button>
 
-          <div class="divider">或</div>
-          <GoogleLoginButton />
+
+
           <div class="text-center space-x-2">
             <router-link to="/login" class="link link-hover text-primary"
               >登入</router-link
             >
+            <!-- 待店家登入頁面完成後再補上 -->
             <span>/</span>
             <router-link to="/" class="link link-hover text-primary"
               >回首頁</router-link
@@ -94,23 +80,27 @@ const email = ref('');
 const password = ref('');
 const error = ref('');
 const success = ref('');
+const role = ref('merchant') 
 
 const handleSignup = async () => {
   try {
-    await authStore.signup(
-      firstName.value,
-      lastName.value,
+    await authStore.merchantSignup( 
       userName.value,
       email.value,
-      password.value
+      password.value,
+      role.value
     );
     success.value = '註冊成功！請前往登入';
     router.push('/login');
+    // 待店家登入頁面完成後再補上 
   } catch (err) {
     if (err.response && err.response.data) {
       error.value = JSON.stringify(err.response.data);
       error.value = '';
-      router.push('/login');
+      router.push('/login');  
+      // 待店家登入頁面完成後再補上 
+
+      
     } else {
       error.value = '註冊失敗';
     }
