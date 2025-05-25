@@ -9,6 +9,11 @@ const routes = [
   { path: '/login', component: () => import('../views/Login.vue') },
   { path: '/signup', component: () => import('../views/Signup.vue') },
   {
+    path: '/users/recent',
+    component: () => import('../views/MyRecentViewedPage.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/users/favorites',
     component: () => import('../views/MyFavorite.vue'),
     meta: { requiresAuth: true },
