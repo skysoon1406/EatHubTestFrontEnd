@@ -41,6 +41,12 @@ const routes = [
     name: 'NotFound',
     component: NotFound,
   },
+  {
+    path: '/coupons-create',
+    name: 'CouponCreate',
+    component: () => import('../views/coupon-create.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
@@ -49,12 +55,14 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
+
   if (to.meta.requiresAuth) {
     try {
-      await axios.get('/auth/me');
+      const res = await axios.get('/auth/me');
+      authStore.setUser(res.data);
       next();
     } catch {
-      const authStore = useAuthStore();
       authStore.clearUser();
       next('/login');
     }
