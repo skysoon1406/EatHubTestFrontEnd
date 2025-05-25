@@ -27,6 +27,11 @@ const routes = [
     component: () => import('../views/RestaurantsList.vue'),
   },
   {
+    path: '/merchant/dashboard',
+    component: () => import('../views/MerchantDashboard.vue'),
+    // meta: { requiresAuth: true }
+  },
+  {
     path: '/privacy-policy',
     name: 'PrivacyPolicy',
     component: () => import('../views/PrivacyPolicy.vue'),
