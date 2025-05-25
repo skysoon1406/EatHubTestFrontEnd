@@ -1,30 +1,43 @@
 <template>
+  <component :is="Navbar" />
   <div class="p-6">
+    <!-- 返回按鈕 -->
+    <button class="btn btn-sm btn-outline mb-4" @click="goBack">← 返回</button>
+
+    <!-- Coupon券名稱 -->
     <h1 class="text-2xl font-bold mb-4">{{ couponTitle }}</h1>
 
-    <div class="mb-4 flex justify-between items-center">
+    <!-- 篩選 -->
+    <div class="mb-4">
       <input
         v-model="searchKeyword"
         type="text"
         placeholder="搜尋使用者 Email"
-        class="input input-bordered w-full max-w-xs"
+        class="input input-bordered w-full"
       />
     </div>
 
-    <div class="overflow-x-auto">
-      <table class="table w-full">
-        <thead>
+    <!-- 表格 -->
+    <div class="overflow-x-auto border border-gray-300 rounded-lg">
+      <table class="table table-bordered w-full border border-gray-300">
+        <thead class="bg-gray-100 border-b border-gray-300">
           <tr>
-            <th>流水號</th>
-            <th>使用者 Email</th>
-            <th>使用狀態</th>
+            <th class="text-left border-r border-gray-300">流水號</th>
+            <th class="text-left border-r border-gray-300">使用者 Email</th>
+            <th class="text-center">使用狀態</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="usage in filteredUsages" :key="usage.uuid">
-            <td>{{ usage.uuid.slice(0, 8) }}</td>
-            <td>{{ usage.user }}</td>
-            <td>
+          <tr
+            v-for="usage in filteredUsages"
+            :key="usage.uuid"
+            class="border-b border-gray-300"
+          >
+            <td class="text-left border-r border-gray-300">
+              {{ usage.uuid.slice(0, 8) }}
+            </td>
+            <td class="text-left border-r border-gray-300">{{ usage.user }}</td>
+            <td class="text-center">
               <span
                 class="badge"
                 :class="usage.isUsed ? 'badge-success' : 'badge-outline'"
@@ -37,39 +50,43 @@
       </table>
     </div>
   </div>
+  <component :is="Footer" />
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import axios from 'axios';
+import { useRoute, useRouter } from 'vue-router';
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
+import axios from '@/axios';
 
 const route = useRoute();
+const router = useRouter();
 const uuid = route.params.uuid;
 
 const couponTitle = ref('');
 const usages = ref([]);
 const searchKeyword = ref('');
 
+const goBack = () => {
+  router.push({ name: 'CouponDetail', params: { uuid } });
+};
+
 onMounted(async () => {
-  const res = await axios.get(`/api/v1/coupons/${uuid}/usage/`, {
-    withCredentials: true,
-  });
-  couponTitle.value = res.data.title;
-  usages.value = res.data.usages;
-  usages.value = [
-    { uuid: '3eae134a98', user: 'amy@example.com', isUsed: true },
-    { uuid: '2bdf023f55', user: 'ben@gmail.com', isUsed: false },
-    { uuid: 'a1912873ee', user: 'cindy@outlook.com', isUsed: true },
-    { uuid: 'e48f10b3ff', user: 'dan@abc.com', isUsed: false },
-    { uuid: '5f82fa123a', user: 'eva@test.com', isUsed: true },
-    { uuid: 'fc99b8123e', user: 'frank@yahoo.com', isUsed: false },
-    { uuid: '39dbbc2891', user: 'grace@site.tw', isUsed: false },
-    { uuid: 'f01adf88a7', user: 'hugo@example.com', isUsed: true },
-    { uuid: '1a93e812ca', user: 'iris@demo.net', isUsed: false },
-    { uuid: '8aaadf9812', user: 'jacky@gmail.com', isUsed: true },
-    { uuid: 'c28e91237f', user: 'kelly@domain.io', isUsed: false },
-  ];
+  try {
+    const res = await axios.get(`/coupons/${uuid}/usage/`);
+    couponTitle.value = res.data.title;
+    usages.value = res.data.usages;
+  } catch (err) {
+    const status = err.response?.status;
+
+    if (status === 403) {
+      alert('無觀看權限');
+      router.push({ name: 'MerchantDashboard' });
+    } else {
+      router.replace({ name: 'NotFound' });
+    }
+  }
 });
 
 const filteredUsages = computed(() => {
