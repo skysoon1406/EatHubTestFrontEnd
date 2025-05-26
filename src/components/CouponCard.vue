@@ -92,6 +92,7 @@
 import { ref, computed } from 'vue';
 import axios from '@/axios';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { useAlertStore } from '@/stores/alert';
 
 const props = defineProps({
   coupon: Object,
@@ -117,8 +118,9 @@ const confirmDelete = async () => {
   try {
     await axios.delete(`/user-coupons/${props.coupon.uuid}`);
     emit('deleted', props.coupon.uuid);
-  } catch (err) {
-    alert('刪除失敗，請稍後再試');
+  } catch {
+    const alert = useAlertStore();
+    alert.trigger('刪除失敗請稍後再試', 'error');
   } finally {
     showConfirm.value = false;
   }
