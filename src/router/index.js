@@ -48,6 +48,11 @@ const routes = [
     name: 'NotFound',
     component: NotFound,
   },
+    {
+    path: '/promotions/create',
+    name: 'PromotionsCreate',
+    component: () => import('../views/PromotionsCreate.vue'),
+  },
 ];
 
 const router = createRouter({
