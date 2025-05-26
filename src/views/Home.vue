@@ -167,6 +167,7 @@
           v-for="r in restaurants"
           :key="r.placeId"
           :restaurant="r"
+          @click="handleRecentViewedRestaurant(r)"
         />
       </div>
       <br />
@@ -204,7 +205,7 @@ onMounted(() => {
       },
       (err) => {
         error.value = err.message;
-      }
+      },
     );
   } else {
     error.value = '此瀏覽器不支援 Geolocation';
@@ -218,6 +219,11 @@ const staplesOptions = ['火鍋', '燉飯'];
 const flavors = ref(flavorsOptions);
 const mains = ref(mainsOptions);
 const staples = ref(staplesOptions);
+
+const handleRecentViewedRestaurant = (r) => {
+  console.log(r);
+  store.setRecentViewedRestaurant(r);
+};
 
 const getRecommendations = async () => {
   isLoading.value = true;
@@ -235,7 +241,7 @@ const getRecommendations = async () => {
   try {
     const { data } = await axios.post(
       'http://localhost:8000/api/v1/restaurants/',
-      payload
+      payload,
     );
     store.setSelections(payload);
     store.setResults(data.result);
