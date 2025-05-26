@@ -266,7 +266,7 @@ const getRecommendations = async () => {
   };
 
   try {
-    const { data } = await axios.post('api/v1/restaurants/', payload);
+    const { data } = await axios.post('restaurants/', payload);
     store.setSelections(payload);
     store.setResults(data.result);
   } catch {
