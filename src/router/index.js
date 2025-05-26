@@ -8,6 +8,8 @@ const routes = [
   { path: '/', component: () => import('../views/Home.vue') },
   { path: '/login', component: () => import('../views/Login.vue') },
   { path: '/signup', component: () => import('../views/Signup.vue') },
+  { path: '/merchant-signup', component: () => import('../views/MerchantSignup.vue') },
+
   {
     path: '/users/recent',
     component: () => import('../views/MyRecentViewedPage.vue'),
