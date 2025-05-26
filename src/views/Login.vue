@@ -62,7 +62,7 @@ const router = useRouter();
 const handleLogin = async () => {
   const authStore = useAuthStore();
   await authStore.login(email.value, password.value);
-  alert.trigger('登入成功 🎉', 'error');
+  alert.trigger('登入成功 🎉', 'success');
   router.push('/');
 };
 </script>
