@@ -26,7 +26,6 @@
         <img v-if="previewUrl" :src="previewUrl" class="mt-4 w-full rounded shadow" />
       </div>
 
-      <!-- 送出按鈕 -->
       <button type="submit" class="w-full bg-black text-white  py-2 rounded-full font-bold">確認送出</button>
     </form>
   </div>
@@ -37,6 +36,7 @@
 import { ref } from 'vue'
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
+import axios from '@/axios';
 
 
 const form = ref({
@@ -64,26 +64,39 @@ async function submitPromotion() {
   }
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/v1/promotions/create/', {
-      method: 'POST',
-      body: formData,
-      credentials: 'include', // 帶上 cookie
-    })
+    const response = await axios.post(
+      `/promotions/`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      }
+    )
 
-    const data = await response.json()
+    alert('動態已成功建立！')
+    form.value.title = ''
+    form.value.description = ''
+    form.value.image = null
+    previewUrl.value = null
 
-    if (response.ok) {
-      alert('動態已成功建立！')
-      form.value.title = ''
-      form.value.description = ''
-      form.value.image = null
-      previewUrl.value = null
-    } else {
-      alert('發生錯誤：' + JSON.stringify(data))
-    }
   } catch (error) {
-    console.error(error)
-    alert('送出失敗，請稍後再試。')
+    if (error.response && error.response.data) {
+        const errors = error.response.data
+        if (typeof errors.error === 'string') {
+            alert('送出失敗：' + errors.error)
+            return
+        }
+        let message = ''
+        for (const key in errors){
+            const value = Array.isArray(errors[key]) ? errors[key][0] : errors[key]
+            message += `${key}：${value}\n`
+        }
+      alert('送出失敗：\n' + message)
+    } else {
+      alert('送出失敗，請確認網路或伺服器狀態')
+    }
   }
 }
 </script>
