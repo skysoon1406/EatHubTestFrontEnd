@@ -17,7 +17,9 @@
       @click="showQr = true"
     >
       <!-- 圖片區／預設 icon -->
-      <div class="w-24 h-24 bg-gray-100 flex items-center justify-center rounded-md overflow-hidden">
+      <div
+        class="w-24 h-24 bg-gray-100 flex items-center justify-center rounded-md overflow-hidden"
+      >
         <img
           v-if="couponData.restaurant?.imageUrl"
           :src="couponData.restaurant.imageUrl"
@@ -99,6 +101,9 @@
 import { ref } from 'vue';
 import axios from '@/axios';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { useAlertStore } from '@/stores/alert';
+
+const alert = useAlertStore();
 
 const props = defineProps({
   coupon: Object,
@@ -119,8 +124,8 @@ const confirmDelete = async () => {
   try {
     await axios.delete(`/user-coupons/${uuid}`);
     emit('deleted', uuid);
-  } catch (err) {
-    alert('刪除失敗，請稍後再試');
+  } catch {
+    alert.trigger('刪除失敗請稍後再試', 'error');
   } finally {
     showConfirm.value = false;
   }
