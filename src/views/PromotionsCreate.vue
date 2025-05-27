@@ -3,7 +3,7 @@
   <div class="p-6 max-w-md mx-auto">
     <h2 class="text-xl font-bold border-brown-800 pl-2 mb-6">新增動態</h2>
 
-    <form @submit.prevent="submitPromotion" enctype="multipart/form-data" class="space-y-5">
+    <form v-if="isMerchant" @submit.prevent="submitPromotion" enctype="multipart/form-data" class="space-y-5">
       <input
         v-model="form.title"
         type="text"
@@ -23,22 +23,28 @@
       <div class="border border-gray-400 rounded p-4 text-center">
         <label class="block mb-2 text-gray-600 text-sm">請上傳 JPG、PNG、HEIC 格式的圖片，檔案大小不應超過 1MB，以確保圖片品質顯示。</label>
         <input type="file" @change="handleImage" accept="image/*" class="mx-auto" />
-        <img v-if="previewUrl" :src="previewUrl" class="mt-4 w-full rounded shadow" />
+        <div class="mt-4 w-full h-48 overflow-hidden rounded shadow">
+          <img v-if="previewUrl" :src="previewUrl" class="mt-4 w-full object-cover"/>
+        </div>
       </div>
-
       <button type="submit" class="w-full bg-black text-white  py-2 rounded-full font-bold">確認送出</button>
     </form>
+    <div v-else class="text-center text-red-500 mt-10 font-semibold">僅限商家帳戶可使用此功能。
+    </div>
   </div>
 <Footer></Footer>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import axios from '@/axios';
 
-
+const auth = useAuthStore()
+const router = useRouter()
 const form = ref({
   title: '',
   description: '',
@@ -46,6 +52,18 @@ const form = ref({
 })
 
 const previewUrl = ref(null)
+const isMerchant = ref(false)
+
+onMounted(() => {
+  if (!auth.user || !['merchant', 'vip_merchant'].includes(auth.user.role)) {
+    alert('僅限商家使用者新增優惠券');
+    router.push('/');
+  }else {
+    isMerchant.value = true
+  }
+});
+console.log('auth.user.role:', auth.user?.role)
+console.log('auth.user:', auth.user)
 
 function handleImage(event) {
   const file = event.target.files[0]
@@ -80,9 +98,10 @@ async function submitPromotion() {
     form.value.description = ''
     form.value.image = null
     previewUrl.value = null
+    router.push('/merchant/promotions')
 
   } catch (error) {
-    if (error.response && error.response.data) {
+    if (error.response?.data) {
         const errors = error.response.data
         if (typeof errors.error === 'string') {
             alert('送出失敗：' + errors.error)
