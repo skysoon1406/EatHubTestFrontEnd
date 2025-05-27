@@ -55,7 +55,7 @@ const routes = [
     component: NotFound,
   },
   {
-    path: '/coupons-create',
+    path: '/coupons/create',
     name: 'CouponCreate',
     component: () => import('../views/CouponCreate.vue'),
     meta: { requiresAuth: true },
