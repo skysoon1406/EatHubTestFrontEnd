@@ -40,7 +40,7 @@
 
           <button class="btn btn-primary w-full">註冊</button>
           <div class="text-center space-x-2">
-            <router-link to="/merchant-login" class="link link-hover text-primary"
+            <router-link to="/merchant/login" class="link link-hover text-primary"
               >登入</router-link
             >
             <span>/</span>
@@ -85,13 +85,13 @@ const handleSignup = async () => {
       role.value
     );
     success.value = '註冊成功！請前往登入';
-    router.push('/merchant-login');
+    router.push('/merchant/login');
     
   } catch (err) {
     if (err.response && err.response.data) {
       error.value = JSON.stringify(err.response.data);
       error.value = '';
-      router.push('/merchant-login');  
+      router.push('/merchant/login');  
       
 
       
