@@ -1,6 +1,8 @@
 <template>
   <!-- 頂部導航欄 -->
-  <div class="navbar bg-white shadow-sm px-4 py-3 border-b flex justify-between items-center">
+  <div
+    class="navbar bg-white shadow-sm px-4 py-3 border-b flex justify-between items-center"
+  >
     <!-- 左邊 Logo 區 -->
     <div class="flex items-center">
       <a href="/">
@@ -24,6 +26,9 @@
         >
           <li>
             <a href="#">目前登入者：{{ user.userName }}</a>
+          </li>
+          <li>
+            <a href="/users/recent">我的最近瀏覽</a>
           </li>
           <li>
             <a href="/users/favorites">我的收藏</a>
@@ -61,7 +66,9 @@ import { onMounted } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import axios from '@/axios';
+import { useAlertStore } from '@/stores/alert';
 
+const alert = useAlertStore();
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
 
@@ -83,7 +90,7 @@ const handleLogout = async () => {
   if (window.google?.accounts?.id) {
     window.google.accounts.id.disableAutoSelect();
   }
-  window.location.href = '/';
+  alert.trigger('登出成功', 'success');
 };
 
 defineProps({});
