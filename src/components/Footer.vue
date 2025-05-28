@@ -25,19 +25,19 @@
         <ul class="text-xs text-gray-400 space-y-1">
           <li>服務項目</li>
           <li>
-            <a href="mailto:eathubtw@gmail.com" class="hover:underline"
-              >聯絡我們</a
-            >
+            <a href="mailto:eathubtw@gmail.com" class="hover:underline">
+              聯絡我們
+            </a>
           </li>
           <li>
-            <RouterLink to="/terms-of-service" class="hover:underline"
-              >條款與政策</RouterLink
-            >
+            <RouterLink to="/terms-of-service" class="hover:underline">
+              條款與政策
+            </RouterLink>
           </li>
           <li>
-            <RouterLink to="/privacy-policy" class="hover:underline"
-              >隱私權條款</RouterLink
-            >
+            <RouterLink to="/privacy-policy" class="hover:underline">
+              隱私權條款
+            </RouterLink>
           </li>
         </ul>
       </div>
