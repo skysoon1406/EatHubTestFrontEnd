@@ -62,8 +62,6 @@ onMounted(() => {
     isMerchant.value = true
   }
 });
-console.log('auth.user.role:', auth.user?.role)
-console.log('auth.user:', auth.user)
 
 function handleImage(event) {
   const file = event.target.files[0]
