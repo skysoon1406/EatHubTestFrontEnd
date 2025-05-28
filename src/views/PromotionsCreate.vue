@@ -20,6 +20,28 @@
         class="w-full border border-gray-400 rounded px-4 py-2"
       ></textarea>
 
+      <div class="flex gap-4">
+        <div class="w-1/2">
+          <label class="block text-sm text-gray-600 mb-1">開始日期</label>
+          <input
+            v-model="form.started_at"
+            type="date"
+            :min="today"
+            required
+            class="w-full border border-gray-400 rounded px-4 py-2"
+          />
+        </div>
+        <div class="w-1/2">
+          <label class="block text-sm text-gray-600 mb-1">結束日期</label>
+          <input
+            v-model="form.ended_at"
+            type="date"
+            :min="form.started_at"
+            required
+            class="w-full border border-gray-400 rounded px-4 py-2"
+          />
+        </div>
+      </div>
       <div class="border border-gray-400 rounded p-4 text-center">
         <label class="block mb-2 text-gray-600 text-sm">請上傳 JPG、PNG、HEIC 格式的圖片，檔案大小不應超過 1MB，以確保圖片品質顯示。</label>
         <input type="file" @change="handleImage" accept="image/*" class="mx-auto" />
@@ -48,13 +70,18 @@ const router = useRouter()
 const form = ref({
   title: '',
   description: '',
+  started_at: '',
+  ended_at: '',
   image: null,
 })
 
 const previewUrl = ref(null)
 const isMerchant = ref(false)
+const today = new Date().toISOString().slice(0, 10)
+
 
 onMounted(() => {
+  form.value.started_at = today
   if (!auth.user || !['merchant', 'vip_merchant'].includes(auth.user.role)) {
     alert('僅限商家使用者新增優惠券');
     router.push('/');
@@ -75,6 +102,8 @@ async function submitPromotion() {
   const formData = new FormData()
   formData.append('title', form.value.title)
   formData.append('description', form.value.description)
+  formData.append('started_at', form.value.started_at)
+  formData.append('ended_at', form.value.ended_at)
   if (form.value.image) {
     formData.append('image', form.value.image)
   }
