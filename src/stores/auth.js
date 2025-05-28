@@ -9,7 +9,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(email, password) {
       const response = await axios.post('/auth/login', { email, password });
-      this.user = response.data;
+      this.user = response.data.user;
     },
     async signup(firstName, lastName, userName, email, password) {
       try {
@@ -38,9 +38,6 @@ export const useAuthStore = defineStore('auth', {
     },
     clearUser() {
       this.user = null;
-    },
-    setUser(user) {
-      this.user = user;
     },
   },
   persist: {

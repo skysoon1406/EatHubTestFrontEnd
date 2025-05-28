@@ -68,14 +68,12 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const authStore = useAuthStore();
-
   if (to.meta.requiresAuth) {
     try {
-      const res = await axios.get('/auth/me');
-      authStore.setUser(res.data);
+      await axios.get('/auth/me');
       next();
     } catch {
+      const authStore = useAuthStore();
       authStore.clearUser();
       next('/login');
     }
