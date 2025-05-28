@@ -100,7 +100,7 @@
 
     <div class="p-6 space-y-4 text-center">
       <div class="bg-primary card text-white p-4">
-        <h2 class="text-4xl font-bold m-10">下一餐吃什麼？</h2>
+        <h2 class="text-4xl font-bold m-10">{{ t('index.title') }}</h2>
         <div class="flex space-x-4">
           <div class="w-1/3 card bg-secondary text-neutral-content">
             <div class="card-body">
@@ -126,13 +126,14 @@
         </div>
         <br />
         <button class="btn btn-neutral btn-lg" @click="getRecommendations">
-          請推薦我美食！
+          {{ t('index.ctaButton') }}
         </button>
       </div>
     </div>
     <div class="p-6 text-center relative">
       <h2 class="text-2xl font-bold mb-4 p-6">
-        推薦結果 <span v-if="dishResult">：{{ dishResult }}</span>
+        {{ t('index.recommendResultTitle') }}
+        <span v-if="dishResult">：{{ dishResult }}</span>
       </h2>
 
       <!-- Loading 遮罩 -->
@@ -154,7 +155,9 @@
       </div>
       <br />
       <router-link to="/restaurants"
-        ><button class="btn btn-primary btn-lg">看更多</button></router-link
+        ><button class="btn btn-primary btn-lg">
+          {{ t('index.seeMoreButton') }}
+        </button></router-link
       >
     </div>
     <Footer></Footer>
@@ -166,6 +169,9 @@ import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import RestaurantCard from '@/components/RestaurantCard.vue';
 import { useAlertStore } from '@/stores/alert';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 import axios from '@/axios';
 import { ref, onMounted, computed } from 'vue';
