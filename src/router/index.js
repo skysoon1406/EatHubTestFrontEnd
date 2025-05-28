@@ -34,6 +34,12 @@ const routes = [
     component: () => import('../views/RestaurantsList.vue'),
   },
   {
+    path: '/merchant/coupons/:uuid/usage',
+    name: 'CouponUsage',
+    component: () => import('../views/CouponUsage.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/privacy-policy',
     name: 'PrivacyPolicy',
     component: () => import('../views/PrivacyPolicy.vue'),

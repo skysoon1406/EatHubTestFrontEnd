@@ -52,6 +52,8 @@ import { ref } from 'vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import GoogleLoginButton from '@/components/GoogleLoginButton.vue';
+import { useAlertStore } from '@/stores/alert';
+const alert = useAlertStore();
 
 const email = ref('');
 const password = ref('');
@@ -60,6 +62,7 @@ const router = useRouter();
 const handleLogin = async () => {
   const authStore = useAuthStore();
   await authStore.login(email.value, password.value);
+  alert.trigger('登入成功 🎉', 'success');
   router.push('/');
 };
 </script>
