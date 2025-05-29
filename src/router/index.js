@@ -41,6 +41,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/merchant/coupons/:uuid/',
+    name: 'CouponDetail',
+    component: () => import('../views/CouponDetail.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/privacy-policy',
     name: 'PrivacyPolicy',
     component: () => import('../views/PrivacyPolicy.vue'),
