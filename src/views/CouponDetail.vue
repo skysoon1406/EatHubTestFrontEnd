@@ -34,7 +34,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from '@/axios';
-
+import Footer from '@/components/Footer.vue';
 
 const route = useRoute()
 const router = useRouter()
