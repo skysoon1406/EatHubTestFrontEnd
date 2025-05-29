@@ -43,7 +43,6 @@ const coupon = ref({})
 const fetchCoupon = async () => {
   try {
     const res = await axios.get(`/coupons/${route.params.uuid}/`)
-    console.log('API 回傳結果：', res.data)
     coupon.value = res.data.result
   } catch (err) {
     console.error('取得優惠券失敗', err)
