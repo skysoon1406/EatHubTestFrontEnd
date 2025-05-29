@@ -81,6 +81,7 @@
       </div>
     </form>
   </div>
+  <Footer />
 </template>
 
 <script setup>
@@ -88,6 +89,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '@/axios';
 import { useAuthStore } from '@/stores/auth';
+import Footer from '@/components/Footer.vue';
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -105,7 +107,7 @@ const form = ref({
 onMounted(() => {
   if (!auth.user || !['merchant', 'vip_merchant'].includes(auth.user.role)) {
     alert('僅限商家使用者新增優惠券');
-    router.push('/');
+    router.push('/'); //等商家首頁有了要換
   }
 });
 
