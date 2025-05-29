@@ -1,0 +1,44 @@
+{
+  "index": {
+    "title": "次の食事は何にする？",
+    "ctaButton": "おすすめの料理を教えて！",
+    "flavorLabel": "味の種類",
+    "stapleLabel": "主食",
+    "categoryLabel": "カテゴリー",
+    "recommendResultTitle": "おすすめ結果",
+    "seeMoreButton": "もっと見る",
+    "ratingLabel": "評価",
+    "confirmButton": "確認"
+  },
+  "navbar": {
+    "signUp": "新規登録",
+    "signIn": "ログイン",
+    "currentUser": "現在のユーザー：",
+    "myRecentView": "最近見たもの",
+    "myFavorite": "お気に入り",
+    "myCoupon": "マイクーポン",
+    "logout": "ログアウト"
+  },
+  "signup": {
+    "title": "会員登録",
+    "submitButton": "登録する"
+  },
+  "login": {
+    "title": "ログイン",
+    "submitButton": "ログインする"
+  },
+  "alert": {
+    "loginFailed": "ログインに失敗しました。後でもう一度お試しください。",
+    "googleLoginSuccess": "Googleログイン成功",
+    "googleLoginError": "Google access_tokenを取得できませんでした"
+  },
+  "footer": {
+    "about": "私たちについて",
+    "socialMedia": "ソーシャルメディア",
+    "services": "サービス",
+    "contact": "お問い合わせ",
+    "terms": "利用規約・ポリシー",
+    "privacy": "プライバシーポリシー",
+    "language": "言語選択"
+  }
+}

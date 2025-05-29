@@ -16,13 +16,18 @@
         <p class="text-sm text-gray-600 line-clamp-2">
           {{ restaurant.address }}
         </p>
-        <p class="text-sm">⭐️ 評分：{{ restaurant.googleRating }}</p>
+        <p class="text-sm">
+          ⭐️ {{ t('index.ratingLabel') }}：{{ restaurant.googleRating }}
+        </p>
       </div>
     </div>
   </router-link>
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 defineProps({
   restaurant: {
     type: Object,
