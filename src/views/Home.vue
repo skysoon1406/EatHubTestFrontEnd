@@ -106,29 +106,37 @@
         <h2 class="text-4xl font-bold m-10">{{ t('index.title') }}</h2>
         <div class="flex space-x-4">
           <div class="w-1/3 card bg-secondary text-neutral-content">
-            <div class="card-body">
-              <h2 class="text-center text-xl text-black">口味</h2>
+            <div class="card-body flex items-center justify-center text-5xl">
+              <font-awesome-icon
+                :icon="flavorIcon"
+                :style="{ color: 'var(--color-neutral)' }"
+              />
             </div>
           </div>
-          <div class="w-1/3 card bg-secondary text-primary-content">
-            <div class="card-body">
-              <h2 class="text-center text-xl text-black">主食</h2>
+          <div class="w-1/3 card bg-secondary text-neutral-content">
+            <div class="card-body flex items-center justify-center text-5xl">
+              <font-awesome-icon
+                :icon="mainIcon"
+                :style="{ color: 'var(--color-neutral)' }"
+              />
             </div>
           </div>
-          <div class="w-1/3 card bg-secondary text-secondary-content">
-            <div class="card-body">
-              <h2 class="text-center text-xl text-black">類型</h2>
+          <div class="w-1/3 card bg-secondary text-neutral-content">
+            <div class="card-body flex items-center justify-center text-5xl">
+              <font-awesome-icon
+                :icon="typeIcon"
+                :style="{ color: 'var(--color-neutral)' }"
+              />
             </div>
           </div>
         </div>
-        <br />
-        <div class="flex justify-end">
+        <div class="flex justify-end mt-6">
           <label for="my-modal" class="btn btn-neutral align-item-end">
             <font-awesome-icon :icon="['fas', 'sliders']" />
           </label>
         </div>
         <br />
-        <button class="btn btn-neutral btn-lg" @click="getRecommendations">
+        <button class="btn btn-neutral btn-lg" @click="runSlotMachine">
           {{ t('index.ctaButton') }}
         </button>
       </div>
@@ -157,11 +165,11 @@
         />
       </div>
       <br />
-      <router-link to="/restaurants"
-        ><button class="btn btn-primary btn-lg">
+      <router-link to="/restaurants">
+        <button class="btn btn-primary btn-lg">
           {{ t('index.seeMoreButton') }}
-        </button></router-link
-      >
+        </button>
+      </router-link>
     </div>
     <Footer></Footer>
   </div>
@@ -284,5 +292,49 @@ const getRecommendations = async () => {
   } finally {
     isLoading.value = false;
   }
+};
+// 拉霸動畫
+const flavorIcon = ref(['fas', 'utensils']);
+const mainIcon = ref(['fas', 'utensils']);
+const typeIcon = ref(['fas', 'utensils']);
+
+const icons = [
+  ['fas', 'mug-saucer'],
+  ['fas', 'fish'],
+  ['fas', 'lemon'],
+  ['fas', 'shrimp'],
+  ['fas', 'pizza-slice'],
+  ['fas', 'pepper-hot'],
+  ['fas', 'ice-cream'],
+  ['fas', 'hotdog'],
+  ['fas', 'egg'],
+  ['fas', 'drumstick-bite'],
+  ['fas', 'cookie'],
+  ['fas', 'burger'],
+  ['fas', 'bone'],
+];
+
+let flavorInterval, mainInterval, typeInterval;
+
+const runSlotMachine = async () => {
+  flavorInterval = setInterval(() => {
+    flavorIcon.value = icons[Math.floor(Math.random() * icons.length)];
+  }, 100);
+  mainInterval = setInterval(() => {
+    mainIcon.value = icons[Math.floor(Math.random() * icons.length)];
+  }, 100);
+  typeInterval = setInterval(() => {
+    typeIcon.value = icons[Math.floor(Math.random() * icons.length)];
+  }, 100);
+
+  await getRecommendations();
+
+  clearInterval(flavorInterval);
+  clearInterval(mainInterval);
+  clearInterval(typeInterval);
+
+  flavorIcon.value = ['fas', 'lightbulb'];
+  mainIcon.value = ['fas', 'lightbulb'];
+  typeIcon.value = ['fas', 'lightbulb'];
 };
 </script>
