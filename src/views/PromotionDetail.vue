@@ -74,7 +74,7 @@ onMounted(async () => {
 });
 
 const goBack = () => {
-  router.push({ name: 'MerchantDashboard' }); // 根據您的路由調整
-  // 或使用 router.go(-1) 返回上一頁
+  router.push({ name: 'MerchantDashboard' }); 
+ 
 };
 </script>
