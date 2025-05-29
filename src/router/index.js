@@ -35,6 +35,12 @@ const routes = [
     component: () => import('../views/RestaurantsList.vue'),
   },
   {
+    path: '/merchant/dashboard',
+    name: 'MerchantDashboard',
+    component: () => import('../views/MerchantDashboard.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/merchant/coupons/:uuid/usage',
     name: 'CouponUsage',
     component: () => import('../views/CouponUsage.vue'),
