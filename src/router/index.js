@@ -8,8 +8,14 @@ const routes = [
   { path: '/', component: () => import('../views/Home.vue') },
   { path: '/login', component: () => import('../views/Login.vue') },
   { path: '/signup', component: () => import('../views/Signup.vue') },
-  { path: '/merchant/signup', component: () => import('../views/MerchantSignup.vue') },
-  { path: '/merchant/login', component: () => import('../views/MerchantLogin.vue') },
+  {
+    path: '/merchant/signup',
+    component: () => import('../views/MerchantSignup.vue'),
+  },
+  {
+    path: '/merchant/login',
+    component: () => import('../views/MerchantLogin.vue'),
+  },
 
   {
     path: '/users/recent',
@@ -46,7 +52,7 @@ const routes = [
     component: () => import('../views/CouponUsage.vue'),
     meta: { requiresAuth: true },
   },
-    {
+  {
     path: '/merchant/coupons/:uuid/',
     name: 'CouponDetail',
     component: () => import('../views/CouponDetail.vue'),
@@ -68,10 +74,10 @@ const routes = [
     component: NotFound,
   },
   {
-    path: '/coupons/create',
+    path: 'merchant/coupons/create',
     name: 'CouponCreate',
     component: () => import('../views/CouponCreate.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, requiresMerchant: true },
   },
 ];
 
