@@ -19,6 +19,7 @@
               <div
                 class="flex gap-4 items-center"
                 v-for="flavorsOption in flavorsOptions"
+                :key="flavorsOption"
               >
                 <label class="flex items-center gap-1">
                   <input
@@ -45,6 +46,7 @@
               <div
                 class="flex gap-4 items-center"
                 v-for="mainsOption in mainsOptions"
+                :key="mainsOption"
               >
                 <label class="flex items-center gap-1">
                   <input
@@ -71,11 +73,12 @@
               <div
                 class="flex gap-4 items-center"
                 v-for="staplesOption in staplesOptions"
+                :key="staplesOption"
               >
                 <label class="flex items-center gap-1">
                   <input
                     type="checkbox"
-                    value="火鍋"
+                    :value="staplesOption"
                     v-model="staples"
                     class="checkbox"
                   />
