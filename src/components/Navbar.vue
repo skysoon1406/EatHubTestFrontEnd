@@ -55,6 +55,18 @@
               登入
             </a>
           </li>
+          <li>
+            <a class="" href="/merchant/signup">
+              <font-awesome-icon :icon="['fas', 'user-plus']" />
+              店家註冊
+            </a>
+          </li>
+          <li>
+            <a class="" href="/merchant/login">
+              <font-awesome-icon :icon="['fas', 'right-to-bracket']" />
+              店家登入
+            </a>
+          </li>                    
         </ul>
       </div>
     </div>
