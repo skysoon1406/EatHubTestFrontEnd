@@ -1,0 +1,44 @@
+{
+  "index": {
+    "title": "What should I eat next?",
+    "ctaButton": "Please recommend me some food!",
+    "flavorLabel": "Flavor",
+    "stapleLabel": "Staple",
+    "categoryLabel": "Category",
+    "recommendResultTitle": "Recommendation Result",
+    "seeMoreButton": "See More",
+    "ratingLabel": "Rating",
+    "confirmButton": "Confirm"
+  },
+  "navbar": {
+    "signUp": "Sign Up",
+    "signIn": "Log In",
+    "currentUser": "Logged in as:",
+    "myRecentView": "My Recent Views",
+    "myFavorite": "My Favorites",
+    "myCoupon": "My Coupons",
+    "logout": "Log Out"
+  },
+  "signup": {
+    "title": "Sign Up",
+    "submitButton": "Register"
+  },
+  "login": {
+    "title": "Log In",
+    "submitButton": "Log In"
+  },
+  "alert": {
+    "loginFailed": "Login failed. Please try again later.",
+    "googleLoginSuccess": "Google login successful",
+    "googleLoginError": "Failed to obtain Google access_token"
+  },
+  "footer": {
+    "about": "About Us",
+    "socialMedia": "Social Media",
+    "services": "Services",
+    "contact": "Contact Us",
+    "terms": "Terms & Policies",
+    "privacy": "Privacy Policy",
+    "language": "Language"
+  }
+}
