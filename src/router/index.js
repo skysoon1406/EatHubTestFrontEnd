@@ -40,6 +40,12 @@ const routes = [
     component: () => import('../views/CouponUsage.vue'),
     meta: { requiresAuth: true },
   },
+    {
+    path: '/merchant/coupons/:uuid/',
+    name: 'CouponDetail',
+    component: () => import('../views/CouponDetail.vue'),
+    meta: { requiresAuth: true },
+  },
   {
     path: '/privacy-policy',
     name: 'PrivacyPolicy',
