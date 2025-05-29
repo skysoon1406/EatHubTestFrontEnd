@@ -50,7 +50,19 @@ const fetchCoupon = async () => {
   }
 }
 
+const goToUsage = () => {
+  router.push(`/merchant/coupons/${route.params.uuid}/usage`)
+}
 
+const goBack = () => {
+  router.back()
+}
+
+const formatDate = (isoString) => {
+  if (!isoString) return '未提供'
+  const date = new Date(isoString)
+  return date.toLocaleDateString('zh-TW')
+}
 
 onMounted(() => {
   fetchCoupon()
