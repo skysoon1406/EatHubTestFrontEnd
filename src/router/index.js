@@ -8,7 +8,8 @@ const routes = [
   { path: '/', component: () => import('../views/Home.vue') },
   { path: '/login', component: () => import('../views/Login.vue') },
   { path: '/signup', component: () => import('../views/Signup.vue') },
-  { path: '/merchant-signup', component: () => import('../views/MerchantSignup.vue') },
+  { path: '/merchant/signup', component: () => import('../views/MerchantSignup.vue') },
+  { path: '/merchant/login', component: () => import('../views/MerchantLogin.vue') },
 
   {
     path: '/users/recent',
@@ -34,9 +35,21 @@ const routes = [
     component: () => import('../views/RestaurantsList.vue'),
   },
   {
+    path: '/merchant/dashboard',
+    name: 'MerchantDashboard',
+    component: () => import('../views/MerchantDashboard.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/merchant/coupons/:uuid/usage',
     name: 'CouponUsage',
     component: () => import('../views/CouponUsage.vue'),
+    meta: { requiresAuth: true },
+  },
+    {
+    path: '/merchant/coupons/:uuid/',
+    name: 'CouponDetail',
+    component: () => import('../views/CouponDetail.vue'),
     meta: { requiresAuth: true },
   },
   {
