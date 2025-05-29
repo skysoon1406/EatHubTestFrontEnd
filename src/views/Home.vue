@@ -163,6 +163,7 @@
         </button></router-link
       >
     </div>
+    <IntroductionCard />
     <Footer></Footer>
   </div>
 </template>
@@ -173,6 +174,7 @@ import Footer from '@/components/Footer.vue';
 import RestaurantCard from '@/components/RestaurantCard.vue';
 import { useAlertStore } from '@/stores/alert';
 import { useI18n } from 'vue-i18n';
+import IntroductionCard from '@/components/IntroductionCard.vue';
 
 const { t } = useI18n();
 
