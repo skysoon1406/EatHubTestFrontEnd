@@ -81,8 +81,8 @@
             :key="day"
             class="flex justify-between"
           >
-            <span :class="['text-gray-700', { 'font-bold text-primary': day === today }]">{{ day }}</span>
-            <span :class="['text-gray-700', { 'font-bold text-primary': day === today }]">{{ hours }}</span>
+            <span :class="['text-gray-700', { 'underline underline-offset-5 font-bold text-primary': day === today }]">{{ day }}</span>
+            <span :class="['text-gray-700', { 'underline underline-offset-5  font-bold text-primary': day === today }]">{{ hours }}</span>
           </div>
         </div>
       </div>
