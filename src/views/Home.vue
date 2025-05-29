@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar></Navbar>
+    <Slogan />
     <input type="checkbox" id="my-modal" class="modal-toggle" />
     <div class="modal">
       <div class="modal-box">
@@ -179,6 +180,7 @@
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import RestaurantCard from '@/components/RestaurantCard.vue';
+import Slogan from '@/components/Slogan.vue';
 import { useAlertStore } from '@/stores/alert';
 import { useI18n } from 'vue-i18n';
 
