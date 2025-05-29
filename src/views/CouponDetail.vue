@@ -1,4 +1,5 @@
 <template>
+  <MerchantNavBar />
   <div class=" max-w-3xl w-full mx-auto p-6 ">
     <h1 class="text-2xl font-bold mb-4">{{ coupon.title }}</h1>
 
@@ -35,6 +36,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from '@/axios';
 import Footer from '@/components/Footer.vue';
+import MerchantNavBar from '@/components/MerchantNavBar.vue';
 
 const route = useRoute()
 const router = useRouter()

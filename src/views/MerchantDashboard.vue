@@ -1,7 +1,8 @@
 <template>
-  <component :is="Navbar" />
+  <MerchantNavBar />
 
-  <div class="px-4 py-6 max-w-6xl mx-auto">
+
+  <div class="px-4 py-6 max-w-3xl mx-auto">
     <h1 class="text-2xl font-bold mb-4">{{ restaurantName }}</h1>
 
     <!-- Tab 與新增按鈕 -->
@@ -55,7 +56,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from '@/axios';
 
-import Navbar from '@/components/Navbar.vue';
+import MerchantNavBar from '@/components/MerchantNavBar.vue';
 import Footer from '@/components/Footer.vue';
 import MerchantCouponList from '@/components/MerchantCouponList.vue';
 import MerchantPromotionList from '@/components/MerchantPromotionList.vue';
