@@ -18,6 +18,8 @@
             ★
           </span>
         </div>
+
+  
   
         <!-- 評論區 -->
         <textarea 
@@ -27,8 +29,8 @@
         ></textarea>
   
     
-        <div v-if="imageUrl" class="image-preview">
-                    <img :src="imageUrl" alt="預覽圖片" />
+        <div v-if="image" class="image-preview">
+                    <img :src="image" alt="預覽圖片" />
         </div>
       
         <div class="flex flex-col items-center mx-auto gap-2">
@@ -46,6 +48,7 @@
   
   <script setup>
   import { ref } from 'vue';
+ 
   
   const props = defineProps({
     show: Boolean,
@@ -58,7 +61,8 @@
 
   const content = ref('');
   const rating = ref(0);
-  const imageUrl = ref(null);
+  const image = ref(null);
+  const file = ref(null);
   
   // 關閉 Modal
   const closeModal = () => {
@@ -72,9 +76,10 @@
   
   // 圖片上傳處理
   const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      imageUrl.value = URL.createObjectURL(file);
+    const uploadedFile = event.target.files[0];
+    if (uploadedFile) {
+      file.value = uploadedFile;
+      image.value = URL.createObjectURL(uploadedFile);
     }
   };
   
@@ -84,11 +89,12 @@
       emit('submit', {
         content: content.value.trim(),
         rating: rating.value,
-        imageUrl: imageUrl.value,
+        imageFile: file.value,
       });
       content.value = '';
       rating.value = 0;
-      imageUrl.value = null;
+      image.value = null;
+      file.value = null;
       closeModal();
     }
   };

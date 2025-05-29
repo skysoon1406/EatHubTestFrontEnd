@@ -16,24 +16,19 @@
           />
           <div role="tabpanel" class="tab-content p-4">
             <div class="space-y-2">
-              <div class="flex gap-4 items-center">
+              <div
+                class="flex gap-4 items-center"
+                v-for="flavorsOption in flavorsOptions"
+                :key="flavorsOption"
+              >
                 <label class="flex items-center gap-1">
                   <input
                     type="checkbox"
-                    value="中式"
+                    :value="flavorsOption"
                     v-model="flavors"
                     class="checkbox"
                   />
-                  <span>中式</span>
-                </label>
-                <label class="flex items-center gap-1">
-                  <input
-                    type="checkbox"
-                    value="日式"
-                    v-model="flavors"
-                    class="checkbox"
-                  />
-                  <span>日式</span>
+                  <span>{{ flavorsOption }}</span>
                 </label>
               </div>
             </div>
@@ -48,24 +43,19 @@
           />
           <div role="tabpanel" class="tab-content p-4">
             <div class="space-y-2">
-              <div class="flex gap-4 items-center">
+              <div
+                class="flex gap-4 items-center"
+                v-for="mainsOption in mainsOptions"
+                :key="mainsOption"
+              >
                 <label class="flex items-center gap-1">
                   <input
                     type="checkbox"
-                    value="牛肉"
+                    :value="mainsOption"
                     v-model="mains"
                     class="checkbox"
                   />
-                  <span>牛肉</span>
-                </label>
-                <label class="flex items-center gap-1">
-                  <input
-                    type="checkbox"
-                    value="豬肉"
-                    v-model="mains"
-                    class="checkbox"
-                  />
-                  <span>豬肉</span>
+                  <span>{{ mainsOption }}</span>
                 </label>
               </div>
             </div>
@@ -80,24 +70,19 @@
           />
           <div role="tabpanel" class="tab-content p-4">
             <div class="space-y-2">
-              <div class="flex gap-4 items-center">
+              <div
+                class="flex gap-4 items-center"
+                v-for="staplesOption in staplesOptions"
+                :key="staplesOption"
+              >
                 <label class="flex items-center gap-1">
                   <input
                     type="checkbox"
-                    value="燉飯"
+                    :value="staplesOption"
                     v-model="staples"
                     class="checkbox"
                   />
-                  <span>燉飯</span>
-                </label>
-                <label class="flex items-center gap-1">
-                  <input
-                    type="checkbox"
-                    value="火鍋"
-                    v-model="staples"
-                    class="checkbox"
-                  />
-                  <span>火鍋</span>
+                  <span>{{ staplesOption }}</span>
                 </label>
               </div>
             </div>
@@ -118,7 +103,7 @@
 
     <div class="p-6 space-y-4 text-center">
       <div class="bg-primary card text-white p-4">
-        <h2 class="text-4xl font-bold m-10">下一餐吃什麼？</h2>
+        <h2 class="text-4xl font-bold m-10">{{ t('index.title') }}</h2>
         <div class="flex space-x-4">
           <div class="w-1/3 card bg-secondary text-neutral-content">
             <div class="card-body">
@@ -144,13 +129,14 @@
         </div>
         <br />
         <button class="btn btn-neutral btn-lg" @click="getRecommendations">
-          請推薦我美食！
+          {{ t('index.ctaButton') }}
         </button>
       </div>
     </div>
     <div class="p-6 text-center relative">
       <h2 class="text-2xl font-bold mb-4 p-6">
-        推薦結果 <span v-if="dishResult">：{{ dishResult }}</span>
+        {{ t('index.recommendResultTitle') }}
+        <span v-if="dishResult">：{{ dishResult }}</span>
       </h2>
 
       <!-- Loading 遮罩 -->
@@ -167,11 +153,14 @@
           v-for="r in restaurants"
           :key="r.placeId"
           :restaurant="r"
+          @click="handleRecentViewedRestaurant(r)"
         />
       </div>
       <br />
       <router-link to="/restaurants"
-        ><button class="btn btn-primary btn-lg">看更多</button></router-link
+        ><button class="btn btn-primary btn-lg">
+          {{ t('index.seeMoreButton') }}
+        </button></router-link
       >
     </div>
     <Footer></Footer>
@@ -182,8 +171,12 @@
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import RestaurantCard from '@/components/RestaurantCard.vue';
+import { useAlertStore } from '@/stores/alert';
+import { useI18n } from 'vue-i18n';
 
-import axios from 'axios';
+const { t } = useI18n();
+
+import axios from '@/axios';
 import { ref, onMounted, computed } from 'vue';
 import { useRestaurantStore } from '@/stores/restaurant';
 
@@ -204,20 +197,69 @@ onMounted(() => {
       },
       (err) => {
         error.value = err.message;
-      }
+      },
     );
   } else {
     error.value = '此瀏覽器不支援 Geolocation';
   }
 });
 
-const flavorsOptions = ['中式', '日式'];
-const mainsOptions = ['豬肉', '牛肉'];
-const staplesOptions = ['火鍋', '燉飯'];
+const flavorsOptions = [
+  '中式',
+  '台式',
+  '日式',
+  '泰式',
+  '韓式',
+  '越式',
+  '港式',
+  '椒麻',
+  '咖哩',
+  '麻辣',
+  '酸辣',
+  '碳烤',
+  '番茄',
+  '水煮',
+  '滷/燉',
+  '清蒸',
+  '泡菜',
+  '什錦',
+  '酥炸',
+  '味增',
+  '香煎',
+];
+const mainsOptions = ['牛肉', '豬肉', '雞肉', '羊肉', '鮮魚', '海鮮', '蔬菜'];
+const staplesOptions = [
+  '火鍋',
+  '燉飯',
+  '便當',
+  '炒飯',
+  '丼飯',
+  '酸菜魚',
+  '湯麵',
+  '乾麵',
+  '義大利麵',
+  '刀削麵',
+  '水餃',
+  '健康餐',
+  '冬粉',
+  '漢堡',
+  '壽司',
+  '鐵板燒',
+  '比薩',
+  '通心麵',
+  '排餐',
+  '板條',
+  '包子',
+];
 
 const flavors = ref(flavorsOptions);
 const mains = ref(mainsOptions);
 const staples = ref(staplesOptions);
+
+const handleRecentViewedRestaurant = (r) => {
+  console.log(r);
+  store.setRecentViewedRestaurant(r);
+};
 
 const getRecommendations = async () => {
   isLoading.value = true;
@@ -233,14 +275,12 @@ const getRecommendations = async () => {
   };
 
   try {
-    const { data } = await axios.post(
-      'http://localhost:8000/api/v1/restaurants/',
-      payload
-    );
+    const { data } = await axios.post('restaurants/', payload);
     store.setSelections(payload);
     store.setResults(data.result);
-  } catch (err) {
-    alert('取得推薦失敗');
+  } catch {
+    const alert = useAlertStore();
+    alert.trigger('取得推薦失敗', 'error');
   } finally {
     isLoading.value = false;
   }
