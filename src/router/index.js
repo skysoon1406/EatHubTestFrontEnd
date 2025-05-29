@@ -68,7 +68,7 @@ const routes = [
     component: NotFound,
   },
   {
-    path: '/promotions/:uuid',
+    path: '/merchant/promotions/:uuid',
     name: 'PromotionDetail',
     component: () => import('../views/PromotionDetail.vue'), 
   },
