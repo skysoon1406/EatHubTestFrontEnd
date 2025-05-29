@@ -1,16 +1,15 @@
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
     <merchant-coupon-card
-      v-for="coupon in localCoupons"
+      v-for="coupon in coupons"
       :key="coupon.uuid"
       :coupon="coupon"
-      @deleted="removeCoupon"
+      @deleted="refresh"
     />
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
 import MerchantCouponCard from './MerchantCouponCard.vue';
 
 const props = defineProps({
@@ -20,19 +19,9 @@ const props = defineProps({
   },
 });
 
-// 為了能在列表中做刪除操作，用 local 副本處理
-const localCoupons = ref([...props.coupons]);
+const emit = defineEmits(['refresh']);
 
-// 若父層 props coupons 有更新，自動同步
-watch(
-  () => props.coupons,
-  (newVal) => {
-    localCoupons.value = [...newVal];
-  }
-);
-
-// 刪除指定優惠券
-const removeCoupon = (uuid) => {
-  localCoupons.value = localCoupons.value.filter((c) => c.uuid !== uuid);
+const refresh = () => {
+  emit('refresh');
 };
 </script>

@@ -30,7 +30,7 @@ const routes = [
     path: '/merchant/dashboard',
     name: 'MerchantDashboard',
     component: () => import('../views/MerchantDashboard.vue'),
-    // meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
     path: '/privacy-policy',

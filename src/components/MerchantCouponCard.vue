@@ -21,16 +21,14 @@
           優惠內容：{{ coupon.discount }}
         </div>
         <div class="text-sm text-gray-600">
-          有效期限：{{ formatDate(coupon.ended_at) }}
+          有效期限：{{ formatDate(coupon.endedAt) }}
         </div>
 
         <div class="text-sm text-gray-600 mt-2">
           發行數量：{{ coupon.total ?? '未設定' }} 張
         </div>
         <div class="text-sm text-gray-600">
-          已領取：{{ coupon.claimed_count }} 張 ・已使用：{{
-            coupon.used_count
-          }}
+          已領取：{{ coupon.redeemedCount }} 張 ・已使用：{{ coupon.usedCount }}
           張
         </div>
       </div>
@@ -80,13 +78,19 @@ const showConfirm = ref(false);
 
 const formatDate = (str) => {
   if (!str) return '';
-  return new Date(str).toLocaleDateString();
+  return new Date(str).toLocaleDateString('zh-TW', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
 };
 
 const confirmDelete = async () => {
   try {
-    await axios.delete(`/merchant/coupons/${props.coupon.uuid}`);
-    emit('deleted', props.coupon.uuid);
+    await axios.patch(`/coupons/${props.coupon.uuid}/`, {
+      isArchived: true,
+    });
+    emit('deleted');
   } catch {
     alert('刪除失敗，請稍後再試');
   } finally {

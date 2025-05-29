@@ -19,7 +19,7 @@
         <div class="w-full sm:w-32 h-32 flex-shrink-0">
           <img
             :src="
-              promotion.image_url ||
+              promotion.imageUrl ||
               'https://via.placeholder.com/128x128?text=No+Image'
             "
             alt="活動圖片"
@@ -38,8 +38,9 @@
             {{ promotion.description || '（無描述）' }}
           </p>
           <p class="text-sm text-gray-600">
-            活動期間：{{ formatDate(promotion.started_at) }} ~
-            {{ formatDate(promotion.ended_at) }}
+            活動期間：
+            {{ formatDate(promotion.startedAt) }} ~
+            {{ formatDate(promotion.endedAt) }}
           </p>
         </div>
       </div>
@@ -89,13 +90,19 @@ const showConfirm = ref(false);
 
 const formatDate = (str) => {
   if (!str) return '';
-  return new Date(str).toLocaleDateString();
+  return new Date(str).toLocaleDateString('zh-TW', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
 };
 
 const confirmDelete = async () => {
   try {
-    await axios.delete(`/merchant/promotions/${props.promotion.uuid}`);
-    emit('deleted', props.promotion.uuid);
+    await axios.patch(`/promotions/${props.promotion.uuid}/`, {
+      isArchived: true,
+    });
+    emit('deleted');
   } catch {
     alert('刪除失敗，請稍後再試');
   } finally {
