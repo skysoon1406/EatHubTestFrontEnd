@@ -22,8 +22,8 @@
       <button class=" flex-1 bg-black text-white py-2 px-4 rounded hover:bg-gray-800"  @click="goToUsage">
         查看使用狀態
       </button>
-      <button class=" flex-1 border border-black text-black py-2 px-4 rounded hover:bg-gray-100"  @click="goBack">
-        返回
+      <button class=" flex-1 border border-black text-black py-2 px-4 rounded hover:bg-gray-100"  @click="goMerchantDashboard">
+        返回列表
       </button>
     </div>
   </div>
@@ -43,7 +43,6 @@ const coupon = ref({})
 const fetchCoupon = async () => {
   try {
     const res = await axios.get(`/coupons/${route.params.uuid}/`)
-    console.log('API 回傳結果：', res.data)
     coupon.value = res.data.result
   } catch (err) {
     console.error('取得優惠券失敗', err)
@@ -54,8 +53,8 @@ const goToUsage = () => {
   router.push(`/merchant/coupons/${route.params.uuid}/usage`)
 }
 
-const goBack = () => {
-  router.back()
+const goMerchantDashboard = () => {
+  router.push({ name: 'MerchantDashboard' })
 }
 
 const formatDate = (isoString) => {
