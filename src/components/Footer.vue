@@ -21,27 +21,47 @@
       </div>
 
       <div>
-        <h4 class="font-bold mb-3 text-sm">關於我們</h4>
+        <h4 class="font-bold mb-3 text-sm">{{ t('footer.about') }}</h4>
         <ul class="text-xs text-gray-400 space-y-1">
           <li>服務項目</li>
           <li>
-            <a href="mailto:eathubtw@gmail.com" class=" hover:underline">聯絡我們</a>
+            <a href="mailto:eathubtw@gmail.com" class="hover:underline">
+              聯絡我們
+            </a>
           </li>
           <li>
-            <RouterLink to="/terms-of-service" class="hover:underline">條款與政策</RouterLink>
+            <RouterLink to="/terms-of-service" class="hover:underline">
+              條款與政策
+            </RouterLink>
           </li>
           <li>
-            <RouterLink to="/privacy-policy" class="hover:underline">隱私權條款</RouterLink>
+            <RouterLink to="/privacy-policy" class="hover:underline">
+              隱私權條款
+            </RouterLink>
           </li>
         </ul>
       </div>
 
       <div>
-        <h4 class="font-bold mb-3 text-sm">社群媒體</h4>
+        <h4 class="font-bold mb-3 text-sm">{{ t('footer.socialMedia') }}</h4>
         <ul class="text-xs text-gray-400 space-y-1">
           <li>Facebook</li>
           <li>Instagram</li>
           <li>Twitter</li>
+        </ul>
+        <br />
+        <h4 class="font-bold mb-3 text-sm">
+          <p>{{ t('footer.language') }}</p>
+        </h4>
+        <ul class="text-xs text-gray-400 space-y-1">
+          <li>
+            <select v-model="locale">
+              <option value="zh-TW">繁體中文</option>
+              <option value="en">English</option>
+              <option value="ja">日本語</option>
+              <option value="ko">한국어</option>
+            </select>
+          </li>
         </ul>
       </div>
     </div>
@@ -55,9 +75,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { watch } from 'vue';
 
+const { locale, t } = useI18n();
+
+watch(locale, (newLocale) => {
+  localStorage.setItem('locale', newLocale);
+});
 defineProps({});
 </script>
 

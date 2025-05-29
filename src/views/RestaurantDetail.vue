@@ -81,8 +81,8 @@
             :key="day"
             class="flex justify-between"
           >
-            <span class="text-gray-700">{{ day }}</span>
-            <span class="text-gray-700">{{ hours }}</span>
+            <span :class="['text-gray-700', { 'underline underline-offset-5 font-bold text-primary': day === today }]">{{ day }}</span>
+            <span :class="['text-gray-700', { 'underline underline-offset-5  font-bold text-primary': day === today }]">{{ hours }}</span>
           </div>
         </div>
       </div>
@@ -396,6 +396,10 @@ const formattedOpenHours = computed(() => {
   }
   return result;
 });
+// 今天是星期幾
+const today = dayTranslation[new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()];
+
+
 
 // 計算屬性：優惠券詳細信息
 const couponDetails = computed(() => {

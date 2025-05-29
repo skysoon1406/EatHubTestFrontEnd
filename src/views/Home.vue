@@ -1,92 +1,65 @@
 <template>
   <div>
     <Navbar></Navbar>
+    <Slogan />
     <input type="checkbox" id="my-modal" class="modal-toggle" />
     <div class="modal">
       <div class="modal-box">
         <!-- Tabs -->
         <div role="tablist" class="tabs tabs-bordered mb-4">
-          <input
-            type="radio"
-            name="tab"
+          <button
             role="tab"
             class="tab"
-            aria-label="口味"
-            checked
-          />
-          <div role="tabpanel" class="tab-content p-4">
-            <div class="space-y-2">
-              <div
-                class="flex gap-4 items-center"
-                v-for="flavorsOption in flavorsOptions"
-              >
-                <label class="flex items-center gap-1">
-                  <input
-                    type="checkbox"
-                    :value="flavorsOption"
-                    v-model="flavors"
-                    class="checkbox"
-                  />
-                  <span>{{ flavorsOption }}</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <input
-            type="radio"
-            name="tab"
+            :class="{ 'tab-active': activeTab === 'flavors' }"
+            @click="activeTab = 'flavors'"
+          >
+            口味
+          </button>
+          <button
             role="tab"
             class="tab"
-            aria-label="主食"
-          />
-          <div role="tabpanel" class="tab-content p-4">
-            <div class="space-y-2">
-              <div
-                class="flex gap-4 items-center"
-                v-for="mainsOption in mainsOptions"
-              >
-                <label class="flex items-center gap-1">
-                  <input
-                    type="checkbox"
-                    :value="mainsOption"
-                    v-model="mains"
-                    class="checkbox"
-                  />
-                  <span>{{ mainsOption }}</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <input
-            type="radio"
-            name="tab"
+            :class="{ 'tab-active': activeTab === 'mains' }"
+            @click="activeTab = 'mains'"
+          >
+            主食
+          </button>
+          <button
             role="tab"
             class="tab"
-            aria-label="類型"
-          />
-          <div role="tabpanel" class="tab-content p-4">
-            <div class="space-y-2">
-              <div
-                class="flex gap-4 items-center"
-                v-for="staplesOption in staplesOptions"
-              >
-                <label class="flex items-center gap-1">
-                  <input
-                    type="checkbox"
-                    value="火鍋"
-                    v-model="staples"
-                    class="checkbox"
-                  />
-                  <span>{{ staplesOption }}</span>
-                </label>
-              </div>
-            </div>
-          </div>
+            :class="{ 'tab-active': activeTab === 'staples' }"
+            @click="activeTab = 'staples'"
+          >
+            類型
+          </button>
         </div>
-        <div class="modal-action">
-          <label for="my-modal" class="btn">確認</label>
+
+        <!-- 全選 / 全取消 -->
+        <div class="flex justify-end gap-2 mb-4">
+          <button class="btn btn-xs" @click="selectAll">全選</button>
+          <button class="btn btn-xs" @click="clearAll">全取消</button>
+        </div>
+
+        <!-- 選項按鈕 -->
+        <div
+          class="flex flex-wrap gap-2 justify-center min-h-[160px] max-w-lg mx-aut"
+        >
+          <button
+            v-for="item in currentOptions"
+            :key="item"
+            class="btn btn-sm rounded-full"
+            @click="toggleCurrent(item)"
+            :class="{
+              'bg-[var(--color-neutral)] text-white':
+                currentSelections.includes(item),
+              'btn-outline': !currentSelections.includes(item),
+            }"
+          >
+            {{ item }}
+          </button>
+        </div>
+
+        <div class="modal-action mt-6">
+          <label for="my-modal" class="btn btn-primary w-full">確認</label>
         </div>
       </div>
     </div>
@@ -100,39 +73,49 @@
 
     <div class="p-6 space-y-4 text-center">
       <div class="bg-primary card text-white p-4">
-        <h2 class="text-4xl font-bold m-10">下一餐吃什麼？</h2>
+        <h2 class="text-4xl font-bold m-10">{{ t('index.title') }}</h2>
         <div class="flex space-x-4">
           <div class="w-1/3 card bg-secondary text-neutral-content">
-            <div class="card-body">
-              <h2 class="text-center text-xl text-black">口味</h2>
+            <div class="card-body flex items-center justify-center text-5xl">
+              <font-awesome-icon
+                :icon="flavorIcon"
+                :style="{ color: 'var(--color-neutral)' }"
+              />
             </div>
           </div>
-          <div class="w-1/3 card bg-secondary text-primary-content">
-            <div class="card-body">
-              <h2 class="text-center text-xl text-black">主食</h2>
+          <div class="w-1/3 card bg-secondary text-neutral-content">
+            <div class="card-body flex items-center justify-center text-5xl">
+              <font-awesome-icon
+                :icon="mainIcon"
+                :style="{ color: 'var(--color-neutral)' }"
+              />
             </div>
           </div>
-          <div class="w-1/3 card bg-secondary text-secondary-content">
-            <div class="card-body">
-              <h2 class="text-center text-xl text-black">類型</h2>
+          <div class="w-1/3 card bg-secondary text-neutral-content">
+            <div class="card-body flex items-center justify-center text-5xl">
+              <font-awesome-icon
+                :icon="typeIcon"
+                :style="{ color: 'var(--color-neutral)' }"
+              />
             </div>
           </div>
         </div>
-        <br />
-        <div class="flex justify-end">
+        <div class="flex justify-end mt-6">
           <label for="my-modal" class="btn btn-neutral align-item-end">
             <font-awesome-icon :icon="['fas', 'sliders']" />
           </label>
         </div>
         <br />
-        <button class="btn btn-neutral btn-lg" @click="getRecommendations">
-          請推薦我美食！
+        <button class="btn btn-neutral btn-lg" @click="runSlotMachine">
+          {{ t('index.ctaButton') }}
         </button>
       </div>
     </div>
+
     <div class="p-6 text-center relative">
       <h2 class="text-2xl font-bold mb-4 p-6">
-        推薦結果 <span v-if="dishResult">：{{ dishResult }}</span>
+        {{ t('index.recommendResultTitle') }}
+        <span v-if="dishResult">：{{ dishResult }}</span>
       </h2>
 
       <!-- Loading 遮罩 -->
@@ -153,10 +136,13 @@
         />
       </div>
       <br />
-      <router-link to="/restaurants"
-        ><button class="btn btn-primary btn-lg">看更多</button></router-link
-      >
+      <router-link to="/restaurants">
+        <button class="btn btn-primary btn-lg">
+          {{ t('index.seeMoreButton') }}
+        </button>
+      </router-link>
     </div>
+    <IntroductionCard />
     <Footer></Footer>
   </div>
 </template>
@@ -165,7 +151,12 @@
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import RestaurantCard from '@/components/RestaurantCard.vue';
+import Slogan from '@/components/Slogan.vue';
 import { useAlertStore } from '@/stores/alert';
+import { useI18n } from 'vue-i18n';
+import IntroductionCard from '@/components/IntroductionCard.vue';
+
+const { t } = useI18n();
 
 import axios from '@/axios';
 import { ref, onMounted, computed } from 'vue';
@@ -243,9 +234,9 @@ const staplesOptions = [
   '包子',
 ];
 
-const flavors = ref(flavorsOptions);
-const mains = ref(mainsOptions);
-const staples = ref(staplesOptions);
+const flavors = ref([...flavorsOptions]);
+const mains = ref([...mainsOptions]);
+const staples = ref([...staplesOptions]);
 
 const handleRecentViewedRestaurant = (r) => {
   console.log(r);
@@ -275,5 +266,87 @@ const getRecommendations = async () => {
   } finally {
     isLoading.value = false;
   }
+};
+// 拉霸動畫
+const flavorIcon = ref(['fas', 'utensils']);
+const mainIcon = ref(['fas', 'utensils']);
+const typeIcon = ref(['fas', 'utensils']);
+
+const icons = [
+  ['fas', 'mug-saucer'],
+  ['fas', 'fish'],
+  ['fas', 'lemon'],
+  ['fas', 'shrimp'],
+  ['fas', 'pizza-slice'],
+  ['fas', 'pepper-hot'],
+  ['fas', 'ice-cream'],
+  ['fas', 'hotdog'],
+  ['fas', 'egg'],
+  ['fas', 'drumstick-bite'],
+  ['fas', 'cookie'],
+  ['fas', 'burger'],
+  ['fas', 'bone'],
+];
+
+let flavorInterval, mainInterval, typeInterval;
+
+const runSlotMachine = async () => {
+  flavorInterval = setInterval(() => {
+    flavorIcon.value = icons[Math.floor(Math.random() * icons.length)];
+  }, 100);
+  mainInterval = setInterval(() => {
+    mainIcon.value = icons[Math.floor(Math.random() * icons.length)];
+  }, 100);
+  typeInterval = setInterval(() => {
+    typeIcon.value = icons[Math.floor(Math.random() * icons.length)];
+  }, 100);
+
+  await getRecommendations();
+
+  clearInterval(flavorInterval);
+  clearInterval(mainInterval);
+  clearInterval(typeInterval);
+
+  flavorIcon.value = ['fas', 'lightbulb'];
+  mainIcon.value = ['fas', 'lightbulb'];
+  typeIcon.value = ['fas', 'lightbulb'];
+};
+//選項
+const activeTab = ref('flavors');
+
+const currentOptions = computed(() => {
+  if (activeTab.value === 'flavors') return flavorsOptions;
+  if (activeTab.value === 'mains') return mainsOptions;
+  return staplesOptions;
+});
+
+const currentSelections = computed(() => {
+  if (activeTab.value === 'flavors') return flavors.value;
+  if (activeTab.value === 'mains') return mains.value;
+  return staples.value;
+});
+
+const toggleCurrent = (item) => {
+  const listRef =
+    activeTab.value === 'flavors'
+      ? flavors
+      : activeTab.value === 'mains'
+        ? mains
+        : staples;
+  const idx = listRef.value.indexOf(item);
+  if (idx >= 0) listRef.value.splice(idx, 1);
+  else listRef.value.push(item);
+};
+
+const selectAll = () => {
+  if (activeTab.value === 'flavors') flavors.value = [...flavorsOptions];
+  if (activeTab.value === 'mains') mains.value = [...mainsOptions];
+  if (activeTab.value === 'staples') staples.value = [...staplesOptions];
+};
+
+const clearAll = () => {
+  if (activeTab.value === 'flavors') flavors.value = [];
+  if (activeTab.value === 'mains') mains.value = [];
+  if (activeTab.value === 'staples') staples.value = [];
 };
 </script>
