@@ -12,17 +12,13 @@ export const useAuthStore = defineStore('auth', {
       this.user = response.data.user;
     },
     async signup(firstName, lastName, userName, email, password) {
-      try {
-        await axios.post('/auth/signup', {
-          firstName,
-          lastName,
-          userName,
-          email,
-          password,
-        });
-      } catch (error) {
-        throw error;
-      }
+      await axios.post('/auth/signup', {
+        firstName,
+        lastName,
+        userName,
+        email,
+        password,
+      });
     },
     async merchantSignup(userName, email, password) {
       await axios.post(
@@ -39,6 +35,9 @@ export const useAuthStore = defineStore('auth', {
     async logout() {
       await axios.post('/auth/logout');
       this.user = null;
+    },
+    setUser(user) {
+      this.user = user;
     },
     clearUser() {
       this.user = null;

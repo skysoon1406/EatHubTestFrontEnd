@@ -1,15 +1,21 @@
 // router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
-import { useAuthStore } from '../stores/auth';
-import axios from '../axios';
+import { useAuthStore } from '@/stores/auth';
+import axios from '@/axios';
 import NotFound from '@/views/NotFound.vue';
 
 const routes = [
   { path: '/', component: () => import('../views/Home.vue') },
   { path: '/login', component: () => import('../views/Login.vue') },
   { path: '/signup', component: () => import('../views/Signup.vue') },
-  { path: '/merchant/signup', component: () => import('../views/MerchantSignup.vue') },
-  { path: '/merchant/login', component: () => import('../views/MerchantLogin.vue') },
+  {
+    path: '/merchant/signup',
+    component: () => import('../views/MerchantSignup.vue'),
+  },
+  {
+    path: '/merchant/login',
+    component: () => import('../views/MerchantLogin.vue'),
+  },
 
   {
     path: '/users/recent',
@@ -38,19 +44,19 @@ const routes = [
     path: '/merchant/dashboard',
     name: 'MerchantDashboard',
     component: () => import('../views/MerchantDashboard.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, requiresMerchant: true },
   },
   {
     path: '/merchant/coupons/:uuid/usage',
     name: 'CouponUsage',
     component: () => import('../views/CouponUsage.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, requiresMerchant: true },
   },
-    {
+  {
     path: '/merchant/coupons/:uuid/',
     name: 'CouponDetail',
     component: () => import('../views/CouponDetail.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, requiresMerchant: true },
   },
   {
     path: '/privacy-policy',
@@ -75,12 +81,22 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
   if (to.meta.requiresAuth) {
+    if (to.meta.requiresMerchant) {
+      if (
+        authStore.user.role === 'vip_merchant' ||
+        authStore.user.role === 'merchant'
+      ) {
+        next();
+      } else {
+        next('/');
+      }
+    }
     try {
       await axios.get('/auth/me');
       next();
     } catch {
-      const authStore = useAuthStore();
       authStore.clearUser();
       next('/login');
     }

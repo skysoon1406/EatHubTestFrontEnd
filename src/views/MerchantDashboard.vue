@@ -20,7 +20,7 @@
           :class="activeTab === 'promotion' ? 'btn-primary' : 'btn-outline'"
           @click="setTab('promotion')"
         >
-          活動
+          商家活動
         </button>
       </div>
 
@@ -31,11 +31,11 @@
           router.push(
             activeTab === 'coupon'
               ? '/merchant/coupons/create'
-              : '/merchant/promotions/create'
+              : '/merchant/promotions/create',
           )
         "
       >
-        新增{{ activeTab === 'coupon' ? '優惠券' : '活動' }}
+        新增{{ activeTab === 'coupon' ? '優惠券' : '商家活動' }}
       </button>
     </div>
 
