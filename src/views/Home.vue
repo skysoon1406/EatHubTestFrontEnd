@@ -239,7 +239,6 @@ const mains = ref([...mainsOptions]);
 const staples = ref([...staplesOptions]);
 
 const handleRecentViewedRestaurant = (r) => {
-  console.log(r);
   store.setRecentViewedRestaurant(r);
 };
 

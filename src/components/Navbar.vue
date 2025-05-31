@@ -66,7 +66,7 @@
               <font-awesome-icon :icon="['fas', 'right-to-bracket']" />
               店家登入
             </a>
-          </li>                    
+          </li>
         </ul>
       </div>
     </div>
@@ -74,28 +74,13 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import axios from '@/axios';
 import { useAlertStore } from '@/stores/alert';
 
 const alert = useAlertStore();
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
-
-onMounted(async () => {
-  try {
-    const res = await axios.get('auth/me');
-    auth.user = {
-      uuid: res.data.user_uuid,
-      userName: res.data.userName,
-      email: res.data.email,
-    };
-  } catch {
-    auth.user = null;
-  }
-});
 
 const handleLogout = async () => {
   await auth.logout();
