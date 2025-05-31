@@ -1,10 +1,10 @@
 <template>
   
-    <div class="bg-white shadow-sm px-4 py-3 border-b flex justify-between items-center">
+    <div class="navbar bg-white shadow-sm px-4 py-3 border-b flex justify-between items-center">
         <!-- Logo  -->
         <div class="flex items-center">
         <RouterLink :to="{ name: 'MerchantDashboard' }">
-            <img src="@/assets/images/logo.png" alt="EatHub Logo" class="w-25 h-12" />
+            <img src="@/assets/images/logo.png" alt="EatHub Logo" class="w-25 h-12 mr-2" />
         </RouterLink>
         </div>
 
