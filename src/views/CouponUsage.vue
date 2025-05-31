@@ -1,5 +1,6 @@
 <template>
-  <component :is="Navbar" />
+  <MerchantNavBar />
+  
   <div class="p-6">
     <!-- 返回按鈕 -->
     <button class="btn btn-sm btn-outline mb-4" @click="goBack">← 返回</button>
@@ -56,7 +57,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Navbar from '@/components/Navbar.vue';
+import MerchantNavBar from '@/components/MerchantNavBar.vue';
 import Footer from '@/components/Footer.vue';
 import axios from '@/axios';
 
