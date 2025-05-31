@@ -34,20 +34,12 @@
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-// defineProps({
-//   restaurant: {
-//     type: Object,
-//     required: true,
-//   },
-// });
-
-const { restaurant } = defineProps({
+defineProps({
   restaurant: {
     type: Object,
     required: true,
   },
 });
 
-console.log('餐廳資料', restaurant);
 
 </script>
