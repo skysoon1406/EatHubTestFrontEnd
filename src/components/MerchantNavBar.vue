@@ -8,7 +8,7 @@
         </RouterLink>
         </div>
 
-        <button class="bg-gray-300 text-gray-800 text-sm font-semibold px-4 py-1 rounded hover:bg-gray-400 transition" @click="handleLogout">
+        <button class="bg-neutral text-white text-sm font-semibold px-4 py-1 rounded hover:bg-primary transition" @click="handleLogout">
         登出
         </button>
     </div>
