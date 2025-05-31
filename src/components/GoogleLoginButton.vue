@@ -45,11 +45,11 @@ const handleGoogleLogin = async () => {
             access_token,
           });
           const meRes = await axios.get('auth/me');
-          authStore.user = {
+          authStore.setUser({
             uuid: meRes.data.user_uuid,
             userName: loginRes.data.user.userName,
             email: loginRes.data.user.email,
-          };
+          });
           alert.trigger('Google 登入成功', 'success');
           window.location.href = '/';
         } catch {
