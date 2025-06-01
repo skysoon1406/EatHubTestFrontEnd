@@ -309,6 +309,7 @@ const submitReview = async (data) => {
       formData,
     );
     reviews.value.unshift(response.data);
+    hasReviewed.value = true;
     alert.trigger('評論送出成功', 'success');
     showModal.value = false;
   } catch {
