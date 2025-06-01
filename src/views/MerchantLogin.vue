@@ -59,6 +59,6 @@ const router = useRouter();
 const handleLogin = async () => {
   const authStore = useAuthStore();
   await authStore.login(email.value, password.value);
-  router.push('/'); //路徑等TOM做好再修改
+  router.push({ name: 'MerchantDashboard' });
 };
 </script>

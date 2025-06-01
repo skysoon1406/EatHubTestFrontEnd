@@ -16,12 +16,9 @@
       <div
         class="card shadow-md p-4 flex flex-col sm:flex-row gap-4 bg-white text-black"
       >
-        <div class="w-full sm:w-32 h-32 flex-shrink-0">
+        <div v-if="promotion.imageUrl" class="w-full sm:w-32 h-32 flex-shrink-0">
           <img
-            :src="
-              promotion.imageUrl ||
-              'https://via.placeholder.com/128x128?text=No+Image'
-            "
+            :src="promotion.imageUrl"
             alt="活動圖片"
             class="w-full h-full object-cover rounded"
           />

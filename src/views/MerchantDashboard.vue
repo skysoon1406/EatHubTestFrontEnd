@@ -1,5 +1,5 @@
 <template>
-  <component :is="Navbar" />
+  <MerchantNavBar />
 
   <div class="px-4 py-6 max-w-6xl mx-auto">
     <h1 class="text-2xl font-bold mb-4">{{ restaurantName }}</h1>
@@ -20,7 +20,7 @@
           :class="activeTab === 'promotion' ? 'btn-primary' : 'btn-outline'"
           @click="setTab('promotion')"
         >
-          活動
+          商家活動
         </button>
       </div>
 
@@ -31,11 +31,11 @@
           router.push(
             activeTab === 'coupon'
               ? '/merchant/coupons/create'
-              : '/merchant/promotions/create'
+              : '/merchant/promotions/create',
           )
         "
       >
-        新增{{ activeTab === 'coupon' ? '優惠券' : '活動' }}
+        新增{{ activeTab === 'coupon' ? '優惠券' : '商家活動' }}
       </button>
     </div>
 
@@ -54,8 +54,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from '@/axios';
-
-import Navbar from '@/components/Navbar.vue';
+import MerchantNavBar from '@/components/MerchantNavBar.vue';
 import Footer from '@/components/Footer.vue';
 import MerchantCouponList from '@/components/MerchantCouponList.vue';
 import MerchantPromotionList from '@/components/MerchantPromotionList.vue';
