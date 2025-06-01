@@ -1,4 +1,5 @@
 <template>
+  <MerchantNavBar />
   <div class="p-6 max-w-xl mx-auto">
     <h1 class="text-2xl font-bold mb-6">新增優惠券</h1>
 
@@ -90,6 +91,7 @@ import { useRouter } from 'vue-router';
 import axios from '@/axios';
 import { useAuthStore } from '@/stores/auth';
 import Footer from '@/components/Footer.vue';
+import MerchantNavBar from '@/components/MerchantNavBar.vue';
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -107,7 +109,7 @@ const form = ref({
 onMounted(() => {
   if (!auth.user || !['merchant', 'vip_merchant'].includes(auth.user.role)) {
     alert('僅限商家使用者新增優惠券');
-    router.push('/'); //等商家首頁有了要換
+    router.push('/merchant/login');
   }
 });
 
