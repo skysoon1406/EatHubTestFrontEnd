@@ -125,7 +125,7 @@ async function submitPromotion() {
     form.value.description = ''
     form.value.image = null
     previewUrl.value = null
-    router.push('/merchant/promotions')
+    router.push({name:`MerchantDashboard`})
 
   } catch (error) {
     if (error.response?.data) {
