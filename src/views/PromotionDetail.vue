@@ -60,8 +60,6 @@ const route = useRoute();
 const router = useRouter();
 const uuid = route.params.uuid;
 
-console.log(uuid);
-
 const promotion = ref(null);
 
 onMounted(async () => {
