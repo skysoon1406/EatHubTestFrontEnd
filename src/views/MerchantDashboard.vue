@@ -79,6 +79,7 @@ const fetchDashboard = async () => {
     restaurantName.value = result.restaurant.name;
     coupons.value = result.coupons;
     promotions.value = result.promotions;
+    role.value = result.role;
   } catch (err) {
     console.error('取得商家資料失敗:', err);
   }
