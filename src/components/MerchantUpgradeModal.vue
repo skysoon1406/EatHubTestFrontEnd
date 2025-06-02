@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+  <div class="fixed inset-0  bg-[rgba(0,0,0,0.9)]  z-50 flex justify-center items-center">
     <div class="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
 
       <!-- 升級訊息 -->
