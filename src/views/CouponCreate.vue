@@ -117,7 +117,7 @@ const submit = async () => {
   try {
     await axios.post('/coupons/', form.value);
     alert('新增成功');
-    router.push('/');
+    router.push({ name: `MerchantDashboard` });
   } catch (error) {
     if (error.response?.status === 403) {
       alert(error.response.data.error || '您無權新增更多優惠券');
