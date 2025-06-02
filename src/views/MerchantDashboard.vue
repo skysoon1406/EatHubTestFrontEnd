@@ -10,6 +10,12 @@
             一般店家
           </span>
     </h1>
+    <p v-if="role === 'merchant'"  class="text-sm text-gray-600 mb-4">
+      您目前為 <span class="font-semibold text-primary">一般商家</span>，升級為 VIP 可發佈更多優惠券與活動 
+      <span class="badge badge-primary underline ml-1">
+        <font-awesome-icon :icon="['fa-solid', 'fa-crown']" />  立即升級！ 
+      </span>
+    </p>
 
     <!-- Tab 與新增按鈕 -->
     <div class="flex justify-between items-center mb-6">
