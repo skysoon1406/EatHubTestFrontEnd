@@ -6,9 +6,7 @@
           <span v-if="role === 'vip_merchant'" class="badge badge-primary">
             <font-awesome-icon :icon="['fa-solid', 'fa-crown']" /> VIP
           </span>
-            <span v-else-if="role === 'merchant'" class="px-2 py-0.5 text-xs font-semibold text-gray-600 bg-gray-200 rounded-full">
-            一般店家
-            </span>
+
 
     </h1>
 
