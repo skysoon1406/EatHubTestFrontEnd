@@ -2,7 +2,13 @@
   <MerchantNavBar />
 
   <div class="px-4 py-6 max-w-6xl mx-auto">
-    <h1 class="text-2xl font-bold mb-4">{{ restaurantName }}</h1>
+    <h1 class="text-2xl font-bold mb-4">{{ restaurantName }}
+          <span v-if="role === 'vip_merchant'" class="badge badge-primary">
+            <font-awesome-icon :icon="['fa-solid', 'fa-crown']" /> VIP
+          </span>
+
+
+    </h1>
 
     <!-- Tab 與新增按鈕 -->
     <div class="flex justify-between items-center mb-6">
@@ -71,6 +77,7 @@ const setTab = (tab) => {
 const restaurantName = ref('');
 const coupons = ref([]);
 const promotions = ref([]);
+const role = ref(''); 
 
 const fetchDashboard = async () => {
   try {
@@ -79,7 +86,7 @@ const fetchDashboard = async () => {
     restaurantName.value = result.restaurant.name;
     coupons.value = result.coupons;
     promotions.value = result.promotions;
-    role.value = result.role;
+    role.value = result.merchantStatus.role;
   } catch (err) {
     console.error('取得商家資料失敗:', err);
   }
