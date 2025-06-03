@@ -44,6 +44,34 @@
         </template>
       </div>
 
+      <!-- 選擇付款方式 -->
+      <div v-if="currentPlan" class="flex gap-3 mb-2">
+        <button
+          class="btn"
+          :class="selectedGateway === 'linepay' ? 'btn-success' : 'btn-outline'"
+          @click="selectedGateway = 'linepay'"
+        >
+          LINEPAY
+        </button>
+        <button
+          disabled
+          class="btn btn-disabled"
+        >
+          綠界支付（未開放）
+        </button>
+      </div>
+
+      <!-- 前往付款 -->
+      <div v-if="currentPlan" class="mb-6">
+        <button
+          class="btn btn-primary w-full"
+          :disabled="!selectedGateway || isPaying"
+          @click="pay"
+        >
+          前往付款
+        </button>
+      </div>
+      
       <!-- 關閉按鈕 -->
       <div class="mt-6 text-right">
         <button class="btn btn-sm" @click="$emit('close')">關閉</button>
