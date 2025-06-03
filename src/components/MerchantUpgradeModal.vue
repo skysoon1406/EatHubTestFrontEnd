@@ -71,7 +71,7 @@
           前往付款
         </button>
       </div>
-      
+
       <!-- 關閉按鈕 -->
       <div class="mt-6 text-right">
         <button class="btn btn-sm" @click="$emit('close')">關閉</button>
@@ -95,6 +95,34 @@ const plans = ref([])
 const currentPlan = computed(() =>
   plans.value.find(p => p.planType === activePlan.value)
 )
+
+const selectedGateway = ref(null) // 使用者選擇的付款方式（linepay / ecpay）
+const isPaying = ref(false) // 防止重複送出
+
+const pay = async () => {
+  if (!currentPlan.value || !selectedGateway.value) return
+
+  if (selectedGateway.value !== 'linepay') {
+    alert('目前僅支援 LINEPAY，綠界尚未開放')
+    return
+  }
+
+  try {
+    isPaying.value = true
+    const res = await axios.post('/payments/linepay/subscribe/', {
+      product_id: currentPlan.value.uuid,
+      amount: currentPlan.value.amount
+    })
+
+    const paymentUrl = res.data.paymentUrlWeb
+    window.location.href = paymentUrl
+  } catch (err) {
+    console.error('建立訂單失敗：', err)
+    alert(err.response?.data?.error || '建立訂單時發生錯誤，請稍後再試')
+  } finally {
+    isPaying.value = false
+  }
+}
 
 onMounted(async () => {
 
