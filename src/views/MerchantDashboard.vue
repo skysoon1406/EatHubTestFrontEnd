@@ -40,14 +40,7 @@
       <!-- 右側：新增按鈕 -->
       <button
         class="btn btn-accent"
-        @click="
-          router.push(
-            activeTab === 'coupon'
-              ? '/merchant/coupons/create'
-              : '/merchant/promotions/create',
-          )
-        "
-      >
+        @click="handleCreateClick">
         新增{{ activeTab === 'coupon' ? '優惠券' : '商家動態' }}
       </button>
     </div>
@@ -92,6 +85,7 @@ const restaurantName = ref('');
 const coupons = ref([]);
 const promotions = ref([]);
 const role = ref(''); 
+
 
 const fetchDashboard = async () => {
   try {
