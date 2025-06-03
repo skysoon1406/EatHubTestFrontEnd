@@ -1,11 +1,11 @@
 <template>
-    <Navbar></Navbar>
+  <Navbar></Navbar>
   <div class="min-h-screen bg-gray-50">
     <div class="container mx-auto px-4 py-8 max-w-2xl">
       <!-- 忘記密碼卡片 -->
       <div class="bg-white rounded-lg shadow-sm">
         <!-- 標題區域 -->
-        <div class="bg-orange-500 text-white px-6 py-4 rounded-t-lg">
+        <div class="bg-black text-white px-6 py-4 rounded-t-lg">
           <h1 class="text-xl font-bold text-center">忘記密碼</h1>
         </div>
         
@@ -39,7 +39,7 @@
           <div>
             <button 
               @click="handleSubmit"
-              class="w-full bg-orange-500 hover:bg-blue-300 text-white font-medium py-4 px-6 rounded-lg cursor-pointer"
+              class="w-full bg-primary hover:bg-blue-300 text-white font-medium py-4 px-6 rounded-lg cursor-pointer"
             >
               確認送出➡️
             </button>
@@ -66,47 +66,18 @@ const handleSubmit = async () => {
   }
   
   try {
-    const response = await axios.post('/auth/forgot-password/', {
+    await axios.post('/auth/forgot-password/', {
       email: email.value
     });
     
-    // 成功時顯示訊息
-    alert('重設密碼郵件已發送，請檢查您的郵箱');
-    email.value = ''; // 清空輸入框
+    alert('重設密碼郵件已發送，請檢查您的郵箱📬');
+    email.value = '';
     
   } catch (error) {
-    console.error('發送重設密碼郵件失敗:', error);
-    
-    // 檢查錯誤回應的詳細資訊
-    if (error.response) {
-      const status = error.response.status;
-      const data = error.response.data;
-      
-      console.log('錯誤狀態:', status);
-      console.log('錯誤資料:', data);
-      console.log('完整錯誤回應:', error.response);
-      
-      // 根據您修正後的後端來處理
-      if (status === 404) {
-        // 後端正確處理User.DoesNotExist，返回404
-        alert(data.error || '找不到此郵件地址的用戶');
-      } else if (status === 400) {
-        // 請求格式錯誤或缺少email
-        alert(data.error || '請求格式錯誤，請檢查郵件地址');
-      } else if (status === 500) {
-        // 郵件發送失敗
-        alert(data.error || '郵件發送失敗，請稍後再試');
-      } else {
-        alert('發生未知錯誤，請稍後再試');
-      }
-    } else if (error.request) {
-      // 網路連線問題
-      console.log('網路請求錯誤:', error.request);
-      alert('網路連線錯誤，請檢查網路連線');
+    if (error.response?.status === 404) {
+      alert('找不到此郵件地址的用戶');
     } else {
-      // 其他錯誤
-      console.log('其他錯誤:', error.message);
-      alert('發生未知錯誤，請稍後再試');
+      alert('發送郵件失敗，請稍後再試');
     }
   }
 };
