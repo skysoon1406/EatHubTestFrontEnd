@@ -17,6 +17,10 @@
         <h1 class="text-xl font-bold">{{ restaurant.name }}</h1>
       </div>
       <div class="flex space-x-2">
+        <ShareButton
+          :restaurant-name="restaurant.name"
+          :restaurant-rating="restaurant.googleRating || '4.5'"
+        />
         <button @click="toggleFavorite" class="btn btn-circle">
           <font-awesome-icon
             :icon="[isFavorite ? 'fas' : 'far', 'heart']"
@@ -214,7 +218,8 @@ import GoogleMapEmbed from '@/components/GoogleMapEmbed.vue';
 import PromotionCarousel from '@/components/PromotionCarousel.vue';
 import CouponCarousel from '@/components/CouponCarousel.vue';
 import ReviewModal from '@/components/AddReview.vue';
-import { useAuthStore } from '@/stores/auth';
+import ShareButton from '@/components/ShareButton.vue';
+import { useAuthStore } from '../stores/auth';
 import { useAlertStore } from '@/stores/alert';
 import { storeToRefs } from 'pinia';
 
@@ -222,7 +227,6 @@ const route = useRoute();
 const alert = useAlertStore();
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
-
 const restaurant = reactive({});
 const openHours = reactive({});
 const mapUrl = ref('');

@@ -2,7 +2,20 @@
   <MerchantNavBar />
 
   <div class="px-4 py-6 max-w-6xl mx-auto">
-    <h1 class="text-2xl font-bold mb-4">{{ restaurantName }}</h1>
+    <h1 class="text-2xl font-bold mb-4">{{ restaurantName }}
+          <span v-if="role === 'vip_merchant'" class="badge badge-primary">
+            <font-awesome-icon :icon="['fa-solid', 'fa-crown']" /> VIP
+          </span>
+          <span v-else-if="role === 'merchant'" class="px-2 py-0.5 text-xs font-semibold text-gray-600 bg-gray-200 rounded-full">
+            一般店家
+          </span>
+    </h1>
+    <p v-if="role === 'merchant'"  class="text-sm text-gray-600 mb-4">
+      您目前為 <span class="font-semibold text-primary">一般商家</span>，升級為 VIP 可發佈更多優惠券與活動 
+      <button  @click="openUpgradeModal()" class=" inline-flex items-center gap-1 text-xs font-semibold text-white bg-orange-500 px-3 py-1 rounded-full hover:bg-orange-600 transition ml-2">
+        <font-awesome-icon :icon="['fa-solid', 'fa-crown']" />  立即升級！ 
+      </button>
+    </p>
 
     <!-- Tab 與新增按鈕 -->
     <div class="flex justify-between items-center mb-6">
@@ -20,22 +33,15 @@
           :class="activeTab === 'promotion' ? 'btn-primary' : 'btn-outline'"
           @click="setTab('promotion')"
         >
-          商家活動
+          商家動態
         </button>
       </div>
 
       <!-- 右側：新增按鈕 -->
       <button
         class="btn btn-accent"
-        @click="
-          router.push(
-            activeTab === 'coupon'
-              ? '/merchant/coupons/create'
-              : '/merchant/promotions/create',
-          )
-        "
-      >
-        新增{{ activeTab === 'coupon' ? '優惠券' : '商家活動' }}
+        @click="handleCreateClick">
+        新增{{ activeTab === 'coupon' ? '優惠券' : '商家動態' }}
       </button>
     </div>
 
@@ -46,6 +52,12 @@
       @refresh="fetchDashboard"
     />
   </div>
+
+    <UpgradeModal
+    v-if="showUpgradeModal"
+    :message="upgradeMessage"
+    @close="showUpgradeModal = false"
+    />
 
   <component :is="Footer" />
 </template>
@@ -58,6 +70,7 @@ import MerchantNavBar from '@/components/MerchantNavBar.vue';
 import Footer from '@/components/Footer.vue';
 import MerchantCouponList from '@/components/MerchantCouponList.vue';
 import MerchantPromotionList from '@/components/MerchantPromotionList.vue';
+import UpgradeModal from '@/components/MerchantUpgradeModal.vue'
 
 const route = useRoute();
 const router = useRouter();
@@ -71,6 +84,8 @@ const setTab = (tab) => {
 const restaurantName = ref('');
 const coupons = ref([]);
 const promotions = ref([]);
+const role = ref(''); 
+const merchantStatus = ref({}) 
 
 const fetchDashboard = async () => {
   try {
@@ -79,10 +94,41 @@ const fetchDashboard = async () => {
     restaurantName.value = result.restaurant.name;
     coupons.value = result.coupons;
     promotions.value = result.promotions;
+    role.value = result.merchantStatus.role;
+    merchantStatus.value = result.merchantStatus;
   } catch (err) {
     console.error('取得商家資料失敗:', err);
   }
 };
+
+const handleCreateClick = () => {
+  const isCouponTab = activeTab.value === 'coupon'
+  const isLimitReached = isCouponTab
+    ? merchantStatus.value.isCouponLimitReached
+    : merchantStatus.value.isPromotionLimitReached
+
+  if (isLimitReached) {
+    const message =
+      merchantStatus.value.role === 'vip_merchant'
+        ? `VIP 已達 ${isCouponTab ? '優惠券' : '商家動態'} 上限，請聯繫EatHub團隊洽詢高級方案`
+        : `一般商家已達 ${isCouponTab ? '優惠券' : '商家動態'} 上限，請升級`
+    openUpgradeModal(message)
+    return
+  }
+
+  // 否則正常跳轉
+  const routePath = isCouponTab
+    ? '/merchant/coupons/create'
+    : '/merchant/promotions/create'
+  router.push(routePath)
+}
+
+const showUpgradeModal = ref(false)
+const upgradeMessage = ref(null)
+const openUpgradeModal = (message = null) => {
+  upgradeMessage.value = message
+  showUpgradeModal.value = true
+}
 
 onMounted(fetchDashboard);
 </script>
