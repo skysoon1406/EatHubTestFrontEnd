@@ -288,6 +288,8 @@ import ShareButton from '@/components/ShareButton.vue';
 import { useAuthStore } from '../stores/auth';
 import { storeToRefs } from 'pinia';
 import { useAlertStore } from '@/stores/alert';
+import { useRestaurantStore } from '@/stores/restaurant';
+
 
 const alert = useAlertStore();
 
@@ -345,6 +347,12 @@ const couponClaimed = ref(false);
 const displayedReviewsCount = ref(5);
 const mapUrl = ref('');
 const placeId = ref('');
+const store = useRestaurantStore();
+
+onMounted(() => {
+  const restaurantUuid = route.params.id; 
+  store.addRecentViewedUuid(restaurantUuid);
+});
 
 // 餐廳基本信息
 const restaurant = reactive({

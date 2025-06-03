@@ -1,12 +1,12 @@
 <template>
   <Navbar></Navbar>
   <div class="bg-white">
-    <div class="flex justify-center items-center mx-auto py-8">
-      <h1 class="text-2xl text-black ml-2">為您推薦</h1>
+    <div class="flex justify-center items-center mx-auto py-5">
+      <h1 class="text-2xl font-bold mb-4">為您推薦</h1>
     </div>
     <section class="px-4 sm:px-0">
       <ul
-        class="mx-6 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 place-items-center p-0 list-none"
+        class="mx-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 place-items-center p-0 list-none"
       >
         <li
           v-for="r in topTenRestaurants"
@@ -28,14 +28,14 @@
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import RestaurantCard from '@/components/RestaurantCard.vue';
-import { ref, onMounted, computed } from 'vue';
+import { computed } from 'vue';
 import { useRestaurantStore } from '@/stores/restaurant';
 
 const store = useRestaurantStore();
 const topTenRestaurants = computed(() => store.restaurants.slice(0, 12));
 
 const handleRecentViewedRestaurant = (r) => {
-  store.setRecentViewedRestaurant(r);
+  store.addRecentViewedUuid(r.uuid);
 };
 </script>
 
