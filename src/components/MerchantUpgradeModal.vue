@@ -24,12 +24,12 @@
       <div class="flex gap-4 mb-4">
         <button
           v-for="plan in plans"
-          :key="plan.plan_type"
+          :key="plan.planType"
           class="btn"
-          :class="activePlan === plan.plan_type ? 'btn-primary' : 'btn-outline'"
-          @click="activePlan = plan.plan_type"
+          :class="activePlan === plan.planType ? 'btn-primary' : 'btn-outline'"
+          @click="activePlan = plan.planType"
         >
-          {{ plan.plan_type === 'monthly' ? '按月付款' : '按年付款' }}
+          {{ plan.planType === 'monthly' ? '按月付款' : '按年付款' }}
         </button>
       </div>
 
@@ -65,13 +65,13 @@ const plans = ref([])
 
 // 動態計算目前方案
 const currentPlan = computed(() =>
-  plans.value.find(p => p.plan_type === activePlan.value)
+  plans.value.find(p => p.planType === activePlan.value)
 )
 
 onMounted(async () => {
 
-    const res = await axios.get('/api/products/')
-    plans.value = res.data.results
+    const res = await axios.get('/payments/products/')
+    plans.value = res.data
 
 })
 </script>
