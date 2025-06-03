@@ -40,14 +40,7 @@
       <!-- 右側：新增按鈕 -->
       <button
         class="btn btn-accent"
-        @click="
-          router.push(
-            activeTab === 'coupon'
-              ? '/merchant/coupons/create'
-              : '/merchant/promotions/create',
-          )
-        "
-      >
+        @click="handleCreateClick">
         新增{{ activeTab === 'coupon' ? '優惠券' : '商家動態' }}
       </button>
     </div>
@@ -92,6 +85,7 @@ const restaurantName = ref('');
 const coupons = ref([]);
 const promotions = ref([]);
 const role = ref(''); 
+const merchantStatus = ref({}) 
 
 const fetchDashboard = async () => {
   try {
@@ -101,10 +95,33 @@ const fetchDashboard = async () => {
     coupons.value = result.coupons;
     promotions.value = result.promotions;
     role.value = result.merchantStatus.role;
+    merchantStatus.value = result.merchantStatus;
   } catch (err) {
     console.error('取得商家資料失敗:', err);
   }
 };
+
+const handleCreateClick = () => {
+  const isCouponTab = activeTab.value === 'coupon'
+  const isLimitReached = isCouponTab
+    ? merchantStatus.value.isCouponLimitReached
+    : merchantStatus.value.isPromotionLimitReached
+
+  if (isLimitReached) {
+    const message =
+      merchantStatus.value.role === 'vip_merchant'
+        ? `VIP 已達 ${isCouponTab ? '優惠券' : '商家動態'} 上限，請聯繫EatHub團隊洽詢高級方案`
+        : `一般商家已達 ${isCouponTab ? '優惠券' : '商家動態'} 上限，請升級`
+    openUpgradeModal(message)
+    return
+  }
+
+  // 否則正常跳轉
+  const routePath = isCouponTab
+    ? '/merchant/coupons/create'
+    : '/merchant/promotions/create'
+  router.push(routePath)
+}
 
 const showUpgradeModal = ref(false)
 const upgradeMessage = ref(null)
