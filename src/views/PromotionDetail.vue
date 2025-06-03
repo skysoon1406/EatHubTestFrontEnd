@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-50">
-    <Navbar />
+    <MerchantNavBar />
     
     <div class="container mx-auto px-4 py-8 max-w-2xl">
       <!-- 動態名稱標題 -->
@@ -52,7 +52,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from '@/axios';
-import Navbar from '@/components/Navbar.vue';
+import MerchantNavBar from '@/components/MerchantNavBar.vue';
 import Footer from '@/components/Footer.vue';
 import { useRoute, useRouter } from 'vue-router';
 
