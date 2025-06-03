@@ -85,7 +85,7 @@ const restaurantName = ref('');
 const coupons = ref([]);
 const promotions = ref([]);
 const role = ref(''); 
-
+const merchantStatus = ref({}) 
 
 const fetchDashboard = async () => {
   try {
@@ -95,6 +95,7 @@ const fetchDashboard = async () => {
     coupons.value = result.coupons;
     promotions.value = result.promotions;
     role.value = result.merchantStatus.role;
+    merchantStatus.value = result.merchantStatus;
   } catch (err) {
     console.error('取得商家資料失敗:', err);
   }
