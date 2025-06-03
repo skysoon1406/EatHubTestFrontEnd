@@ -22,7 +22,15 @@
               placeholder="密碼"
               required
             />
-            <button class="btn btn-primary w-full" type="submit">登入</button>
+            <div class="flex gap-3">
+            <router-link 
+                to="/forgot-password" 
+                class="btn btn-primary flex-1"
+              >
+                忘記密碼
+              </router-link>
+            <button class="btn btn-primary flex-2" type="submit">登入</button>
+            </div>
           </form>
         
 
