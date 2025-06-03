@@ -117,7 +117,6 @@ const pay = async () => {
     const paymentUrl = res.data.paymentUrlWeb
     window.location.href = paymentUrl
   } catch (err) {
-    console.error('建立訂單失敗：', err)
     alert(err.response?.data?.error || '建立訂單時發生錯誤，請稍後再試')
   } finally {
     isPaying.value = false
