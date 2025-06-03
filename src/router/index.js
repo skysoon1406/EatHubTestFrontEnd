@@ -8,8 +8,14 @@ const routes = [
   { path: '/', component: () => import('../views/Home.vue') },
   { path: '/login', component: () => import('../views/Login.vue') },
   { path: '/signup', component: () => import('../views/Signup.vue') },
-  { path: '/forgot-password', component: () => import('../components/ForgotPassword.vue')},
-  { path: '/reset-password', component: () => import('../components/ResetPassword.vue')},
+  {
+    path: '/forgot-password',
+    component: () => import('../components/ForgotPassword.vue'),
+  },
+  {
+    path: '/reset-password',
+    component: () => import('../components/ResetPassword.vue'),
+  },
   {
     path: '/merchant/signup',
     component: () => import('../views/MerchantSignup.vue'),
@@ -90,7 +96,7 @@ const routes = [
   {
     path: '/merchant/promotions/:uuid',
     name: 'PromotionDetail',
-    component: () => import('../views/PromotionDetail.vue'), 
+    component: () => import('../views/PromotionDetail.vue'),
   },
 ];
 
