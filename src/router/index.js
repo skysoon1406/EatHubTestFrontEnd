@@ -82,6 +82,12 @@ const routes = [
     component: NotFound,
   },
   {
+    path: '/merchant/promotions/create',
+    name: 'PromotionsCreate',
+    component: () => import('../views/PromotionsCreate.vue'),
+    meta: { requiresAuth: true, requiresMerchant: true },
+  },
+  {
     path: '/merchant/promotions/:uuid',
     name: 'PromotionDetail',
     component: () => import('../views/PromotionDetail.vue'), 

@@ -7,7 +7,7 @@
       <div class="w-full max-w-md">
         <section class="bg-base-100 shadow-xl rounded-xl p-8 space-y-6">
           <h1 class="text-2xl font-bold text-center">會員登入</h1>
-
+          
           <form @submit.prevent="handleLogin" class="space-y-4">
             <input
               v-model="email"
@@ -22,11 +22,24 @@
               placeholder="Password"
               required
             />
-            <button class="btn btn-primary w-full" type="submit">登入</button>
+            
+            <!-- 按鈕區域：忘記密碼 + 登入按鈕 -->
+            <div class="flex gap-3">
+              <router-link 
+                to="/forgot-password" 
+                class="btn btn-primary flex-1"
+              >
+                忘記密碼
+              </router-link>
+              <button class="btn btn-primary flex-2" type="submit">
+                登入
+              </button>
+            </div>
           </form>
+          
           <div class="divider">或</div>
           <GoogleLoginButton />
-
+          
           <div class="text-center space-y-2">
             <p>
               還沒有帳號？
@@ -53,6 +66,7 @@ import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import GoogleLoginButton from '@/components/GoogleLoginButton.vue';
 import { useAlertStore } from '@/stores/alert';
+    
 const alert = useAlertStore();
 
 const email = ref('');
