@@ -12,9 +12,9 @@
     </h1>
     <p v-if="role === 'merchant'"  class="text-sm text-gray-600 mb-4">
       您目前為 <span class="font-semibold text-primary">一般商家</span>，升級為 VIP 可發佈更多優惠券與活動 
-      <span class="badge badge-primary underline ml-1">
+      <button  @click="openUpgradeModal()" class=" inline-flex items-center gap-1 text-xs font-semibold text-white bg-orange-500 px-3 py-1 rounded-full hover:bg-orange-600 transition ml-2">
         <font-awesome-icon :icon="['fa-solid', 'fa-crown']" />  立即升級！ 
-      </span>
+      </button>
     </p>
 
     <!-- Tab 與新增按鈕 -->
@@ -60,6 +60,12 @@
     />
   </div>
 
+    <UpgradeModal
+    v-if="showUpgradeModal"
+    :message="upgradeMessage"
+    @close="showUpgradeModal = false"
+    />
+
   <component :is="Footer" />
 </template>
 
@@ -71,6 +77,7 @@ import MerchantNavBar from '@/components/MerchantNavBar.vue';
 import Footer from '@/components/Footer.vue';
 import MerchantCouponList from '@/components/MerchantCouponList.vue';
 import MerchantPromotionList from '@/components/MerchantPromotionList.vue';
+import UpgradeModal from '@/components/MerchantUpgradeModal.vue'
 
 const route = useRoute();
 const router = useRouter();
@@ -98,6 +105,13 @@ const fetchDashboard = async () => {
     console.error('取得商家資料失敗:', err);
   }
 };
+
+const showUpgradeModal = ref(false)
+const upgradeMessage = ref(null)
+const openUpgradeModal = (message = null) => {
+  upgradeMessage.value = message
+  showUpgradeModal.value = true
+}
 
 onMounted(fetchDashboard);
 </script>
