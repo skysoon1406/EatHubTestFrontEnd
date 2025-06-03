@@ -29,7 +29,7 @@
           <div class="text-center space-y-2">
             <p>
               還沒有帳號？
-              <router-link to="/merchant-signup" class="link link-hover text-primary"
+              <router-link to="/merchant/signup" class="link link-hover text-primary"
                 >註冊</router-link
               >
             </p>
