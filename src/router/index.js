@@ -80,6 +80,12 @@ const routes = [
     component: NotFound,
   },
   {
+    path: '/merchant/coupons/create',
+    name: 'CouponCreate',
+    component: () => import('../views/CouponCreate.vue'),
+    meta: { requiresAuth: true, requiresMerchant: true },
+  },
+  {
     path: '/merchant/promotions/create',
     name: 'PromotionsCreate',
     component: () => import('../views/PromotionsCreate.vue'),
@@ -89,6 +95,7 @@ const routes = [
     path: '/merchant/promotions/:uuid',
     name: 'PromotionDetail',
     component: () => import('../views/PromotionDetail.vue'),
+    meta: { requiresAuth: true, requiresMerchant: true },
   },
 ];
 
