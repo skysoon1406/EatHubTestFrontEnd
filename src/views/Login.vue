@@ -36,6 +36,9 @@
               </button>
             </div>
           </form>
+          <p v-if="errorMessage" class="text-red-500 text-sm text-center">
+            {{ errorMessage }}
+          </p>
           
           <div class="divider">或</div>
           <GoogleLoginButton />
@@ -72,11 +75,17 @@ const alert = useAlertStore();
 const email = ref('');
 const password = ref('');
 const router = useRouter();
+const errorMessage = ref('');
 
 const handleLogin = async () => {
   const authStore = useAuthStore();
-  await authStore.login(email.value, password.value);
-  alert.trigger('登入成功 🎉', 'success');
-  router.push('/');
+  errorMessage.value = '';
+  try{
+    await authStore.login(email.value, password.value);
+    alert.trigger('登入成功 🎉', 'success');
+    router.push('/');
+  } catch(error){
+    errorMessage.value = error?.response?.data?.error 
+  }
 };
 </script>
