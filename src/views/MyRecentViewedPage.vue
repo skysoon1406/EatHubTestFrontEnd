@@ -20,9 +20,30 @@ import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import RestaurantCard from '@/components/RestaurantCard.vue';
 import { useRestaurantStore } from '@/stores/restaurant';
-import { storeToRefs } from 'pinia';
+import { ref, onMounted } from 'vue';
+import axios from '@/axios';
 
 const store = useRestaurantStore();
-const { recentViewedRestaurants } = storeToRefs(store);
-const restaurants = recentViewedRestaurants;
+const restaurants = ref([]);
+
+onMounted(async () => {
+  const uuids = store.recentViewedUuids;
+
+  if (!uuids || uuids.length === 0) return;
+
+  const params = new URLSearchParams();
+  uuids.forEach((uuid) => {
+    params.append('uuids', uuid);
+  });
+
+  try {
+    const response = await axios.get('/restaurants/recent-viewed/', { params });
+    console.log('取得的餐廳資料：', response.data);
+    restaurants.value = response.data.result || [];
+  } catch (err) {
+    console.error('取得最近瀏覽餐廳失敗', err);
+  }
+});
+
+
 </script>
