@@ -27,7 +27,7 @@
             <div class="flex gap-3">
               <router-link 
                 to="/forgot-password" 
-                class="btn btn-primary flex-1"
+                class="btn btn-outline btn-primary flex-1"
               >
                 忘記密碼
               </router-link>
@@ -72,6 +72,7 @@ const alert = useAlertStore();
 const email = ref('');
 const password = ref('');
 const router = useRouter();
+
 
 const handleLogin = async () => {
   const authStore = useAuthStore();
