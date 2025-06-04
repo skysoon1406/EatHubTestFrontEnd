@@ -92,6 +92,11 @@ const routes = [
     name: 'PromotionDetail',
     component: () => import('../views/PromotionDetail.vue'), 
   },
+  {
+    path: '/payments/success',
+    name: 'PaymentSuccess',
+    component: () => import('@/views/PaymentSuccess.vue'),
+  },
 ];
 
 const router = createRouter({
