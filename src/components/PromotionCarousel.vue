@@ -14,7 +14,7 @@
           <img
             v-if="promotion.imageUrl"
             :src="promotion.imageUrl"
-            class="w-full h-40 object-cover"
+            class="w-full max-h-100 object-contain mx-auto"
             :alt="promotion.title"
           />
           <div class="p-4">
