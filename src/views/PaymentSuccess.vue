@@ -50,9 +50,6 @@ onMounted(async () => {
 
   try {
     const res = await axios.get(`/payments/order/${orderId}/`)
-    console.log('接收到的 orderId：', route.query.orderId)
-    console.log('實際打出去的 API：', axios.defaults.baseURL + `/payments/order/${orderId}/`)
-
     orderData.value = res.data.result
     isSuccess.value = true
   } catch (err) {
