@@ -90,7 +90,7 @@ const routes = [
   {
     path: '/merchant/promotions/:uuid',
     name: 'PromotionDetail',
-    component: () => import('../views/PromotionDetail.vue'), 
+    component: () => import('../views/PromotionDetail.vue'),
   },
 ];
 
