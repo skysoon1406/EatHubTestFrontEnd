@@ -26,3 +26,43 @@
     </div>
   </div>
 </template>
+
+<script setup>Add commentMore actions
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import axios from '@/axios'
+
+const route = useRoute()
+const router = useRouter()
+
+const isLoading = ref(true)
+const isSuccess = ref(false)
+const errorMsg = ref('')
+const orderData = ref(null)
+
+onMounted(async () => {
+  const orderId = route.query.orderId
+  if (!orderId) {
+    errorMsg.value = '找不到訂單資訊，請確認付款是否成功。'
+    isLoading.value = false
+    return
+  }
+
+  try {
+    const res = await axios.get(`/payments/order/${orderId}/`)
+    console.log('接收到的 orderId：', route.query.orderId)
+    console.log('實際打出去的 API：', axios.defaults.baseURL + `/payments/order/${orderId}/`)
+
+    orderData.value = res.data.result
+    isSuccess.value = true
+  } catch (err) {
+    errorMsg.value = '查詢訂單資訊失敗，請聯絡客服。'
+  } finally {
+    isLoading.value = false
+  }
+})
+
+const goHome = () => {
+  router.push({ name: 'MerchantDashboard' })
+}
+</script>
