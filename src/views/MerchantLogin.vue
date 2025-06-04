@@ -32,7 +32,9 @@
             <button class="btn btn-primary flex-2" type="submit">登入</button>
             </div>
           </form>
-        
+          <p v-if="errorMessage" class="text-red-500 text-sm text-center mt-2">
+            {{ errorMessage }}
+          </p>  
 
           <div class="text-center space-y-2">
             <p>
@@ -63,10 +65,16 @@ import Footer from '@/components/Footer.vue';
 const email = ref('');
 const password = ref('');
 const router = useRouter();
+const errorMessage = ref('');
 
 const handleLogin = async () => {
   const authStore = useAuthStore();
-  await authStore.login(email.value, password.value);
-  router.push({ name: 'MerchantDashboard' });
+  errorMessage.value = '';
+  try{
+    await authStore.login(email.value, password.value);
+    router.push({ name: 'MerchantDashboard' });
+  } catch (error) {
+    errorMessage.value = error?.response?.data?.error || '登入失敗，請確認帳號密碼';
+  }
 };
 </script>
