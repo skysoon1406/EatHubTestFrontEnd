@@ -1,7 +1,7 @@
 <template>
   <!-- 頂部導航欄 -->
   <div
-    class="navbar bg-white  px-4 py-3 shadow-md flex justify-between items-center"
+    class="navbar bg-white  px-4 py-10 shadow-md flex justify-between items-center fixed z-50  top-0 left-0 w-ful h-16" 
   >
     <!-- 左邊 Logo 區 -->
     <div class="flex items-center">

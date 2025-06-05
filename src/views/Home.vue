@@ -71,9 +71,9 @@
       </div>
     </div>
 
-    <div class="p-6 space-y-4 text-center bg-page-bg bg-cover md:bg-center bg-no-repeat bg-[left_200px_top_0]">
+    <div class="md:pt-10 pt-20 pb-20 space-y-4 text-center bg-page-bg bg-auto md:bg-center bg-no-repeat bg-[left_1000px_top_100]">
       <Slogan />
-      <div class="w-full max-w-[700px] mx-auto px-4 bg-white card text-white shadow-[0_0_12px_rgba(0,0,0,0.2)]  md:mt-10 md:mb-20">
+      <div class="w-full max-w-[360px] md:max-w-[800px] mx-auto px-4 bg-white  rounded-xl text-white shadow-[0_0_12px_rgba(0,0,0,0.2)]  md:mt-10 ">
         <!-- <h2 class="text-4xl font-bold m-10">{{ t('index.title') }}</h2> -->
         <div class="flex space-x-4">
           <div class="w-1/3 card bg-secondary text-neutral-content mt-4">
@@ -102,11 +102,11 @@
           </div>
         </div>
         <div class="max-w-[960px] mx-auto px-4 mt-6">
-      <div class="flex gap-3 mx-auto">
+      <div class="flex gap-4 mx-auto">
               <!-- 主按鈕 -->
               <button
                 @click="runSlotMachine"
-                class="flex-1 btn  bg-primary text-white rounded-xl font-bold text-m md:text-xl p-6 hover:bg-[rgb(87,57,33)] md:min-w-[540px]  min-w-[200px] "
+                class="flex-1 btn  bg-primary text-white rounded-xl font-bold text-lg md:text-2xl p-6 hover:bg-[rgb(87,57,33)] md:min-w-[540px]  min-w-[200px] tracking-wider"
               >
                 {{ t('index.ctaButton') }}
               </button>
@@ -132,8 +132,8 @@
 
 
 
-    <div class="p-6 text-center relative">
-      <h2 class="text-2xl  md:text-3xl font-bold mb-4 p-6 text-neutral">
+    <div class="p-6 md:p-4 text-center relative">
+      <h2 class="text-2xl  md:text-3xl font-bold mb-4 text-neutral md:pb-10 pd-8">
         {{ t('index.recommendResultTitle') }}
         <span v-if="dishResult">：{{ dishResult }}</span>
       </h2>
