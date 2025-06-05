@@ -2,10 +2,10 @@
   <footer class="bg-[#573921] text-white py-12 px-8">
     <div class="max-w-6xl mx-auto">
       <!-- 主要內容區域 -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div class="grid grid-rows-1 md:grid-cols-4 gap-8 mb-8">
         
         <!-- Logo 和聯絡資訊 -->
-        <div class="col-span-1">
+        <div class="row-span-1">
           <div class="flex items-center mb-6">
             <img src="@/assets/images/logo_w.png" alt="Logo" class="w-40 mr-2   mt-4" />
           </div>
@@ -21,7 +21,7 @@
         </div>
 
         <!-- 關於我們 -->
-        <div class="col-span-1 md:mt-6">
+        <div class="row-span-1 md:mt-6" >
           <h4 class="font-bold mb-4 text-base">{{ t('footer.about') || '關於我們' }}</h4>
           <ul class="text-sm space-y-2">
             <li><a href="#" class="hover:text-orange-300 transition-colors">服務項目</a></li>
@@ -44,7 +44,7 @@
         </div>
 
         <!-- 社群媒體 -->
-        <div class="col-span-1 md:mt-6">
+        <div class="row-span-1 md:mt-6">
           <h4 class="font-bold mb-4 text-base">{{ t('footer.socialMedia') || '社群媒體' }}</h4>
           <ul class="text-sm space-y-2">
             <li><a href="#" class="hover:text-orange-300 transition-colors">Facebook</a></li>
@@ -54,7 +54,7 @@
         </div>
 
         <!-- 語言選擇 -->
-        <div class="col-span-1 md:mt-6">
+        <div class="row-span-1 md:mt-6">
           <h4 class="font-bold mb-4 text-base">{{ t('footer.language') || '語言選擇' }}</h4>
           <div class="relative">
             <select 

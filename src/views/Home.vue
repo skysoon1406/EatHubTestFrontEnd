@@ -102,7 +102,7 @@
           </div>
         </div>
         <div class="max-w-[960px] mx-auto px-4 mt-6">
-      <div class="flex gap-4 mx-auto">
+      <div class="flex  gap-3 mx-auto">
               <!-- 主按鈕 -->
               <button
                 @click="runSlotMachine"
@@ -114,7 +114,7 @@
             
               <label
                 for="my-modal"
-                class="btn btn-sm bg-gray-200 text-gray-800 border border-gray-300 rounded-lg  text-m md:text-xl p-6 hover:bg-gray-400"
+                class="btn btn-sm bg-gray-200 text-gray-800 border border-gray-200 rounded-lg  text-lg md:text-xl p-6 hover:bg-gray-400"
               >
                 <font-awesome-icon :icon="['fas', 'sliders']" />
               </label>
