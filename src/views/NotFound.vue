@@ -39,7 +39,7 @@
           
           <!-- 返回按鈕 - 響應式大小 -->
           <button 
-            class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold py-3 px-8 sm:py-4 sm:px-10 md:py-5 md:px-12 text-base sm:text-lg md:text-xl rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-cyan-500/50"
+            class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold py-3 px-8 sm:py-4 sm:px-10 md:py-5 md:px-12 text-base sm:text-lg md:text-xl rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-cyan-500/50 cursor-pointer"
             @click="navigateToHome"
           >
             返回主頁
@@ -49,24 +49,14 @@
       
       <!-- 公司 Logo - 響應式定位 -->
       <div class="logo-container absolute top-16 sm:top-24 w-50 h-50 sm:w-60 sm:h-60 md:w-70 md:h-70 z-10">
-        <!-- 方法一: 使用圖片 Logo -->
+     
         <img 
-          src="/src/assets/images/logo.png" 
+          src="/src/assets/images/logo_2.png" 
           alt="EatHub Logo" 
           class="w-full h-full object-contain"
         />
         
-        <!-- 方法二: 如果沒有圖片，使用文字 Logo (註解掉)
-        <div class="w-full h-full bg-gradient-to-br from-orange-400 to-red-500 rounded-lg shadow-lg shadow-orange-400/50 flex items-center justify-center">
-          <span class="text-white font-bold text-xs sm:text-sm md:text-base">EatHub</span>
-        </div>
-        -->
-        
-        <!-- 方法三: 使用 SVG Logo (註解掉)
-        <svg class="w-full h-full text-orange-500 drop-shadow-lg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M21,9V7L15,1H5C3.89,1 3,1.89 3,3V21A2,2 0 0,0 5,23H19A2,2 0 0,0 21,21V9M12,9C14.7,9 17,11.3 17,14C17,16.7 14.7,19 12,19C9.3,19 7,16.7 7,14C7,11.3 9.3,9 12,9Z"/>
-        </svg>
-        -->
+  
       </div>
       
       <!-- 行星 - 響應式定位和大小 -->
@@ -91,7 +81,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const astronaut = ref(null);
 
-// 計算當前年份
+
 const currentYear = computed(() => new Date().getFullYear());
 
 // 導航到首頁
@@ -109,12 +99,12 @@ const handleMouseMove = (e) => {
   astronaut.value.style.transform = `translateY(${y * 20}px) translateX(${x * 20}px) rotate(${x * 10}deg)`;
 };
 
-// 生命週期掛載
+
 onMounted(() => {
   window.addEventListener('mousemove', handleMouseMove);
 });
 
-// 清理事件監聽
+
 onUnmounted(() => {
   window.removeEventListener('mousemove', handleMouseMove);
 });
@@ -259,7 +249,7 @@ onUnmounted(() => {
   }
 }
 
-/* 響應式斷點優化 */
+
 @media (max-width: 640px) {
   .error-glow {
     text-shadow: 
