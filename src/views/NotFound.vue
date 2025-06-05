@@ -1,4 +1,5 @@
 <template>
+  <Navbar></Navbar>
   <!-- 響應式外層容器 -->
   <div class="w-full min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900">
     <div class="w-full min-h-screen text-white relative overflow-hidden">
@@ -21,8 +22,8 @@
           </div>
           
           <!-- 主要訊息 - 響應式文字 -->
-          <h1 class="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-            哎呀！您迷失在太空了
+          <h1 class="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white animate-pulse-text">
+          哎呀！您迷失在太空了
           </h1>
           
           <!-- 副訊息 - 響應式文字 -->
@@ -62,52 +63,27 @@
       <!-- 行星 - 響應式定位和大小 -->
       <div class="planet absolute bottom-8 sm:bottom-12 md:bottom-16 right-8 sm:right-12 md:right-16 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 shadow-lg shadow-purple-500/50 z-10"></div>
       
-      <!-- 響應式頁腳 -->
-      <footer class="bg-gradient-to-r from-blue-900/90 to-indigo-900/90 backdrop-blur-sm text-blue-200 border-t border-white/10 relative z-10 py-4 px-4">
-        <div class="text-center">
-          <p class="text-xs sm:text-sm md:text-base">
-            © {{ currentYear }} EatHub餐廳推薦 | 所有權利保留
-          </p>
-        </div>
-      </footer>
+      
+      
     </div>
+     <Footer></Footer>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
 
 const router = useRouter();
-const astronaut = ref(null);
 
-
-const currentYear = computed(() => new Date().getFullYear());
 
 // 導航到首頁
 const navigateToHome = () => {
   router.push('/');
 };
 
-// 滑鼠移動事件處理 - 在小螢幕上禁用
-const handleMouseMove = (e) => {
-  if (!astronaut.value || window.innerWidth <= 768) return;
-  
-  const x = e.clientX / window.innerWidth - 0.5;
-  const y = e.clientY / window.innerHeight - 0.5;
-  
-  astronaut.value.style.transform = `translateY(${y * 20}px) translateX(${x * 20}px) rotate(${x * 10}deg)`;
-};
-
-
-onMounted(() => {
-  window.addEventListener('mousemove', handleMouseMove);
-});
-
-
-onUnmounted(() => {
-  window.removeEventListener('mousemove', handleMouseMove);
-});
 </script>
 
 <style scoped>
@@ -181,9 +157,9 @@ onUnmounted(() => {
     0 0 40px #0891b2;
 }
 
-/* 太空人浮動動畫 */
+/* 浮動動畫 */
 .astronaut {
-  animation: astronaut-float 6s ease-in-out infinite;
+  animation: astronaut-float 5s ease-in-out infinite;
 }
 
 @keyframes astronaut-float {
@@ -276,4 +252,18 @@ onUnmounted(() => {
       0 0 45px #06b6d4,
       0 0 60px #0891b2;
   }
+
+  @keyframes pulseText {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-pulse-text {
+  animation: pulseText 2s ease-in-out infinite;
+  display: inline-block; /* 確保 transform 能正常作用 */
+}
 }</style>
