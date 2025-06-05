@@ -1,6 +1,6 @@
 <template>
   <router-link :to="`/restaurants/${restaurant.uuid}`">
-    <div class="card relative shadow-md p-4 flex flex-col sm:flex-row gap-4">
+    <div class="card relative shadow-[0_0_10px_rgba(0,0,0,0.25)] p-4 flex flex-col sm:flex-row gap-4">
       <div
         v-if="restaurant.hasAvailableCoupon"
         class="absolute bottom-3 right-3 bg-[rgb(226,102,55)] text-white text-xs px-2 py-1 rounded-full shadow"
@@ -15,7 +15,7 @@
         />
       </div>
 
-      <div class="flex flex-col justify-between w-full">
+      <div class="flex flex-col justify-between w-full ">
         <h4 class="text-lg font-semibold line-clamp-1" :title="restaurant.name">
           {{ restaurant.name }}
         </h4>
