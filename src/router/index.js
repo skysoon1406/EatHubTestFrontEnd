@@ -99,6 +99,11 @@ const routes = [
     component: () => import('../views/PromotionDetail.vue'),
     meta: { requiresAuth: true, requiresMerchant: true },
   },
+  {
+    path: '/payments/success',
+    name: 'PaymentSuccess',
+    component: () => import('@/views/PaymentSuccess.vue'),
+  },
 ];
 
 const router = createRouter({
