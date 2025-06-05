@@ -151,5 +151,24 @@ const openUpgradeModal = (message = null) => {
   upgradeMessage.value = message
   showUpgradeModal.value = true
 }
+
+const today = new Date()
+
+
+const daysLeft = computed(() => {
+  if (!vipExpiry.value) return null
+  const diffTime = new Date(vipExpiry.value) - today
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+})
+
+const isExpiringSoon = computed(() => {
+  return daysLeft.value !== null && daysLeft.value <= 7 && daysLeft.value >= 0
+})
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr)
+  return date.toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' })
+}
+
 onMounted(fetchDashboard);
 </script>
