@@ -113,12 +113,13 @@
     </div>
 
     <div class="p-6 text-center relative">
-      <h2 class="text-2xl font-bold mb-4 p-6">
+      
+      <h2 v-if="restaurants.length > 0" class="text-2xl font-bold mb-4 p-6">
         {{ t('index.recommendResultTitle') }}
         <span v-if="dishResult">：{{ dishResult }}</span>
       </h2>
 
-      <!-- Loading 遮罩 -->
+      
       <div
         v-if="isLoading"
         class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10"
@@ -126,8 +127,8 @@
         <span class="loading loading-spinner loading-lg text-primary"></span>
       </div>
 
-      <div v-if="restaurants.length === 0">尚未有推薦</div>
-      <div v-else class="grid gap-4">
+      
+      <div v-if="restaurants.length > 0" class="grid gap-4">
         <RestaurantCard
           v-for="r in restaurants"
           :key="r.placeId"
@@ -135,8 +136,9 @@
           @click="handleRecentViewedRestaurant(r)"
         />
       </div>
-      <br />
-      <router-link to="/restaurants">
+      
+      <br v-if="restaurants.length > 0" />
+      <router-link v-if="restaurants.length > 0" to="/restaurants">
         <button class="btn btn-primary btn-lg">
           {{ t('index.seeMoreButton') }}
         </button>
