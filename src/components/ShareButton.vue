@@ -10,7 +10,7 @@
   <!-- 分享彈窗 -->
   <div 
     v-if="showShareModal" 
-    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" 
+    class="fixed inset-0 bg-black/80 flex items-center justify-center z-50" 
     @click="closeShareModal"
   >
     <div class="bg-white rounded-lg p-6 m-4 max-w-sm w-full" @click.stop>
