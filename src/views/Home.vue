@@ -1,9 +1,7 @@
 <template>
-  <div>
     <Navbar></Navbar>
-    <Slogan />
-    
-    <!-- 原有的選項設定Modal -->
+  <div>
+
     <input type="checkbox" id="my-modal" class="modal-toggle" />
     <div class="modal">
       <div class="modal-box">
@@ -99,28 +97,29 @@
       </div>
     </div>
 
-    <div class="p-6 space-y-4 text-center">
-      <div class="bg-primary card text-white p-4">
-        <h2 class="text-4xl font-bold m-10">{{ t('index.title') }}</h2>
+    <div class="md:pt-10 pt-20 pb-20 space-y-4 text-center bg-page-bg bg-auto md:bg-center bg-no-repeat bg-[left_1000px_top_100]">
+      <Slogan />
+      <div class="w-full max-w-[360px] md:max-w-[800px] mx-auto px-4 bg-white  rounded-xl text-white shadow-[0_0_12px_rgba(0,0,0,0.2)]  md:mt-10 ">
+        <!-- <h2 class="text-4xl font-bold m-10">{{ t('index.title') }}</h2> -->
         <div class="flex space-x-4">
-          <div class="w-1/3 card bg-secondary text-neutral-content">
-            <div class="card-body flex items-center justify-center text-5xl">
+          <div class="w-1/3 card bg-secondary text-neutral-content mt-4">
+            <div class="card-body flex items-center justify-center md:text-5xl text-3xl">
               <font-awesome-icon
                 :icon="flavorIcon"
                 :style="{ color: 'var(--color-neutral)' }"
               />
             </div>
           </div>
-          <div class="w-1/3 card bg-secondary text-neutral-content">
-            <div class="card-body flex items-center justify-center text-5xl">
+          <div class="w-1/3 card bg-secondary text-neutral-content mt-4">
+            <div class="card-body flex items-center justify-center md:text-5xl text-3xl">
               <font-awesome-icon
                 :icon="mainIcon"
                 :style="{ color: 'var(--color-neutral)' }"
               />
             </div>
           </div>
-          <div class="w-1/3 card bg-secondary text-neutral-content">
-            <div class="card-body flex items-center justify-center text-5xl">
+          <div class="w-1/3 card bg-secondary text-neutral-content mt-4">
+            <div class="card-body flex items-center justify-center md:text-5xl text-3xl">
               <font-awesome-icon
                 :icon="typeIcon"
                 :style="{ color: 'var(--color-neutral)' }"
@@ -128,21 +127,39 @@
             </div>
           </div>
         </div>
-        
-        <div class="flex justify-end mt-6">
-          <label for="my-modal" class="btn btn-neutral align-item-end">
-            <font-awesome-icon :icon="['fas', 'sliders']" />
-          </label>
-        </div>
+        <div class="max-w-[960px] mx-auto px-4 mt-6">
+      <div class="flex  gap-3 mx-auto">
+              <!-- 主按鈕 -->
+              <button
+                @click="runSlotMachine"
+                class="flex-1 btn  bg-primary text-white rounded-xl font-bold text-lg md:text-2xl p-6 hover:bg-[rgb(87,57,33)] md:min-w-[540px]  min-w-[200px] tracking-wider"
+              >
+                {{ t('index.ctaButton') }}
+              </button>
+
+            
+              <label
+                for="my-modal"
+                class="btn btn-sm bg-gray-200 text-gray-800 border border-gray-200 rounded-lg  text-lg md:text-xl p-6 hover:bg-gray-400"
+              >
+                <font-awesome-icon :icon="['fas', 'sliders']" />
+              </label>
+              
+            </div>
+          </div>
+
         <br />
-        <button class="btn btn-neutral btn-lg" @click="runSlotMachine">
-          {{ t('index.ctaButton') }}
-        </button>
+
+      
+        
       </div>
     </div>
 
-    <div class="p-6 text-center relative">
-      <h2 class="text-2xl font-bold mb-4 p-6">
+
+
+
+    <div class="p-6 md:p-4 text-center relative">
+      <h2 class="text-2xl  md:text-3xl font-bold mb-4 text-neutral md:pb-10 pd-8">
         {{ t('index.recommendResultTitle') }}
         <span v-if="dishResult">：{{ dishResult }}</span>
       </h2>
@@ -162,11 +179,12 @@
           :key="r.placeId"
           :restaurant="r"
           @click="handleRecentViewedRestaurant(r)"
+          class="w-full max-w-[700px] mx-auto"
         />
       </div>
       <br />
       <router-link to="/restaurants">
-        <button class="btn btn-primary btn-lg">
+        <button class="btn btn-primary btn-lg text-white rounded-xl mb-20 mt-5 hover:bg-[rgb(87,57,33)]">
           {{ t('index.seeMoreButton') }}
         </button>
       </router-link>
@@ -174,6 +192,7 @@
     <IntroductionCard />
     <Footer></Footer>
   </div>
+
 </template>
 
 <script setup>
@@ -423,3 +442,10 @@ const clearAll = () => {
   if (activeTab.value === 'staples') staples.value = [];
 };
 </script>
+
+<style>
+.bg-page-bg {
+  background-image: url('@/assets/images/background.jpg');
+}
+
+</style>

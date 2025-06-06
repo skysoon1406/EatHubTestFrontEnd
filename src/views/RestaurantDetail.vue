@@ -222,6 +222,7 @@ import ShareButton from '@/components/ShareButton.vue';
 import { useAuthStore } from '../stores/auth';
 import { useAlertStore } from '@/stores/alert';
 import { storeToRefs } from 'pinia';
+import { useRestaurantStore } from '@/stores/restaurant';
 
 const route = useRoute();
 const alert = useAlertStore();
@@ -231,6 +232,12 @@ const restaurant = reactive({});
 const openHours = reactive({});
 const mapUrl = ref('');
 const placeId = ref('');
+const store = useRestaurantStore();
+
+onMounted(() => {
+  const restaurantUuid = route.params.id; 
+  store.addRecentViewedUuid(restaurantUuid);
+});
 const isFavorite = ref(false);
 const promotions = ref([]);
 const coupons = ref([]);

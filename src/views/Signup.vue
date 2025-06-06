@@ -54,6 +54,9 @@
           </section>
 
           <button class="btn btn-primary w-full">註冊</button>
+          <p v-if="errorMessage" class="text-red-500 text-sm text-center mt-2">
+            {{ errorMessage }}
+          </p>
 
           <div class="divider">或</div>
           <GoogleLoginButton />
@@ -91,8 +94,10 @@ const lastName = ref('');
 const userName = ref('');
 const email = ref('');
 const password = ref('');
+const errorMessage = ref('');
 
 const handleSignup = async () => {
+  errorMessage.value = '';
   try {
     await authStore.signup(
       firstName.value,
@@ -104,11 +109,13 @@ const handleSignup = async () => {
     alert.trigger('註冊成功！請前往登入', 'success');
     router.push('/login');
   } catch (err) {
-    if (err.response && err.response.data) {
-      alert.trigger(`註冊失敗：${JSON.stringify(err.response.data)}`, 'error');
-      router.push('/login');
+    const errors = err.response?.data;
+    if (errors && typeof errors === 'object') {
+      const firstField = Object.keys(errors)[0];
+      const firstError = errors[firstField?.[0]];
+      errorMessage.value = firstError || '註冊失敗，該信箱已被註冊過。';
     } else {
-      alert.trigger('註冊失敗', 'error');
+      errorMessage.value = '註冊失敗，請稍後再試。'
     }
   }
 };
