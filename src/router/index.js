@@ -8,8 +8,6 @@ const routes = [
   { path: '/', component: () => import('../views/Home.vue') },
   { path: '/login', component: () => import('../views/Login.vue') },
   { path: '/signup', component: () => import('../views/Signup.vue') },
-  { path: '/forgot-password', component: () => import('../views/ForgotPassword.vue')},
- 
   {
     path: '/merchant/signup',
     component: () => import('../views/MerchantSignup.vue'),
@@ -99,11 +97,6 @@ const routes = [
     component: () => import('../views/PromotionDetail.vue'),
     meta: { requiresAuth: true, requiresMerchant: true },
   },
-  {
-    path: '/payments/success',
-    name: 'PaymentSuccess',
-    component: () => import('@/views/PaymentSuccess.vue'),
-  },
 ];
 
 const router = createRouter({
@@ -113,26 +106,30 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  if (to.meta.requiresAuth) {
+
+  if (!to.meta.requiresAuth) {
+    return next();
+  }
+
+  try {
+    await axios.get('/auth/me');
+
     if (to.meta.requiresMerchant) {
       if (
-        authStore.user.role === 'vip_merchant' ||
-        authStore.user.role === 'merchant'
+        authStore.user &&
+        (authStore.user.role === 'vip_merchant' ||
+          authStore.user.role === 'merchant')
       ) {
-        next();
+        return next();
       } else {
-        next('/');
+        return next('/');
       }
+    } else {
+      return next();
     }
-    try {
-      await axios.get('/auth/me');
-      next();
-    } catch {
-      authStore.clearUser();
-      next('/login');
-    }
-  } else {
-    next();
+  } catch {
+    authStore.clearUser();
+    return next('/login');
   }
 });
 
