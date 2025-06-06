@@ -52,7 +52,7 @@
       <div class="logo-container absolute top-16 sm:top-24 w-50 h-50 sm:w-60 sm:h-60 md:w-70 md:h-70 z-10">
      
         <img 
-          src="/src/assets/images/logo_2.png" 
+          src="/src/assets/images/logo.png" 
           alt="EatHub Logo" 
           class="w-full h-full object-contain"
         />

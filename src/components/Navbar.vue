@@ -1,12 +1,12 @@
 <template>
   <!-- 頂部導航欄 -->
   <div
-    class="navbar bg-white shadow-sm px-4 py-3 border-b flex justify-between items-center"
+    class="navbar bg-white  px-4 py-10 shadow-md flex justify-between items-center fixed z-50  top-0 left-0 w-ful h-16" 
   >
     <!-- 左邊 Logo 區 -->
     <div class="flex items-center">
       <a href="/">
-        <img src="@/assets/images/logo_5.gif" alt="Logo" class="w-45 h-12 mr-2" />
+        <img src="@/assets/images/logo.png" alt="Logo" class="w-40 mr-2  md:ml-10 mt-4" />
       </a>
     </div>
 
@@ -57,13 +57,13 @@
         <label tabindex="0" class="btn btn-ghost btn-circle">
           <font-awesome-icon
             :icon="['fas', 'bars']"
-            class="text-3xl text-orange-600"
+            class="text-3xl text-[rgb(226,102,55)] mt-4"
           />
         </label>
         <ul
           v-if="user"
           tabindex="0"
-          class="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-lg"
+          class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm "
         >
           <li>
             <a href="#" class="text-sm">目前登入者：{{ user.userName }}</a>
