@@ -1,9 +1,9 @@
 <template>
   <!-- 分享按鈕 -->
-  <button @click="toggleShareModal" class="btn btn-circle">
+  <button @click="toggleShareModal" class="btn rounded-xl bg-gray-200 ">
     <font-awesome-icon
-      :icon="['fas', 'share-alt']"
-      class="text-gray-600 text-xl"
+      :icon="['fas', 'arrow-up-right-from-square']"
+      class="text-[rgb(87,57,33)]' text-sm md:text-xl text-gray-400"
     />
   </button>
 
@@ -15,8 +15,8 @@
   >
     <div class="bg-white rounded-lg p-6 m-4 max-w-sm w-full" @click.stop>
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-bold">分享餐廳</h3>
-        <button @click="closeShareModal" class="text-gray-500 hover:text-gray-700">
+        <h3 class="text-lg md:text-2xl font-bold mx-auto">分享餐廳</h3>
+        <button @click="closeShareModal" class="text-[rgb(87,57,33)]' hover:text-gray-700 ">
           <font-awesome-icon :icon="['fas', 'times']" class="text-xl" />
         </button>
       </div>
@@ -49,10 +49,10 @@
           @click="shareToTwitter" 
           class="flex flex-col items-center p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
         >
-          <div class="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center mb-2">
-            <font-awesome-icon :icon="['fab', 'twitter']" class="text-white text-xl" />
+          <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center mb-2">
+            <font-awesome-icon :icon="['fab', 'x-twitter']" class="text-white text-xl" />
           </div>
-          <span class="text-xs text-gray-700">Twitter</span>
+          <span class="text-xs text-gray-700">X</span>
         </button>
         
         <!-- 複製連結 -->

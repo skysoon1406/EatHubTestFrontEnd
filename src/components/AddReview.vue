@@ -1,6 +1,6 @@
 <template>
-    <div v-if="show" class="modal-overlay" @click.self="closeModal">
-      <div class="modal-container">
+    <div v-if="show" class="modal-overlay max-w-screen-lg mx-auto" @click.self="closeModal">
+      <div class="modal-container ">
         <!-- 使用者頭像與名稱 -->
         <div class="user-info">
           <img :src="userAvatar" alt="頭像" class="avatar border border-black" />
