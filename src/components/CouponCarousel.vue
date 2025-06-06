@@ -5,28 +5,17 @@
       class="flex transition-transform duration-500"
       :style="`transform: translateX(-${currentIndex * 100}%);`"
     >
+      
       <div
         v-for="(coupon, index) in coupons"
         :key="coupon.uuid"
         class="w-full flex-shrink-0 mt-4 "
       >
         <div class="bg-gray-100 rounded-lg p-4">
-          <button
-            @click="claimCoupon(coupon.uuid)"
-            :class="[
-              'btn w-full rounded-lg mb-2 border transition-colors duration-300 text-base md:text-lg',
-              claimedLocal[coupon.uuid]
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed text-base md:text-lg'
-                : 'bg-primary text-white hover:neutral text-base md:text-lg',
-            ]"
-            :disabled="claimedLocal[coupon.uuid]"
-          >
-            <font-awesome-icon :icon="['fas', 'ticket-alt']" class="mr-2 " />
-            {{ claimedLocal[coupon.uuid] ? '已領取' : '領取優惠券' }}
-          </button>
+         
 
           <!-- 詳細內容 -->
-          
+          <h4 class="text-base md:text-xl font-bold mb-2">優惠券詳細資訊</h4>
           <div class="space-y-2 text-sm">
             <div>
               <span class="text-gray-500 text-base md:text-lg">標題：</span>
@@ -47,21 +36,32 @@
             </div>
             <div v-if="coupon.description">
               <span class="text-gray-500 text-base md:text-lg">使用說明：</span>
-              <p class="text-gray-700 text-base md:text-lg">{{ coupon.description }}</p>
+              <p class="text-gray-700 text-base md:text-lg mb-4">{{ coupon.description }}</p>
             </div>
           </div>
 
-          <div class="mt-3 text-base md:text-lg text-gray-500 ">
-            <span v-if="claimedLocal[coupon.uuid]">已領取</span>
-            <span v-else>尚未領取</span>
-          </div>
+         
+          <button
+            @click="claimCoupon(coupon.uuid)"
+            :class="[
+              'btn w-full rounded-lg mb-2 border transition-colors duration-300 text-base md:text-lg cursor-pointer ',
+              claimedLocal[coupon.uuid]
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed text-base md:text-lg'
+                : 'bg-primary text-white hover:bg-neutral text-base md:text-lg',
+            ]"
+            :disabled="claimedLocal[coupon.uuid]"
+          >
+            <font-awesome-icon :icon="['fas', 'ticket-alt']" class="mr-2 " />
+            {{ claimedLocal[coupon.uuid] ? '已領取' : '領取優惠券' }}
+          </button>
+
         </div>
       </div>
     </div>
   </div>
 
   <!-- 點點控制器 -->
-  <div v-if="coupons.length > 1" class="flex justify-center mt-3 space-x-2">
+  <div v-if="coupons.length > 1" class="flex justify-center mt-3 space-x-2 ">
     <button
       v-for="(dot, index) in coupons.length"
       :key="index"

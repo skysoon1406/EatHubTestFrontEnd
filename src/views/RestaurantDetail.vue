@@ -24,7 +24,7 @@
     <!-- 餐廳名稱與操作按鈕 -->
     <div class="flex flex-col md:flex-row items-start md:items-center justify-start md:justify-between mb-1 max-w-screen-lg mx-auto px-4">
       <div class="flex items-center">
-        <h1 class="text-xl md:text-4xl font-bold md:mt-6 truncate max-w-[14em] md:truncate-none md:max-w-none mb-2">{{ restaurant.name }}</h1>
+        <h1 class="text-xl md:text-4xl font-bold md:mt-4 truncate max-w-[14em] md:truncate-none md:max-w-none mb-2">{{ restaurant.name }}</h1>
       </div>
       <div class="flex md:space-x-2 space-x-1.5">
         <ShareButton
@@ -35,13 +35,13 @@
           <font-awesome-icon
             :icon="[isFavorite ? 'fas' : 'far', 'heart']"
             :class="isFavorite ? 'text-red-500' : 'text-gray-400'"
-            class="text-sm md:text-xl "
+            class="text-lg md:text-2xl "
           />
         </button>
         <button @click="navigateToAddress" class="btn rounded-xl bg-primary">
           <font-awesome-icon
             :icon="['fas', 'location-arrow']"
-            class="text-sm md:text-xl text-white"
+            class="text-lg md:text-2xl text-white"
           />
         </button>
       </div>
@@ -111,7 +111,7 @@
 
     <!-- 優惠券輪播 -->
     <div class="mb-6 px-4 max-w-screen-lg mx-auto mt-6">
-      <h4 class="text-base md:text-2xl font-bold">優惠券詳細資訊</h4>
+      
 
         <CouponCarousel
           v-if="coupons.length"
@@ -143,7 +143,7 @@
         <button
           :disabled="hasReviewed"
           @click="handleAddReviewClick"
-          class="btn btn-sm md:btn-md border border-gray-400 text-gray-400 rounded-xl px-2 md:px-6 cursor-pointer hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base py-2 md:mt-6"
+          class="btn btn-sm md:btn-md border bg-gray-100 border-gray-200 text-gray-500 rounded-xl px-2 md:px-6 cursor-pointer hover:bg-gray-300 hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base py-2 md:mt-6"
         >
           {{ hasReviewed ? '已評論' : '＋ 新增評論' }}
         </button>
