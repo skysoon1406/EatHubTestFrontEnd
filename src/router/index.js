@@ -99,6 +99,16 @@ const routes = [
     component: () => import('../views/PromotionDetail.vue'),
     meta: { requiresAuth: true, requiresMerchant: true },
   },
+  {
+    path: '/payments/success',
+    name: 'PaymentSuccess',
+    component: () => import('@/views/PaymentSuccess.vue'),
+  },
+  {
+    path: '/payments/ecpay-submit',
+    name: 'EcpaySubmit',
+    component: () => import('@/views/EcpaySubmit.vue'),
+  },
 ];
 
 const router = createRouter({

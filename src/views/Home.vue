@@ -41,7 +41,7 @@
 
         <!-- 選項按鈕 -->
         <div
-          class="flex flex-wrap gap-2 justify-center min-h-[160px] max-w-lg mx-aut"
+          class="flex flex-wrap gap-2 justify-center min-h-[160px] max-w-lg mx-auto"
         >
           <button
             v-for="item in currentOptions"
@@ -59,7 +59,33 @@
         </div>
 
         <div class="modal-action mt-6">
-          <label for="my-modal" class="btn btn-primary w-full">確認</label>
+          <button class="btn btn-primary w-full" @click="confirmSelections">確認</button>
+        </div>
+      </div>
+    </div>
+
+    <input type="checkbox" id="validation-modal" class="modal-toggle" v-model="showValidationModal" />
+    <div class="modal">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg text-error mb-4">
+          <font-awesome-icon :icon="['fas', 'exclamation-triangle']" class="mr-2" />
+          請完成選項設定
+        </h3>
+        <div class="space-y-2">
+          <p class="text-gray-700">請確保以下選項都至少選擇一項：</p>
+          <ul class="list-disc list-inside space-y-1 ml-4">
+            <li v-if="flavors.length === 0" class="text-error">口味：請至少選擇一種口味</li>
+            <li v-if="mains.length === 0" class="text-error">主食：請至少選擇一種主食</li>
+            <li v-if="staples.length === 0" class="text-error">類型：請至少選擇一種類型</li>
+          </ul>
+        </div>
+        <div class="modal-action">
+          <button class="btn btn-primary" @click="closeValidationModal">
+            我知道了，繼續設定
+          </button>
+          <button class="btn btn-outline" @click="closeValidationModal">
+            關閉
+          </button>
         </div>
       </div>
     </div>
@@ -133,12 +159,12 @@
 
 
     <div class="p-6 md:p-4 text-center relative">
-      <h2 class="text-2xl  md:text-3xl font-bold mb-4 text-neutral md:pb-10 pd-8">
+      <h2 v-if="restaurants.length > 0"  class="text-2xl  md:text-3xl font-bold mb-4 text-neutral md:pb-10 pd-8">
         {{ t('index.recommendResultTitle') }}
         <span v-if="dishResult">：{{ dishResult }}</span>
       </h2>
 
-      <!-- Loading 遮罩 -->
+      
       <div
         v-if="isLoading"
         class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10"
@@ -146,8 +172,8 @@
         <span class="loading loading-spinner loading-lg text-primary"></span>
       </div>
 
-      <div v-if="restaurants.length === 0">尚未有推薦</div>
-      <div v-else class="grid gap-4">
+      
+      <div v-if="restaurants.length > 0" class="grid gap-4">
         <RestaurantCard
           v-for="r in restaurants"
           :key="r.placeId"
@@ -156,8 +182,13 @@
           class="w-full max-w-[700px] mx-auto"
         />
       </div>
+      
+      
+      <br v-if="restaurants.length > 0" />
+      <router-link v-if="restaurants.length > 0" to="/restaurants">
+        
       <br />
-      <router-link to="/restaurants">
+      
         <button class="btn btn-primary btn-lg text-white rounded-xl mb-20 mt-5 hover:bg-[rgb(87,57,33)]">
           {{ t('index.seeMoreButton') }}
         </button>
@@ -191,6 +222,9 @@ const store = useRestaurantStore();
 const restaurants = computed(() => store.restaurants.slice(0, 3));
 const dishResult = computed(() => store.dishResult);
 const isLoading = ref(false);
+
+
+const showValidationModal = ref(false);
 
 onMounted(() => {
   if (navigator.geolocation) {
@@ -264,6 +298,44 @@ const handleRecentViewedRestaurant = (r) => {
   store.setRecentViewedRestaurant(r);
 };
 
+// 驗證選項函數
+const validateSelections = () => {
+  const missingSelections = [];
+  
+  if (flavors.value.length === 0) {
+    missingSelections.push('口味');
+  }
+  if (mains.value.length === 0) {
+    missingSelections.push('主食');
+  }
+  if (staples.value.length === 0) {
+    missingSelections.push('類型');
+  }
+  
+  return {
+    isValid: missingSelections.length === 0,
+    missingSelections
+  };
+};
+
+
+const confirmSelections = () => {
+  const validation = validateSelections();
+  
+  if (!validation.isValid) {
+    showValidationModal.value = true;
+    return; 
+  }
+  
+  
+  document.getElementById('my-modal').checked = false;
+};
+
+
+const closeValidationModal = () => {
+  showValidationModal.value = false;
+};
+
 const getRecommendations = async () => {
   isLoading.value = true;
 
@@ -288,7 +360,8 @@ const getRecommendations = async () => {
     isLoading.value = false;
   }
 };
-// 拉霸動畫
+
+
 const flavorIcon = ref(['fas', 'utensils']);
 const mainIcon = ref(['fas', 'utensils']);
 const typeIcon = ref(['fas', 'utensils']);
@@ -311,7 +384,9 @@ const icons = [
 
 let flavorInterval, mainInterval, typeInterval;
 
+
 const runSlotMachine = async () => {
+  
   flavorInterval = setInterval(() => {
     flavorIcon.value = icons[Math.floor(Math.random() * icons.length)];
   }, 100);
@@ -332,7 +407,8 @@ const runSlotMachine = async () => {
   mainIcon.value = ['fas', 'lightbulb'];
   typeIcon.value = ['fas', 'lightbulb'];
 };
-//選項
+
+
 const activeTab = ref('flavors');
 
 const currentOptions = computed(() => {
