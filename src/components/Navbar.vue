@@ -77,10 +77,12 @@
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { useAlertStore } from '@/stores/alert';
+import { useRouter } from 'vue-router';
 
 const alert = useAlertStore();
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
+const router = useRouter();
 
 const handleLogout = async () => {
   await auth.logout();
@@ -88,6 +90,7 @@ const handleLogout = async () => {
     window.google.accounts.id.disableAutoSelect();
   }
   alert.trigger('登出成功', 'success');
+  router.push('/');
 };
 
 defineProps({});
