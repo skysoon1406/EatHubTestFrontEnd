@@ -1,55 +1,60 @@
 <template>
-  <div
-    class="flex transition-transform duration-500"
-    :style="`transform: translateX(-${currentIndex * 100}%);`"
-  >
+  <!-- 外層限制輪播寬度與 overflow -->
+  <div class="overflow-hidden w-full">
     <div
-      v-for="(coupon, index) in coupons"
-      :key="coupon.uuid"
-      class="w-full flex-shrink-0 p-4"
+      class="flex transition-transform duration-500"
+      :style="`transform: translateX(-${currentIndex * 100}%);`"
     >
-      <div class="bg-gray-50 rounded-lg p-4">
-        <button
-          @click="claimCoupon(coupon.uuid)"
-          :class="[
-            'btn w-full rounded-lg mb-2 border transition-colors duration-300',
-            claimedLocal[coupon.uuid]
-              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-orange-500 text-white hover:bg-orange-600',
-          ]"
-          :disabled="claimedLocal[coupon.uuid]"
-        >
-          <font-awesome-icon :icon="['fas', 'ticket-alt']" class="mr-2" />
-          {{ claimedLocal[coupon.uuid] ? '已領取' : '領取優惠券' }}
-        </button>
+      <div
+        v-for="(coupon, index) in coupons"
+        :key="coupon.uuid"
+        class="w-full flex-shrink-0 p-4"
+      >
+        <div class="bg-gray-50 rounded-lg p-4">
+          <button
+            @click="claimCoupon(coupon.uuid)"
+            :class="[
+              'btn w-full rounded-lg mb-2 border transition-colors duration-300',
+              claimedLocal[coupon.uuid]
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-orange-500 text-white hover:bg-orange-600',
+            ]"
+            :disabled="claimedLocal[coupon.uuid]"
+          >
+            <font-awesome-icon :icon="['fas', 'ticket-alt']" class="mr-2" />
+            {{ claimedLocal[coupon.uuid] ? '已領取' : '領取優惠券' }}
+          </button>
 
-        <!-- 詳細內容 -->
-        <h4 class="text-sm font-bold mb-2">優惠券詳細資訊</h4>
-        <div class="space-y-2 text-sm">
-          <div>
-            <span class="text-gray-500">標題：</span>
-            <span class="font-medium">{{ coupon.title }}</span>
+          <!-- 詳細內容 -->
+          <h4 class="text-sm font-bold mb-2">優惠券詳細資訊</h4>
+          <div class="space-y-2 text-sm">
+            <div>
+              <span class="text-gray-500">標題：</span>
+              <span class="font-medium">{{ coupon.title }}</span>
+            </div>
+            <div>
+              <span class="text-gray-500">折扣：</span>
+              <span class="font-medium text-red-500">{{
+                coupon.discount
+              }}</span>
+            </div>
+            <div>
+              <span class="text-gray-500">期間：</span>
+              <span class="font-medium">
+                {{ formatDate(coupon.startedAt) }} ~
+                {{ formatDate(coupon.endedAt) }}
+              </span>
+            </div>
+            <div v-if="coupon.description">
+              <span class="text-gray-500">使用說明：</span>
+              <p class="text-gray-700">{{ coupon.description }}</p>
+            </div>
           </div>
-          <div>
-            <span class="text-gray-500">折扣：</span>
-            <span class="font-medium text-red-500">{{ coupon.discount }}</span>
-          </div>
-          <div>
-            <span class="text-gray-500">期間：</span>
-            <span class="font-medium">
-              {{ formatDate(coupon.startedAt) }} ~
-              {{ formatDate(coupon.endedAt) }}
-            </span>
-          </div>
-          <div v-if="coupon.description">
-            <span class="text-gray-500">使用說明：</span>
-            <p class="text-gray-700">{{ coupon.description }}</p>
-          </div>
-        </div>
 
-        <div class="mt-3 text-xs text-gray-500">
-          <span v-if="claimedLocal[coupon.uuid]">已領取</span>
-          <span v-else>尚未領取</span>
+          <div class="mt-3 text-xs text-gray-500">
+            <span v-if="claimedLocal[coupon.uuid]">已領取</span>
+            <span v-else>尚未領取</span>
+          </div>
         </div>
       </div>
     </div>

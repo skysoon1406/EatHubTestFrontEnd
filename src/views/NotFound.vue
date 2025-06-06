@@ -1,4 +1,5 @@
 <template>
+  <Navbar></Navbar>
   <!-- 響應式外層容器 -->
   <div class="w-full min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900">
     <div class="w-full min-h-screen text-white relative overflow-hidden">
@@ -21,8 +22,8 @@
           </div>
           
           <!-- 主要訊息 - 響應式文字 -->
-          <h1 class="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-            哎呀！您迷失在太空了
+          <h1 class="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white animate-pulse-text">
+          哎呀！您迷失在太空了
           </h1>
           
           <!-- 副訊息 - 響應式文字 -->
@@ -39,7 +40,7 @@
           
           <!-- 返回按鈕 - 響應式大小 -->
           <button 
-            class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold py-3 px-8 sm:py-4 sm:px-10 md:py-5 md:px-12 text-base sm:text-lg md:text-xl rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-cyan-500/50"
+            class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold py-3 px-8 sm:py-4 sm:px-10 md:py-5 md:px-12 text-base sm:text-lg md:text-xl rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-cyan-500/50 cursor-pointer"
             @click="navigateToHome"
           >
             返回主頁
@@ -49,75 +50,40 @@
       
       <!-- 公司 Logo - 響應式定位 -->
       <div class="logo-container absolute top-16 sm:top-24 w-50 h-50 sm:w-60 sm:h-60 md:w-70 md:h-70 z-10">
-        <!-- 方法一: 使用圖片 Logo -->
+     
         <img 
           src="/src/assets/images/logo.png" 
           alt="EatHub Logo" 
           class="w-full h-full object-contain"
         />
         
-        <!-- 方法二: 如果沒有圖片，使用文字 Logo (註解掉)
-        <div class="w-full h-full bg-gradient-to-br from-orange-400 to-red-500 rounded-lg shadow-lg shadow-orange-400/50 flex items-center justify-center">
-          <span class="text-white font-bold text-xs sm:text-sm md:text-base">EatHub</span>
-        </div>
-        -->
-        
-        <!-- 方法三: 使用 SVG Logo (註解掉)
-        <svg class="w-full h-full text-orange-500 drop-shadow-lg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M21,9V7L15,1H5C3.89,1 3,1.89 3,3V21A2,2 0 0,0 5,23H19A2,2 0 0,0 21,21V9M12,9C14.7,9 17,11.3 17,14C17,16.7 14.7,19 12,19C9.3,19 7,16.7 7,14C7,11.3 9.3,9 12,9Z"/>
-        </svg>
-        -->
+  
       </div>
       
       <!-- 行星 - 響應式定位和大小 -->
       <div class="planet absolute bottom-8 sm:bottom-12 md:bottom-16 right-8 sm:right-12 md:right-16 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 shadow-lg shadow-purple-500/50 z-10"></div>
       
-      <!-- 響應式頁腳 -->
-      <footer class="bg-gradient-to-r from-blue-900/90 to-indigo-900/90 backdrop-blur-sm text-blue-200 border-t border-white/10 relative z-10 py-4 px-4">
-        <div class="text-center">
-          <p class="text-xs sm:text-sm md:text-base">
-            © {{ currentYear }} EatHub餐廳推薦 | 所有權利保留
-          </p>
-        </div>
-      </footer>
+      
+      
     </div>
+     <Footer></Footer>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
 
 const router = useRouter();
-const astronaut = ref(null);
 
-// 計算當前年份
-const currentYear = computed(() => new Date().getFullYear());
 
 // 導航到首頁
 const navigateToHome = () => {
   router.push('/');
 };
 
-// 滑鼠移動事件處理 - 在小螢幕上禁用
-const handleMouseMove = (e) => {
-  if (!astronaut.value || window.innerWidth <= 768) return;
-  
-  const x = e.clientX / window.innerWidth - 0.5;
-  const y = e.clientY / window.innerHeight - 0.5;
-  
-  astronaut.value.style.transform = `translateY(${y * 20}px) translateX(${x * 20}px) rotate(${x * 10}deg)`;
-};
-
-// 生命週期掛載
-onMounted(() => {
-  window.addEventListener('mousemove', handleMouseMove);
-});
-
-// 清理事件監聽
-onUnmounted(() => {
-  window.removeEventListener('mousemove', handleMouseMove);
-});
 </script>
 
 <style scoped>
@@ -191,9 +157,9 @@ onUnmounted(() => {
     0 0 40px #0891b2;
 }
 
-/* 太空人浮動動畫 */
+/* 浮動動畫 */
 .astronaut {
-  animation: astronaut-float 6s ease-in-out infinite;
+  animation: astronaut-float 5s ease-in-out infinite;
 }
 
 @keyframes astronaut-float {
@@ -259,7 +225,7 @@ onUnmounted(() => {
   }
 }
 
-/* 響應式斷點優化 */
+
 @media (max-width: 640px) {
   .error-glow {
     text-shadow: 
@@ -286,4 +252,18 @@ onUnmounted(() => {
       0 0 45px #06b6d4,
       0 0 60px #0891b2;
   }
+
+  @keyframes pulseText {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-pulse-text {
+  animation: pulseText 2s ease-in-out infinite;
+  display: inline-block; /* 確保 transform 能正常作用 */
+}
 }</style>
