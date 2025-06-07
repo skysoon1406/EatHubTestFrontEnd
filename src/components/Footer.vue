@@ -1,6 +1,6 @@
 <template>
   <footer class="bg-[#573921] text-white py-12 px-8">
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-screen-lg mx-auto">
       <!-- 主要內容區域 -->
       <div class="grid grid-rows-1 md:grid-cols-4 gap-8 mb-8">
         <!-- Logo 和聯絡資訊 -->
