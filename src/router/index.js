@@ -118,26 +118,30 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  if (to.meta.requiresAuth) {
+
+  if (!to.meta.requiresAuth) {
+    return next();
+  }
+
+  try {
+    await axios.get('/auth/me');
+
     if (to.meta.requiresMerchant) {
       if (
-        authStore.user.role === 'vip_merchant' ||
-        authStore.user.role === 'merchant'
+        authStore.user &&
+        (authStore.user.role === 'vip_merchant' ||
+          authStore.user.role === 'merchant')
       ) {
-        next();
+        return next();
       } else {
-        next('/');
+        return next('/');
       }
+    } else {
+      return next();
     }
-    try {
-      await axios.get('/auth/me');
-      next();
-    } catch {
-      authStore.clearUser();
-      next('/login');
-    }
-  } else {
-    next();
+  } catch {
+    authStore.clearUser();
+    return next('/login');
   }
 });
 

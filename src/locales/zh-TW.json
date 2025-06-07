@@ -186,10 +186,13 @@
   "restaurantList": {
     "title": "為您推薦"
   },
-  "addReviewModal": {
-    "placeholder": "請輸入評論...",
+  "addReview": {
+    "ratingLabel": "評分",
+    "commentLabel": "評論內容",
+    "commentPlaceholder": "請輸入您的評論...",
     "uploadPhoto": "上傳相片",
-    "submit": "送出評論"
+    "submitButton": "送出評論",
+    "fileTooLarge": "檔案大小不能超過 1 MB，請重新再試"
   },
   "merchantDashboard": {
     "regularBadge": "一般店家",

@@ -186,10 +186,13 @@
   "restaurantList": {
     "title": "おすすめレストラン"
   },
-  "addReviewModal": {
-    "placeholder": "レビューを入力してください…",
+  "addReview": {
+    "ratingLabel": "評価",
+    "commentLabel": "レビュー内容",
+    "commentPlaceholder": "レビューを入力してください...",
     "uploadPhoto": "写真をアップロード",
-    "submit": "レビューを送信"
+    "submitButton": "レビューを送信",
+    "fileTooLarge": "ファイルサイズは1MBを超えることはできません。再度お試しください。"
   },
   "merchantDashboard": {
     "regularBadge": "一般店舗",

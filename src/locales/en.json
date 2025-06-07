@@ -186,10 +186,13 @@
   "restaurantList": {
     "title": "Recommended for You"
   },
-  "addReviewModal": {
-    "placeholder": "Please enter your review...",
+  "addReview": {
+    "ratingLabel": "Rating",
+    "commentLabel": "Comment",
+    "commentPlaceholder": "Please enter your review...",
     "uploadPhoto": "Upload Photo",
-    "submit": "Submit Review"
+    "submitButton": "Submit Review",
+    "fileTooLarge": "File size cannot exceed 1 MB. Please try again."
   },
   "merchantDashboard": {
     "regularBadge": "Regular Merchant",
