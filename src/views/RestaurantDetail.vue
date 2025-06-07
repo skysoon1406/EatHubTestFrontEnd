@@ -1,62 +1,72 @@
 <template>
   <Navbar class="w-full" />
-  <div class="w-full px-2">
+  <div class="w-full  pt-20">
     <!-- 餐廳主圖片 -->
-    <div class="w-full h-64 bg-gray-200 overflow-hidden mb-4">
-      <img
-        :src="restaurant.imageUrl || 'https://picsum.photos/1200/400'"
-        :alt="restaurant.name"
-        class="w-full h-full object-cover"
-      />
-    </div>
+    <div class="relative w-full overflow-hidden mb-4">
+  <!-- 背景模糊圖（僅限 md 以上顯示） -->
+  <img
+    :src="restaurant.imageUrl || 'https://picsum.photos/1200/400'"
+    class="hidden md:block absolute inset-0 w-full h-full object-cover blur-sm scale-110 opacity-60"
+    alt="模糊背景"
+  />
+
+  <!-- 前景主圖片 -->
+  <div class="relative z-10  flex justify-center">
+    <img
+      :src="restaurant.imageUrl || 'https://picsum.photos/1200/400'"
+      :alt="restaurant.name"
+      class="w-full  md:max-w-screen-md h-auto max-h-[300px] md:max-h-[540px] object-cover shadow-lg"
+    />
+  </div>
+</div>
+
 
     <!-- 餐廳名稱與操作按鈕 -->
-    <div class="flex justify-between items-center mb-1">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-start md:justify-between mb-1 max-w-screen-lg mx-auto px-4">
       <div class="flex items-center">
-        <font-awesome-icon :icon="['fas', 'home']" class="text-blue-500 mr-2" />
-        <h1 class="text-xl font-bold">{{ restaurant.name }}</h1>
+        <h1 class="text-xl md:text-4xl font-bold md:mt-4 truncate max-w-[14em] md:truncate-none md:max-w-none mb-2">{{ restaurant.name }}</h1>
       </div>
-      <div class="flex space-x-2">
+      <div class="flex md:space-x-2 space-x-1.5">
         <ShareButton
           :restaurant-name="restaurant.name"
           :restaurant-rating="restaurant.googleRating || '4.5'"
         />
-        <button @click="toggleFavorite" class="btn btn-circle">
+        <button @click="toggleFavorite" class="btn rounded-xl bg-gray-200">
           <font-awesome-icon
             :icon="[isFavorite ? 'fas' : 'far', 'heart']"
-            :class="isFavorite ? 'text-red-500' : 'text-gray-500'"
-            class="text-2xl"
+            :class="isFavorite ? 'text-red-500' : 'text-gray-400'"
+            class="text-lg md:text-2xl "
           />
         </button>
-        <button @click="navigateToAddress" class="btn btn-circle">
+        <button @click="navigateToAddress" class="btn rounded-xl bg-primary">
           <font-awesome-icon
             :icon="['fas', 'location-arrow']"
-            class="text-3xl"
+            class="text-lg md:text-2xl text-white"
           />
         </button>
       </div>
     </div>
 
     <!-- 評分與地址 -->
-    <div class="flex items-center mb-1">
+    <div class="flex items-center mb-1 max-w-screen-lg mx-auto px-4">
       <font-awesome-icon :icon="['fas', 'star']" class="text-yellow-400" />
-      <span class="ml-2 text-sm text-gray-600">{{
+      <span class="ml-2 text-sm md:text-xl my-2 text-gray-600">{{
         restaurant.googleRating
       }}</span>
-      <span class="ml-1 text-xs text-gray-500"
+      <span class="ml-2 text-xs text-gray-500 md:text-xl my-2"
         >({{ restaurant.userRatingsTotal }})</span
       >
     </div>
-    <div class="flex items-start mb-4">
+    <div class="flex items-start mb-4 max-w-screen-lg mx-auto px-4">
       <font-awesome-icon
         :icon="['fas', 'map-marker-alt']"
-        class="text-gray-500 mt-0.5 mr-2"
+        class="text-gray-500 md:text-xl my-2"
       />
-      <span class="text-sm text-gray-700">{{ restaurant.address }}</span>
+      <span class="ml-2 text-sm text-gray-700 md:text-xl my-2">{{ restaurant.address }}</span>
     </div>
 
     <!-- 地圖區塊 -->
-    <div class="w-full h-48 bg-gray-200 overflow-hidden mb-4">
+    <div class="w-full h-48 overflow-hidden mb-4 max-w-screen-lg mx-auto px-4">
       <GoogleMapEmbed
         :mapUrl="mapUrl"
         alt="地圖"
@@ -65,13 +75,14 @@
     </div>
 
     <!-- 營業時間 -->
-    <div class="mb-6">
-      <h3 class="text-base font-bold mb-3">營業時間</h3>
+    <div class="mb-6 px-4 max-w-screen-lg mx-auto">
+
+      <h3 class="text-base md:text-2xl font-bold mb-3 md:mt-10">營業時間</h3>
       <div class="space-y-1 text-sm">
         <div
           v-for="(hours, day) in formattedOpenHours"
           :key="day"
-          class="flex justify-between"
+          class="flex justify-between text-base md:text-lg "
         >
           <span
             :class="[
@@ -95,15 +106,23 @@
           >
         </div>
       </div>
+      
     </div>
 
     <!-- 優惠券輪播 -->
-    <CouponCarousel
-      v-if="coupons.length"
-      :coupons="coupons"
-      :claimedStatus="claimedStatus"
-      class="mb-6"
-    />
+    <div class="mb-6 px-4 max-w-screen-lg mx-auto mt-6">
+      
+
+        <CouponCarousel
+          v-if="coupons.length"
+          :coupons="coupons"
+          :claimedStatus="claimedStatus"
+          class="mb-6 "
+        />
+
+    </div>
+
+   
 
     <!-- 最新動態輪播 -->
     <PromotionCarousel
@@ -113,25 +132,25 @@
     />
 
     <!-- 評論區塊 -->
-    <div class="mb-6">
-      <div class="flex justify-between items-center mb-3">
-        <h3 class="text-base font-bold">
+    <div class="mb-6 max-w-screen-lg  mx-auto">
+      <div class="flex justify-between items-center mb-3 max-w-screen-lg mx-auto px-4">
+        <h3 class="text-base font-bold md:text-2xl md:mt-6">
           評論
-          <span class="text-sm text-gray-500 font-normal"
-            >(共 {{ reviews.length }} 則)</span
+          <span class="text-sm text-gray-500 font-normal md:text-lg"
+            >（ 共 {{ reviews.length }} 則 ）</span
           >
         </h3>
         <button
           :disabled="hasReviewed"
           @click="handleAddReviewClick"
-          class="btn btn-sm border border-gray-400 text-gray-600 rounded-3xl px-6 cursor-pointer hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          class="btn btn-sm md:btn-md border bg-gray-100 border-gray-200 text-gray-500 rounded-xl px-2 md:px-6 cursor-pointer hover:bg-gray-300 hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base py-2 md:mt-6"
         >
-          {{ hasReviewed ? '已評論' : '＋ 新增' }}
+          {{ hasReviewed ? '已評論' : '＋ 新增評論' }}
         </button>
       </div>
 
-      <div class="space-y-3">
-        <div v-if="reviews.length === 0" class="text-center py-8 text-gray-500">
+      <div class="space-y-3 ">
+        <div v-if="reviews.length === 0" class="text-center py-8 text-gray-500 text-base md:text-xl">
           暫無評論
         </div>
         <ReviewModal
@@ -145,7 +164,7 @@
         <div
           v-for="(review, index) in displayedReviews"
           :key="index"
-          class="bg-gray-100 rounded-lg p-4"
+          class="bg-gray-100 rounded-lg max-w-screen-lg mx-4 p-4"
         >
           <div class="flex items-start">
             <div class="avatar">
@@ -160,7 +179,7 @@
             </div>
             <div class="ml-3 flex-1">
               <div class="flex flex-col items-left mb-1">
-                <h4 class="font-semibold text-sm text-black">
+                <h4 class="font-semibold text-base md:text-xl text-black">
                   {{ review.user.userName }}
                 </h4>
                 <div class="flex items-center">
@@ -168,12 +187,12 @@
                     :icon="['fas', 'star']"
                     class="text-yellow-400 text-xs"
                   />
-                  <span class="ml-1 text-xs text-gray-600">{{
+                  <span class="ml-1  text-gray-600 text-sm md:text-lg">{{
                     review.rating
                   }}</span>
                 </div>
               </div>
-              <p class="text-sm text-gray-700">{{ review.content }}</p>
+              <p class=" text-gray-700 text-sm md:text-lg">{{ review.content }}</p>
               <img
                 v-if="review.imageUrl"
                 :src="review.imageUrl"
