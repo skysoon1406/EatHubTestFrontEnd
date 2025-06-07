@@ -1,6 +1,6 @@
 <template>
-  <div class="map-container">
-    <div class="map-frame-wrapper">
+
+    <div class="w-full  max-w-full">
       <iframe
         :src="mapUrl"
         :width="mapWidth"
@@ -11,7 +11,7 @@
         referrerpolicy="no-referrer-when-downgrade"
       ></iframe>
     </div>
-  </div>
+
 </template>
 
 <script setup>
@@ -34,11 +34,3 @@ const props = defineProps({
   },
 });
 </script>
-
-<style scoped>
-.map-frame-wrapper iframe {
-  width: 100%;
-  height: 200px;
-  max-width: 100%;
-}
-</style>
