@@ -22,38 +22,54 @@
             :disabled="claimedLocal[coupon.uuid]"
           >
             <font-awesome-icon :icon="['fas', 'ticket-alt']" class="mr-2" />
-            {{ claimedLocal[coupon.uuid] ? '已領取' : '領取優惠券' }}
+            {{
+              claimedLocal[coupon.uuid]
+                ? t('couponCarousel.claimedButton')
+                : t('couponCarousel.claimButton')
+            }}
           </button>
 
           <!-- 詳細內容 -->
-          <h4 class="text-sm font-bold mb-2">優惠券詳細資訊</h4>
+          <h4 class="text-sm font-bold mb-2">
+            {{ t('couponCarousel.detailTitle') }}
+          </h4>
           <div class="space-y-2 text-sm">
             <div>
-              <span class="text-gray-500">標題：</span>
+              <span class="text-gray-500">{{
+                t('couponCarousel.labelTitle')
+              }}</span>
               <span class="font-medium">{{ coupon.title }}</span>
             </div>
             <div>
-              <span class="text-gray-500">折扣：</span>
+              <span class="text-gray-500">{{
+                t('couponCarousel.labelDiscount')
+              }}</span>
               <span class="font-medium text-red-500">{{
                 coupon.discount
               }}</span>
             </div>
             <div>
-              <span class="text-gray-500">期間：</span>
+              <span class="text-gray-500">{{
+                t('couponCarousel.labelPeriod')
+              }}</span>
               <span class="font-medium">
                 {{ formatDate(coupon.startedAt) }} ~
                 {{ formatDate(coupon.endedAt) }}
               </span>
             </div>
             <div v-if="coupon.description">
-              <span class="text-gray-500">使用說明：</span>
+              <span class="text-gray-500">{{
+                t('couponCarousel.labelDescription')
+              }}</span>
               <p class="text-gray-700">{{ coupon.description }}</p>
             </div>
           </div>
 
           <div class="mt-3 text-xs text-gray-500">
-            <span v-if="claimedLocal[coupon.uuid]">已領取</span>
-            <span v-else>尚未領取</span>
+            <span v-if="claimedLocal[coupon.uuid]">{{
+              t('couponCarousel.statusClaimed')
+            }}</span>
+            <span v-else>{{ t('couponCarousel.statusUnclaimed') }}</span>
           </div>
         </div>
       </div>
@@ -75,7 +91,11 @@
 <script setup>
 import { ref, onMounted, onUnmounted, reactive } from 'vue';
 import axios from '@/axios';
+import { useAlertStore } from '@/stores/alert';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
+const alert = useAlertStore();
 const props = defineProps({
   coupons: { type: Array, required: true },
   claimedStatus: { type: Object, default: () => ({}) },
@@ -111,10 +131,11 @@ const claimCoupon = async (uuid) => {
   try {
     await axios.post(`/coupons/${uuid}/claim/`);
     claimedLocal[uuid] = true;
-    alert('優惠券領取成功');
+    alert.trigger(t('couponCarousel.claimSuccess'), 'success');
   } catch (error) {
-    const message = error.response?.data?.message || '請稍後再試';
-    alert(`領取優惠券失敗：${message}`);
+    const message =
+      error.response?.data?.message || t('couponCarousel.claimFailedDefault');
+    alert.trigger(t('couponCarousel.claimFailedPrefix') + message, 'error');
   }
 };
 

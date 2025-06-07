@@ -1,6 +1,8 @@
 <template>
   <div v-if="promotions.length > 0" class="relative w-full overflow-hidden">
-    <h3 class="text-base font-bold mb-3 px-4">最新動態</h3>
+    <h3 class="text-base font-bold mb-3 px-4">
+      {{ t('promotionCarousel.latestPromotions') }}
+    </h3>
     <div
       class="flex transition-transform duration-500"
       :style="`transform: translateX(-${currentIndex * 100}%);`"
@@ -23,7 +25,8 @@
               {{ promotion.description }}
             </p>
             <p class="text-xs text-gray-500">
-              活動期間：{{ formatDate(promotion.startedAt) }} ~
+              {{ t('promotionCarousel.eventPeriod') }}
+              {{ formatDate(promotion.startedAt) }} ~
               {{ formatDate(promotion.endedAt) }}
             </p>
           </div>
@@ -49,7 +52,9 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const props = defineProps({
   promotions: { type: Array, required: true },
 });

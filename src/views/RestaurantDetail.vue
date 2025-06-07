@@ -43,9 +43,10 @@
       <span class="ml-2 text-sm text-gray-600">{{
         restaurant.googleRating
       }}</span>
-      <span class="ml-1 text-xs text-gray-500"
-        >({{ restaurant.userRatingsTotal }})</span
-      >
+      <span class="ml-1 text-xs text-gray-500">
+        ({{ restaurant.userRatingsTotal
+        }}{{ $t('restaurantDetail.ratingCountSuffix') }})
+      </span>
     </div>
     <div class="flex items-start mb-4">
       <font-awesome-icon
@@ -59,18 +60,20 @@
     <div class="w-full h-48 bg-gray-200 overflow-hidden mb-4">
       <GoogleMapEmbed
         :mapUrl="mapUrl"
-        alt="地圖"
+        :alt="$t('restaurantDetail.location')"
         class="w-full h-full object-cover"
       />
     </div>
 
     <!-- 營業時間 -->
     <div class="mb-6">
-      <h3 class="text-base font-bold mb-3">營業時間</h3>
+      <h3 class="text-base font-bold mb-3">
+        {{ $t('restaurantDetail.businessHours') }}
+      </h3>
       <div class="space-y-1 text-sm">
         <div
-          v-for="(hours, day) in formattedOpenHours"
-          :key="day"
+          v-for="(hours, dayKey) in formattedOpenHours"
+          :key="dayKey"
           class="flex justify-between"
         >
           <span
@@ -78,21 +81,23 @@
               'text-gray-700',
               {
                 'underline underline-offset-5 font-bold text-primary':
-                  day === today,
+                  dayKey === todayKey,
               },
             ]"
-            >{{ day }}</span
           >
+            {{ $t(`restaurantDetail.${dayKey}`) }}
+          </span>
           <span
             :class="[
               'text-gray-700',
               {
                 'underline underline-offset-5 font-bold text-primary':
-                  day === today,
+                  dayKey === todayKey,
               },
             ]"
-            >{{ hours }}</span
           >
+            {{ hours || $t('restaurantDetail.noData') }}
+          </span>
         </div>
       </div>
     </div>
@@ -116,23 +121,28 @@
     <div class="mb-6">
       <div class="flex justify-between items-center mb-3">
         <h3 class="text-base font-bold">
-          評論
-          <span class="text-sm text-gray-500 font-normal"
-            >(共 {{ reviews.length }} 則)</span
-          >
+          {{ $t('restaurantDetail.review') }}
+          <span class="text-sm text-gray-500 font-normal">
+            ({{ $t('restaurantDetail.reviewCountPrefix') }}
+            {{ reviews.length }} {{ $t('restaurantDetail.ratingCountSuffix') }})
+          </span>
         </h3>
         <button
           :disabled="hasReviewed"
           @click="handleAddReviewClick"
           class="btn btn-sm border border-gray-400 text-gray-600 rounded-3xl px-6 cursor-pointer hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {{ hasReviewed ? '已評論' : '＋ 新增' }}
+          {{
+            hasReviewed
+              ? $t('restaurantDetail.hasReviewed')
+              : $t('restaurantDetail.addReview')
+          }}
         </button>
       </div>
 
       <div class="space-y-3">
         <div v-if="reviews.length === 0" class="text-center py-8 text-gray-500">
-          暫無評論
+          {{ $t('restaurantDetail.noReviews') }}
         </div>
         <ReviewModal
           v-if="showModal"
@@ -177,7 +187,7 @@
               <img
                 v-if="review.imageUrl"
                 :src="review.imageUrl"
-                alt="上傳圖片"
+                :alt="$t('restaurantDetail.imageAlt')"
                 class="mt-2 max-w-xs w-full rounded-lg object-cover"
               />
             </div>
@@ -190,18 +200,20 @@
         @click="displayedCount += 10"
         class="mt-4 mb-6 px-4 py-1 border border-gray-400 text-gray-600 rounded-full text-sm hover:bg-gray-100 transition mx-auto block"
       >
-        查看更多
+        {{ $t('restaurantDetail.viewMore') }}
         <font-awesome-icon :icon="['fas', 'chevron-right']" class="ml-1" />
-        <span class="text-xs text-gray-500 ml-1"
-          >(還有 {{ reviews.length - displayedCount }} 則)</span
-        >
+        <span class="text-xs text-gray-500 ml-1">
+          ({{ $t('restaurantDetail.reviewCountPrefix') }}
+          {{ reviews.length - displayedCount }}
+          {{ $t('restaurantDetail.ratingCountSuffix') }})
+        </span>
       </button>
 
       <div
         v-else-if="reviews.length > 5"
         class="text-center text-sm text-gray-500 mt-4"
       >
-        已顯示所有評論
+        {{ $t('restaurantDetail.viewAll') }}
       </div>
     </div>
   </div>
@@ -223,7 +235,9 @@ import { useAuthStore } from '../stores/auth';
 import { useAlertStore } from '@/stores/alert';
 import { storeToRefs } from 'pinia';
 import { useRestaurantStore } from '@/stores/restaurant';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const route = useRoute();
 const alert = useAlertStore();
 const auth = useAuthStore();
@@ -235,7 +249,7 @@ const placeId = ref('');
 const store = useRestaurantStore();
 
 onMounted(() => {
-  const restaurantUuid = route.params.id; 
+  const restaurantUuid = route.params.id;
   store.addRecentViewedUuid(restaurantUuid);
 });
 const isFavorite = ref(false);
@@ -251,30 +265,20 @@ const displayedReviews = computed(() =>
   reviews.value.slice(0, displayedCount.value),
 );
 
-const today = computed(() => {
+const todayKey = computed(() => {
   const weekday = new Date()
     .toLocaleDateString('en-US', { weekday: 'long' })
     .toLowerCase();
-  return dayTranslation[weekday];
+  return weekday;
 });
 
 const formattedOpenHours = computed(() => {
   const result = {};
   for (const [key, value] of Object.entries(openHours)) {
-    result[dayTranslation[key]] = value || '未提供';
+    result[key] = value || t('common.notProvided');
   }
   return result;
 });
-
-const dayTranslation = {
-  monday: '星期一',
-  tuesday: '星期二',
-  wednesday: '星期三',
-  thursday: '星期四',
-  friday: '星期五',
-  saturday: '星期六',
-  sunday: '星期日',
-};
 
 const fetchRestaurantData = async () => {
   try {
@@ -294,7 +298,7 @@ const fetchRestaurantData = async () => {
     reviews.value = data.reviews || [];
     hasReviewed.value = data.userStatus?.hasReviewed || false;
   } catch (error) {
-    alert.trigger('載入餐廳資料失敗', 'error');
+    alert.trigger(t('restaurantDetail.loadRestaurantFailed'), 'error');
   }
 };
 
@@ -303,7 +307,7 @@ const handleAddReviewClick = async () => {
     await axios.get('/auth/me');
     showModal.value = true;
   } catch {
-    alert.trigger('請先登入才能評論', 'error');
+    alert.trigger(t('restaurantDetail.pleaseLoginToReview'), 'error');
   }
 };
 
@@ -321,10 +325,10 @@ const submitReview = async (data) => {
     );
     reviews.value.unshift(response.data);
     hasReviewed.value = true;
-    alert.trigger('評論送出成功', 'success');
+    alert.trigger(t('restaurantDetail.addReviewSuccess'), 'success');
     showModal.value = false;
   } catch {
-    alert.trigger('評論失敗', 'error');
+    alert.trigger(t('restaurantDetail.addReviewFailed'), 'error');
   }
 };
 
@@ -339,7 +343,7 @@ const toggleFavorite = async () => {
     }
     isFavorite.value = !isFavorite.value;
   } catch {
-    alert.trigger('請先登入才能收藏餐廳', 'error');
+    alert.trigger(t('restaurantDetail.pleaseLoginToFavorite'), 'error');
   }
 };
 
