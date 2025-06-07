@@ -90,8 +90,8 @@
       </h3>
       <div class="space-y-1 text-sm">
         <div
-          v-for="(hours, day) in formattedOpenHours"
-          :key="day"
+          v-for="(hours, dayKey) in formattedOpenHours"
+          :key="dayKey"
           class="flex justify-between text-base md:text-lg"
         >
           <span
